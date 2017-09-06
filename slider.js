@@ -69,7 +69,7 @@ class WpSlider extends React.Component {
       url: this.props.url,
       type: this.props.type,
       queries: this.props.queries,
-      debug: true //this.props.debug
+      debug: this.props.debug
     }
 
     WpApi.getList(opts)
@@ -216,7 +216,7 @@ class WpSlider extends React.Component {
                 activeClass = 'active';
               }
 
-              return (<div key='index' className={["page-"+(item+1),activeClass].join(' ')} >{item+1}</div>)
+              return (<div key={index} className={["page-"+(item+1),activeClass].join(' ')} >{item+1}</div>)
             }.bind(this))
           }
           </div>
