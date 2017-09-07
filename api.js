@@ -92,7 +92,7 @@ module.exports = {
     return this.getTypes(url)
        .then(function(types){
           var url = WpUrl + WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
-          var found = Object.keys(types).indexOf(searchType);
+          var found = Object.keys(types).indexOf(options.type);
           if(found == -1){
             found = Object.keys(types).indexOf(options.type.slice(0,-1));
           }
@@ -123,9 +123,11 @@ module.exports = {
       });
   },
 
-  getTypes: function(url){
-    if(!url)
-      url = WpUrl;
+  /* lista de tipos */
+  getTypes: function(options){
+    var url = WpUrl
+    if(options.url)
+      url = options.url;
 
     url += WpApiDir + WpRoute + '/types';
 
@@ -133,6 +135,33 @@ module.exports = {
       .then(function (response){
         return response.data;
       });
+  },
+
+  /* obtiene un tipo */
+  getType: function(options){
+    var url = WpUrl
+    if(options.url)
+      url = options.url;
+
+    return this.getTypes(url)
+      .then(function(types){
+         var url = WpUrl + WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
+         var found = Object.keys(types).indexOf(options.type);
+         if(found == -1){
+           found = Object.keys(types).indexOf(options.type.slice(0,-1));
+           options.type = options.type.slice(0,-1)
+         }
+
+         if(options.type == 'media') {
+           found = 1;
+         }
+
+         if(found != -1) {
+           return options.type;
+         } else {
+           return false;
+         }
+      })
   },
 
   /**
@@ -192,6 +221,9 @@ module.exports = {
    */
   getSite: function(options){
     var url = WpUrl + WpApiDir + LnkRoute + LnkSitesEndpoint + '/' + options.name;
+    if(options.debug){
+      console.log(url);
+    }
     return axios.get(url)
       .then(function(response){
         return response.data;

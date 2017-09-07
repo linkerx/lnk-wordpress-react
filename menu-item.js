@@ -8,6 +8,11 @@ class MenuItem extends React.Component{
     super(props)
   }
 
+  isExternal(url){
+    var r = new RegExp('^(?:[a-z]+:)?//', 'i');
+    return r.test(url);
+  }
+
   render(){
     var site = this.props.path
     var item_link = '/';
@@ -43,8 +48,25 @@ class MenuItem extends React.Component{
     if(this.props.nivel)
       nivel = this.props.nivel;
 
+    var is_external = false;
+    if(this.props.item.type == "custom" && this.isExternal(item_link)){
+      is_external = true;
+    }
+
     return(
       <li key={this.props.item.id} className={this.props.item.classes+" nivel-"+this.props.nivel}>
+      {is_external
+        ?
+        <a href={item_link} onClick={click_action} target={item_target}>
+          {this.props.item.thumbnail_id &&
+            <ItemImage src={this.props.item.thumbnail_url} title={item_text} alt={item_text} render='img' cls='image_container thumb' />
+          }
+          {this.props.item.thumbnail_hover_id &&
+            <ItemImage src={this.props.item.thumbnail_hover_url} title={item_text} alt={item_text} render='img' cls='image_container thumb_hover' />
+          }
+          <span>{item_text}</span>
+        </a>
+        :
         <NavLink exact to={item_link} activeClassName="active" onClick={click_action}>
           {this.props.item.thumbnail_id &&
             <ItemImage src={this.props.item.thumbnail_url} title={item_text} alt={item_text} render='img' cls='image_container thumb' />
@@ -54,6 +76,7 @@ class MenuItem extends React.Component{
           }
           <span>{item_text}</span>
         </NavLink>
+      }
         { this.props.item.children && showSubmenu &&
           <SubMenu items={this.props.item.children} path={this.props.item.path} nivel={this.props.nivel+1} />
         }
