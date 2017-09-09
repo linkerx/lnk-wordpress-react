@@ -3,8 +3,8 @@ var axios = require('axios');
 /**
  * Api Variables
  */
-var WpUrl = 'http://admin.legisrn.gov.ar';
-var WpApiDir = '/lrn-api';
+var WpUrl = lnk_api_host;
+var WpApiDir = lnk_api_dir;
 
 var WpRoute = '/wp/v2';
 var LnkRoute = '/lnk/v1';
