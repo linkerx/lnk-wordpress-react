@@ -14,13 +14,17 @@ class MenuItem extends React.Component{
   }
 
   render(){
-    var site = this.props.path
+    var site = "/";
+    if(this.props.site){
+      site = this.props.site+"/";
+    }
+
     var item_link = '/';
     var item_text = this.props.item.title;
     var item_target = '_self';
     var click_action = null;
     if(this.props.action){
-    click_action = this.props.action;
+      click_action = this.props.action;
     }
 
     if(this.props.item.target != ""){
@@ -49,7 +53,7 @@ class MenuItem extends React.Component{
       nivel = this.props.nivel;
 
     var is_external = false;
-    if(this.props.item.type == "custom" && this.isExternal(item_link)){
+    if((this.props.item.type == "custom" && this.isExternal(item_link)) || this.props.item.url == "#"){
       is_external = true;
     }
 
@@ -78,7 +82,7 @@ class MenuItem extends React.Component{
         </NavLink>
       }
         { this.props.item.children && showSubmenu &&
-          <SubMenu items={this.props.item.children} path={this.props.item.path} nivel={this.props.nivel+1} />
+          <SubMenu items={this.props.item.children} action={click_action} path={this.props.path} nivel={this.props.nivel+1} />
         }
       </li>
     )

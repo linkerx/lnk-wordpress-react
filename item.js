@@ -30,8 +30,11 @@ class WpItem extends React.Component {
       url: this.props.url,
       type: this.props.type,
       slug: this.props.slug,
-      queries: ['_embed']
+      queries: ['_embed'],
+      debug: this.props.debug
     }
+
+    //console.log(this.props,opts);
 
     WpApi.getItem(opts)
       .then(function(item){

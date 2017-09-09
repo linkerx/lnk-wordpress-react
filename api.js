@@ -101,6 +101,16 @@ module.exports = {
             found = 1;
           }
 
+          /**
+            POST & PAGES
+           */
+           if(options.type == 'page') {
+             options.type = 'pages';
+           }
+           if(options.type == 'post') {
+             options.type = 'posts';
+           }
+
           if(found != -1) {
             url += options.type;
           } else {
@@ -113,6 +123,10 @@ module.exports = {
               url += '&' + options.queries.map(function(query,index) {
                 return (query)
               }).join('&');
+          }
+
+          if(options.debug){
+            console.log(url);
           }
 
           return axios.get(url)

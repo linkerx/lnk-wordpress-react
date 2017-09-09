@@ -4,7 +4,14 @@ var renderHTML = require('react-render-html');
 
 function ItemTitle(props) {
   return (
-      <h2><Link to={props.linkTo}>{renderHTML(props.title)}</Link></h2>
+      <h2>
+        {props.linkTo != "#"
+          ?
+          <Link to={props.linkTo}>{renderHTML(props.title)}</Link>
+          :
+          <span>{renderHTML(props.title)}</span>
+        }
+      </h2>
   )
 }
 
