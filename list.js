@@ -40,6 +40,21 @@ class WpList extends React.Component {
   }
 
   render() {
+
+    if(this.props.debug){
+      console.log(this.props.item);
+    }
+
+    var imageRender = 'img';
+    if(this.props.imageRender){
+      imageRender = this.props.imageRender;
+    }
+
+    var imageSize = 'thumbnail';
+    if(this.props.imageSize){
+      imageSize = this.props.imageSize;
+    }
+
     return (
       <div className="list">
         {!this.state.items
@@ -47,7 +62,7 @@ class WpList extends React.Component {
           this.props.children
           :
           this.state.items.map(function (item, index) {
-            return (<ListItem key={item.id} item={item} />)
+            return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} />)
           })
         }
       </div>

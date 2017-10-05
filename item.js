@@ -4,7 +4,6 @@ var WpItemTitle = require('./item-title');
 var WpItemImage = require('./item-image');
 var renderHTML = require('react-render-html');
 
-
 class WpItem extends React.Component {
 
   constructor(props) {
@@ -12,7 +11,6 @@ class WpItem extends React.Component {
     this.state = {
       item: null
     }
-
     this.updateItem = this.updateItem.bind(this);
   }
 
@@ -26,6 +24,7 @@ class WpItem extends React.Component {
         item: null
       }
     });
+
     var opts = {
       url: this.props.url,
       type: this.props.type,
@@ -34,7 +33,8 @@ class WpItem extends React.Component {
       debug: this.props.debug
     }
 
-    //console.log(this.props,opts);
+    if(this.props.debug)
+      console.log(opts);
 
     WpApi.getItem(opts)
       .then(function(item){
