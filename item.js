@@ -3,19 +3,45 @@ var WpApi = require('./api');
 var WpItemTitle = require('./item-title');
 var WpItemImage = require('./item-image');
 var renderHTML = require('react-render-html');
+var serialize = require('form-serialize');
 
 class WpItem extends React.Component {
 
   constructor(props) {
     super();
     this.state = {
-      item: null
+      item: null,
     }
     this.updateItem = this.updateItem.bind(this);
+    this.formSubmit = this.formSubmit.bind(this);
   }
 
   componentDidMount(){
     this.updateItem();
+  }
+
+  componentDidUpdate(){
+    var form = document.getElementsByClassName('wpcf7-form')[0];
+    if(form){
+
+      /**
+       * FORM SUBMISSION
+       */
+      var idInput = document.querySelector('.wpcf7-form input[name=_wpcf7]').value;
+      form.addEventListener('submit',function(e){
+        e.preventDefault();
+        var data = serialize(form);
+        this.formSubmit(idInput,data);
+        return false;
+      }.bind(this));
+   }
+  }
+
+  formSubmit(id,data){
+    WpApi.postContactForm(id,data,{debug:true})
+      .then(function(response){
+        console.log(response);
+      });
   }
 
   updateItem(){
@@ -30,7 +56,7 @@ class WpItem extends React.Component {
       type: this.props.type,
       slug: this.props.slug,
       queries: ['_embed'],
-      debug: this.props.debug
+      debug: this.props.true
     }
 
     if(this.props.debug)
@@ -39,10 +65,24 @@ class WpItem extends React.Component {
     WpApi.getItem(opts)
       .then(function(item){
         this.setState(function(){
+
+          var content = item[0].content.rendered;
+          var htmlObject = document.createElement('div');
+          htmlObject.innerHTML = content;
+          var form = htmlObject.getElementsByClassName('wpcf7-form')[0];
+
+          if(form){
+            form.action = '';
+            htmlObject.querySelector('.wpcf7-form input.wpcf7-form-control').removeAttribute('value');
+          }
+
+          htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
+          item[0].content.parsed = htmlObject.outerHTML;
+
           return {
             item: item[0]
           }
-        });
+        }.bind(this));
       }.bind(this));
   }
 
@@ -66,7 +106,7 @@ class WpItem extends React.Component {
             {!this.state.type == 'page' &&
               <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
             }
-            <div className='content'>{renderHTML(this.state.item.content.rendered)}</div>
+            <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
 
           </div>
         }

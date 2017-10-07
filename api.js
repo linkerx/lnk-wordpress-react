@@ -9,11 +9,13 @@ var WpApiDir = lnk_api_dir;
 var WpRoute = '/wp/v2';
 var LnkRoute = '/lnk/v1';
 var MenuRoute = '/wp-api-menus/v2';
+var CF7Route = '/contact-form-7/v1'
 
 var LnkSitesEndpoint = '/sites';
 var LnkSitesPostsEndpoint = '/sites-posts';
 var MenuLocationsEndpoint = '/menu-locations';
 var MenusEndpoint = '/menus';
+var ContactFormEndpoint = '/contact-forms';
 
 var AddQuery = '?_embed';
 
@@ -266,12 +268,20 @@ module.exports = {
       });
   },
 
-  getDocumentos: function(site){
-    var url = WpUrl + WpApiDir + LnkRoute + '/documentos/' + site;
-    return axios.get(url)
+   /**
+    * Postear en un formulario de Contact Form 7
+    */
+   postContactForm: function(form,data,options){
+     var url = WpUrl + WpApiDir + CF7Route + ContactFormEndpoint + '/' +form + '/feedback';
+
+     if(options.debug){
+       console.log(url);
+     }
+
+     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+     return axios.post(url,data,headers)
       .then(function(response){
         return response.data;
       });
-  }
-
+   }
 }
