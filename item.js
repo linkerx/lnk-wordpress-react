@@ -70,15 +70,12 @@ class WpItem extends React.Component {
           var htmlObject = document.createElement('div');
           htmlObject.innerHTML = content;
           var form = htmlObject.getElementsByClassName('wpcf7-form')[0];
-
           if(form){
             form.action = '';
             htmlObject.querySelector('.wpcf7-form input.wpcf7-form-control').removeAttribute('value');
+            htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
           }
-
-          htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
           item[0].content.parsed = htmlObject.outerHTML;
-
           return {
             item: item[0]
           }
