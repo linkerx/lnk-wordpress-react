@@ -100,7 +100,7 @@ class WpItem extends React.Component {
           this.props.children
           :
           <div className='post_content'>
-            <WpItemTitle linkTo='#' title={this.state.item.title.rendered}/>
+            <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading='2' />
             {item_image && <WpItemImage src={item_image} render='img'/>}
 
             {!this.state.type == 'page' &&
