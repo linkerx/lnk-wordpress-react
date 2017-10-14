@@ -55,6 +55,11 @@ class WpList extends React.Component {
       imageSize = this.props.imageSize;
     }
 
+    var heading = 2;
+    if(this.props.heading){
+      heading = this.props.heading;
+    }
+
     return (
       <div className="list">
         {!this.state.items

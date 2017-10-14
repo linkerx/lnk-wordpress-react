@@ -38,9 +38,14 @@ function ListItem(props) {
   if(props.active)
     activeClass = 'active';
 
+  var heading = 2;
+  if(props.heading){
+    heading = props.heading;
+  }
+
   return(
     <article className={activeClass}>
-      <ItemTitle title={props.item.title.rendered} linkTo={'/'+props.item.type+'/'+props.item.slug} />
+      <ItemTitle title={props.item.title.rendered} linkTo={'/'+props.item.type+'/'+props.item.slug} heading={heading} />
       <ItemImage render={imageRender} src={item_image} />
       <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
       <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>

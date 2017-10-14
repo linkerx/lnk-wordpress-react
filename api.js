@@ -155,13 +155,12 @@ module.exports = {
 
   /* obtiene un tipo */
   getType: function(options){
-    var url = WpUrl
+    var url = WpUrl;
     if(options.url)
       url = options.url;
 
     return this.getTypes(url)
       .then(function(types){
-         var url = WpUrl + WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
          var found = Object.keys(types).indexOf(options.type);
          if(found == -1){
            found = Object.keys(types).indexOf(options.type.slice(0,-1));
@@ -178,6 +177,37 @@ module.exports = {
            return false;
          }
       })
+  },
+
+  /* lista de tipos */
+  getCategories: function(options){
+    var url = WpUrl
+    if(options.url)
+      url = options.url;
+
+    url += WpApiDir + WpRoute + '/categories';
+
+    if(options.debug)
+      console.log(url);
+
+    return axios.get(url)
+      .then(function (response){
+        return response.data;
+      });
+  },
+
+
+  getCategory: function(options){
+      return this.getCategories(options)
+        .then(function(terms){
+          return terms.find(function(item){
+            return item.slug === options.term
+          });
+        });
+  },
+
+  getTerm: function(){
+    return false;
   },
 
   /**

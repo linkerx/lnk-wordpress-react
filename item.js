@@ -99,10 +99,9 @@ class WpItem extends React.Component {
     }
 
     var show_title = true;
-    if(this.props.show_title !== 'undefined' && !this.props.show_title){
-      show_title = this.props.show_title;
+    if(typeof this.props.show_title === 'boolean' && this.props.show_title === false){
+      show_title = false;
     }
-
 
     return (
       <article>
