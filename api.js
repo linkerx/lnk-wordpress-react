@@ -37,8 +37,10 @@ module.exports = {
     return this.getTypes(url_base)
        .then(function(types){
 
-          if(options.debug)
-            console.log('type: '+ options.type);
+          if(options.debug){
+            console.log('type: ',options.type);
+            console.log('allTypes:',types);
+          }
 
           var found = Object.keys(types).indexOf(options.type);
           if(found == -1){
