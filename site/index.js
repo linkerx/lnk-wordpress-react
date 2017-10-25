@@ -12,7 +12,14 @@ class WpSite extends React.Component {
 
   constructor(props){
     super(props);
+
+    var site = "";
+    if(props.site){
+      site = props.site;
+    }
+
     this.state = {
+      site: site,
       check: false,
       lvl: 0,
       type: null,
@@ -36,10 +43,11 @@ class WpSite extends React.Component {
   }
 
   checkURL(){
-    var debugOnCheck = false;
+    var debugOnCheck = true;
 
     this.setState(function(){
       return {
+        site: this.state.site,
         check: false,
         lvl: 0,
         type: null,
@@ -49,10 +57,12 @@ class WpSite extends React.Component {
     });
 
     var opts_type = {
+      site: this.state.site,
       type: this.props.match.params.slug1,
       debug: false
     };
 
+    if(debugOnCheck) console.log('the params are: ',this.props.match.params);
     if(debugOnCheck) console.log('serching for type... ',this.props.match.params.slug1);
     WpApi.getType(opts_type)
       .then(function(type){
@@ -68,48 +78,19 @@ class WpSite extends React.Component {
             });
           } else {
             if(debugOnCheck) console.log('has slug2');
-            var opts_term = {
-              type: type,
-              term: this.props.match.params.slug2,
-              debug: false
-            };
-            WpApi.getTerm(opts_term)
-              .then(function(term){
-                if(term){
-                  if(this.props.match.params.slug3 === 'undefined'){
-                    this.setState(function(){
-                      /* TYPE/TERM ARCHIVE */
-                      return {
-                        check: true,
-                        type: type,
-                        term: term
-                      }
-                    })
-                  } else {
-                    this.setState(function(){
-                      /* TYPE/TERM/POST ITEM */
-                      return {
-                        check: true,
-                        type: type,
-                        post: this.props.match.params.slug3
-                      }
-                    })
-                  }
-                } else {
-                  this.setState(function(){
-                    /* TYPE/POST ITEM */
-                    return {
-                      check: true,
-                      type: type,
-                      post: this.props.match.params.slug2
-                    }
-                  })
-                }
-              }.bind(this));
+            this.setState(function(){
+              /* TYPE/POST ITEM */
+              return {
+                check: true,
+                type: type,
+                post: this.props.match.params.slug2
+              }
+            }.bind(this));
           }
         } else {
           if(debugOnCheck) console.log('not type',this.props.match.params.slug1);
           var opts_term = {
+            site: this.state.site,
             type: 'post',
             term: this.props.match.params.slug1,
             debug: true
@@ -118,7 +99,9 @@ class WpSite extends React.Component {
           WpApi.getCategory(opts_term)
             .then(function(category){
               if(category){
+                if(debugOnCheck) console.log('category OK');
                 if(this.props.match.params.slug2 === 'undefined'){
+                  if(debugOnCheck) console.log('show category archive');
                   this.setState(function(){
                     /* POST/CATEGORY ARCHIVE */
                     return {
@@ -129,6 +112,7 @@ class WpSite extends React.Component {
                     }
                   })
                 } else {
+                  if(debugOnCheck) console.log('is a post!',this.props.match.params.slug2);
                   this.setState(function(){
                     /* POST/CATEGORY/POST ITEM */
                     return {
@@ -136,7 +120,7 @@ class WpSite extends React.Component {
                       type: 'posts',
                       category: category.id,
                       category_name: category.name,
-                      post: this.props.match.params.slug3
+                      post: this.props.match.params.slug2
                     }
                   })
                 }
@@ -169,18 +153,18 @@ class WpSite extends React.Component {
                 <div className={'type-'+this.state.type}>
                 {this.state.post
                   ?
-                    <WpSitePost type={this.state.type} slug={this.state.post} />
+                    <WpSitePost site={this.state.site} type={this.state.type} slug={this.state.post} />
                   :
-                    <WpSiteArchive type={this.state.type} />
+                    <WpSiteArchive site={this.state.site} type={this.state.type} />
                 }
                 </div>
               :
                 <div className='not-typed'>
                 {this.state.category
                   ?
-                    <WpSiteArchive type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
+                    <WpSiteArchive site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
                   :
-                    <WpSitePost type={this.state.type} slug={this.state.post} />
+                    <WpSitePost site={this.state.site} type={this.state.type} slug={this.state.post} />
                 }
                 </div>
             }

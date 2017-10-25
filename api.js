@@ -25,16 +25,19 @@ module.exports = {
    */
   getList: function(options){
 
-    var url_base = WpUrl;
-    if(options.url)
-      url_base = options.url;
+    var url = WpUrl
 
-    var url = url_base + WpApiDir + WpRoute + '/';
+    if(options.url)
+      url = options.url;
+    if(options.site)
+      url += '/'+options.site;
+
+    url += WpApiDir + WpRoute + '/';
 
     if(options.debug)
       console.log('getList InitialUrl: '+url);
 
-    return this.getTypes(url_base)
+    return this.getTypes(url)
        .then(function(types){
 
           if(options.debug){
@@ -85,8 +88,11 @@ module.exports = {
   getItem: function(options){
 
     var url = WpUrl
+
     if(options.url)
       url = options.url;
+    if(options.site)
+      url += '/'+options.site;
 
     /**
      * si type es un tipo de dato va enla url,
@@ -144,8 +150,11 @@ module.exports = {
   /* lista de tipos */
   getTypes: function(options){
     var url = WpUrl
+
     if(options.url)
       url = options.url;
+    if(options.site)
+      url += '/'+options.site;
 
     url += WpApiDir + WpRoute + '/types';
 
@@ -184,10 +193,14 @@ module.exports = {
   /* lista de tipos */
   getCategories: function(options){
     var url = WpUrl
+
     if(options.url)
       url = options.url;
 
-    url += WpApiDir + WpRoute + '/categories';
+    if(options.site)
+      url += '/'+options.site;
+
+    url += WpApiDir + WpRoute + '/categories?per_page=100';
 
     if(options.debug)
       console.log(url);

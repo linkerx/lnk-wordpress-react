@@ -24,6 +24,7 @@ class WpList extends React.Component {
     });
     var opts = {
       url: this.props.url,
+      site: this.props.site,
       type: this.props.type,
       queries: this.props.queries,
       debug: this.props.debug

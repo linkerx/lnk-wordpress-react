@@ -4,6 +4,11 @@ require('./styles.less');
 
 function WpSiteArchive(props){
 
+  var site = "/";
+  if(props.site){
+    site = '/'+props.site;
+  }
+
   console.log(props);
 
   var queries = [
@@ -41,7 +46,7 @@ function WpSiteArchive(props){
   return (
     <section id='site-archive' className={props.type}>
       <h1>{archiveName}</h1>
-      <WpList type={props.type} queries={queries} debug={true} imageRender={imageRender} imageSize={imageSize} heading={2} />
+      <WpList site={props.site} type={props.type} queries={queries} debug={true} imageRender={imageRender} imageSize={imageSize} heading={2} />
     </section>
   )
 }

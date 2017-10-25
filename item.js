@@ -56,7 +56,7 @@ class WpItem extends React.Component {
       type: this.props.type,
       slug: this.props.slug,
       queries: ['_embed'],
-      debug: this.props.true
+      debug: this.props.debug
     }
 
     if(this.props.debug)
@@ -66,21 +66,26 @@ class WpItem extends React.Component {
       .then(function(item){
         this.setState(function(){
 
-          var content = item[0].content.rendered;
-          var htmlObject = document.createElement('div');
-          htmlObject.innerHTML = content;
-          var form = htmlObject.getElementsByClassName('wpcf7-form')[0];
-          if(form){
-            form.action = '';
-            var inputs = htmlObject.querySelectorAll('.wpcf7-form .wpcf7-form-control');
-            for(var x=0;x<inputs.length;x++){
-                inputs[x].removeAttribute('value');
+          //if(this.props.debug){
+            console.log(item);
+          //}
+          if(item[0]){
+            var content = item[0].content.rendered;
+            var htmlObject = document.createElement('div');
+            htmlObject.innerHTML = content;
+            var form = htmlObject.getElementsByClassName('wpcf7-form')[0];
+            if(form){
+              form.action = '';
+              var inputs = htmlObject.querySelectorAll('.wpcf7-form .wpcf7-form-control');
+              for(var x=0;x<inputs.length;x++){
+                  inputs[x].removeAttribute('value');
+              }
+              htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
             }
-            htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
-          }
-          item[0].content.parsed = htmlObject.outerHTML;
-          return {
-            item: item[0]
+            item[0].content.parsed = htmlObject.outerHTML;
+            return {
+              item: item[0]
+            }
           }
         }.bind(this));
       }.bind(this));
