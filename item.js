@@ -83,6 +83,11 @@ class WpItem extends React.Component {
               htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
             }
             item[0].content.parsed = htmlObject.outerHTML;
+
+            if(this.props.ready){
+              setTimeout(function(){this.props.ready()}.bind(this), 1000);
+            }
+
             return {
               item: item[0]
             }

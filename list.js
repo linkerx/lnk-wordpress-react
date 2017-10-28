@@ -32,6 +32,9 @@ class WpList extends React.Component {
 
     WpApi.getList(opts)
       .then(function(items) {
+        if(this.props.ready){
+          setTimeout(function(){this.props.ready()}.bind(this), 1000);
+        }
         this.setState(function () {
           return {
             items: items

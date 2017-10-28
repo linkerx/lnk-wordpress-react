@@ -1,1 +1,33 @@
+@import (reference) "common/default.less";
+
+.content {
+  text-align: justify;
+}
+
+.content h1 {
+  margin-top:15px;
+}
+
+.content p {
+  margin-bottom: 20px;
+}
+
+.content p img {
+  @media @narrow, @super-narrow {
+    width:100%;
+  }
+}
+
+.content p img.alignleft {
+  float: left;
+  margin: 10px;
+  margin-left: 0;
+}
+
+.content p img.alignright {
+  float: right;
+  margin: 10px;
+  margin-right: 0;
+}
+
 @import "wpStyles/site-post.less";

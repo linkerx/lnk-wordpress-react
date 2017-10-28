@@ -46,7 +46,7 @@ function WpSiteArchive(props){
   return (
     <section id='site-archive' className={props.type}>
       <h1>{archiveName}</h1>
-      <WpList site={props.site} type={props.type} queries={queries} debug={true} imageRender={imageRender} imageSize={imageSize} heading={2} />
+      <WpList site={props.site} type={props.type} ready={props.ready} queries={queries} debug={true} imageRender={imageRender} imageSize={imageSize} heading={2} />
     </section>
   )
 }

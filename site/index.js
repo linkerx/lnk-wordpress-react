@@ -93,7 +93,7 @@ class WpSite extends React.Component {
             site: this.state.site,
             type: 'post',
             term: this.props.match.params.slug1,
-            debug: true
+            debug: false
           };
           if(debugOnCheck) console.log('searching for post category... ',this.props.match.params.slug1);
           WpApi.getCategory(opts_term)
@@ -141,7 +141,7 @@ class WpSite extends React.Component {
 
   render() {
 
-    console.log(this.state);
+    //console.log(this.state);
 
     return(
       <section id='wpsite-route'>
@@ -153,18 +153,18 @@ class WpSite extends React.Component {
                 <div className={'type-'+this.state.type}>
                 {this.state.post
                   ?
-                    <WpSitePost site={this.state.site} type={this.state.type} slug={this.state.post} />
+                    <WpSitePost ready={this.props.ready} site={this.state.site} type={this.state.type} slug={this.state.post} />
                   :
-                    <WpSiteArchive site={this.state.site} type={this.state.type} />
+                    <WpSiteArchive ready={this.props.ready} site={this.state.site} type={this.state.type} />
                 }
                 </div>
               :
                 <div className='not-typed'>
                 {this.state.category
                   ?
-                    <WpSiteArchive site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
+                    <WpSiteArchive ready={this.props.ready} site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
                   :
-                    <WpSitePost site={this.state.site} type={this.state.type} slug={this.state.post} />
+                    <WpSitePost ready={this.props.ready} site={this.state.site} type={this.state.type} slug={this.state.post} />
                 }
                 </div>
             }
