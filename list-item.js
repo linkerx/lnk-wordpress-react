@@ -10,9 +10,9 @@ function ListItem(props) {
 
   var item_image = '';
 
-  if(props.debug){
+//  if(props.debug){
     console.log(props.item);
-  }
+//  }
 
   var imageRender = 'img';
   if(props.imageRender){
@@ -43,9 +43,18 @@ function ListItem(props) {
     heading = props.heading;
   }
 
+  var itemLink = '/'+props.item.type+'/'+props.item.slug;
+
+  if(props.item.type == 'post') {
+    if(props.item._embedded && props.item._embedded['wp:term']){
+      if(props.item._embedded['wp:term'][0][0].taxonomy == 'category')
+        var itemLink = '/'+props.item._embedded['wp:term'][0][0].slug+'/'+props.item.slug;
+    }
+  }
+
   return(
     <article className={activeClass}>
-      <ItemTitle title={props.item.title.rendered} linkTo={'/'+props.item.type+'/'+props.item.slug} heading={heading} />
+      <ItemTitle title={props.item.title.rendered} linkTo={itemLink} heading={heading} />
       <ItemImage render={imageRender} src={item_image} />
       <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
       <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>

@@ -124,7 +124,7 @@ class WpItem extends React.Component {
 
             {item_image && <WpItemImage src={item_image} render='img'/>}
 
-            {!this.state.type == 'page' &&
+            {this.state.item.type != 'page' &&
               <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
             }
             <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>

@@ -43,7 +43,7 @@ class WpSite extends React.Component {
   }
 
   checkURL(){
-    var debugOnCheck = true;
+    var debugOnCheck = false;
 
     this.setState(function(){
       return {
@@ -160,7 +160,7 @@ class WpSite extends React.Component {
                 </div>
               :
                 <div className='not-typed'>
-                {this.state.category
+                {this.state.category && !this.state.post
                   ?
                     <WpSiteArchive ready={this.props.ready} site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
                   :

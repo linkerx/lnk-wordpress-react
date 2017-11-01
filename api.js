@@ -94,6 +94,11 @@ module.exports = {
     if(options.site)
       url += '/'+options.site;
 
+
+
+    if(options.debug){
+      console.log(url,options);
+    }
     /**
      * si type es un tipo de dato va enla url,
      * sino busca solo el slug
@@ -101,7 +106,7 @@ module.exports = {
 
     return this.getTypes(url)
        .then(function(types){
-          var url = WpUrl + WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
+          var url = WpUrl + WpApiDir + WpRoute + '/';
           var found = Object.keys(types).indexOf(options.type);
           if(found == -1){
             found = Object.keys(types).indexOf(options.type.slice(0,-1));
@@ -127,7 +132,13 @@ module.exports = {
             url += 'posts';
           }
 
-          url += '/?slug=' + options.slug;
+          if(options.id){
+            url += '/'+options.id+'/?opt=1'
+          }
+
+          if(options.slug){
+            url += '/?slug=' + options.slug;
+          }
 
           if(options.queries){
               url += '&' + options.queries.map(function(query,index) {
