@@ -22,11 +22,17 @@ class WpList extends React.Component {
         items: null
       }
     });
+
+    var queries = ['_embed'];
+    if(this.props.queries){
+      queries = this.props.queries
+    }
+
     var opts = {
       url: this.props.url,
       site: this.props.site,
       type: this.props.type,
-      queries: this.props.queries,
+      queries: queries,
       debug: this.props.debug
     }
 
@@ -59,6 +65,11 @@ class WpList extends React.Component {
       imageSize = this.props.imageSize;
     }
 
+    var imageLink = false;
+    if(this.props.imageLink){
+      imageLink = this.props.imageLink;
+    }
+
     var defaultImg = null;
     if(this.props.defaultImg){
       defaultImg = this.props.defaultImg;
@@ -76,7 +87,7 @@ class WpList extends React.Component {
           this.props.children
           :
           this.state.items.map(function (item, index) {
-            return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} />)
+            return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink}  />)
           })
         }
       </div>

@@ -4,6 +4,7 @@ var WpItemTitle = require('./item-title');
 var WpItemImage = require('./item-image');
 var renderHTML = require('react-render-html');
 var serialize = require('form-serialize');
+var FullModal = require('./fullscreenImage/fullmodal');
 
 class WpItem extends React.Component {
 
@@ -35,6 +36,15 @@ class WpItem extends React.Component {
         return false;
       }.bind(this));
    }
+
+   var images = document.querySelectorAll('img');
+   console.log(images);
+   for(var x=0;x<images.length;x++){
+      images[x].addEventListener('click',function(){
+        FullModal.openFull('museo-modal',this.src,this.alt);
+      });
+   }
+
   }
 
   formSubmit(id,data){
@@ -66,13 +76,16 @@ class WpItem extends React.Component {
       .then(function(item){
         this.setState(function(){
 
-          //if(this.props.debug){
+          if(this.props.debug){
             console.log(item);
-          //}
+          }
           if(item[0]){
+
             var content = item[0].content.rendered;
             var htmlObject = document.createElement('div');
             htmlObject.innerHTML = content;
+
+            /* FORMS */
             var form = htmlObject.getElementsByClassName('wpcf7-form')[0];
             if(form){
               form.action = '';
@@ -82,8 +95,10 @@ class WpItem extends React.Component {
               }
               htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
             }
+
             item[0].content.parsed = htmlObject.outerHTML;
 
+            /* FULLSCREEN IMAGES */
             if(this.props.ready){
               setTimeout(function(){this.props.ready()}.bind(this), 1000);
             }

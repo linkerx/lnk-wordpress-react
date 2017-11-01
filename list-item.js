@@ -10,9 +10,9 @@ function ListItem(props) {
 
   var item_image = '';
 
-//  if(props.debug){
+  if(props.debug){
     console.log(props.item);
-//  }
+  }
 
   var imageRender = 'img';
   if(props.imageRender){
@@ -22,6 +22,11 @@ function ListItem(props) {
   var imageSize = 'thumbnail';
   if(props.imageSize){
     imageSize = props.imageSize;
+  }
+
+  var imageLink = false;
+  if(props.imageLink){
+    imageLink = true;
   }
 
   if(props.item.type != 'attachment'){
@@ -55,7 +60,7 @@ function ListItem(props) {
   return(
     <article className={activeClass}>
       <ItemTitle title={props.item.title.rendered} linkTo={itemLink} heading={heading} />
-      <ItemImage render={imageRender} src={item_image} />
+      <ItemImage render={imageRender} src={item_image} linkTo={itemLink} imageLink={imageLink} />
       <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
       <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
     </article>

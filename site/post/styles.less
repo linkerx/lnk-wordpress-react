@@ -31,13 +31,20 @@
   }
 }
 
-#site-post .content p img.alignleft {
+#site-post .content p img.alignleft,
+#site-post .wp-caption.alignleft {
   float: left;
   margin: 10px;
   margin-left: 0;
 }
 
-#site-post .content p img.alignright {
+#site-post .wp-caption .wp-caption-text{
+  font-size: 0.8em;
+  color: #999;
+}
+
+#site-post .content p img.alignright,
+#site-post .wp-caption.alignright {
   float: right;
   margin: 10px;
   margin-right: 0;
