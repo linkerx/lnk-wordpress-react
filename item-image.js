@@ -58,7 +58,7 @@ class ItemImage extends React.Component {
             }
             </div>
         }
-        {fullScreen &&
+        {fullscreen &&
           <FullscreenImage imageSrc={item_image} modalContainer='museo-modal' />
         }
       </div>

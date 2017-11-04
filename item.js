@@ -14,7 +14,6 @@ class WpItem extends React.Component {
       item: null,
     }
     this.updateItem = this.updateItem.bind(this);
-    this.formSubmit = this.formSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -32,7 +31,11 @@ class WpItem extends React.Component {
       form.addEventListener('submit',function(e){
         e.preventDefault();
         var data = serialize(form);
-        this.formSubmit(idInput,data);
+        WpApi.postContactForm(idInput,data,{debug:true})
+          .then(function(response){
+            alert("Su mensaje fue enviado con éxito.");
+            form.reset();
+          });
         return false;
       }.bind(this));
    }
@@ -44,14 +47,6 @@ class WpItem extends React.Component {
         FullModal.openFull('museo-modal',this.src,this.alt);
       });
    }
-
-  }
-
-  formSubmit(id,data){
-    WpApi.postContactForm(id,data,{debug:true})
-      .then(function(response){
-        console.log(response);
-      });
   }
 
   updateItem(){
@@ -128,8 +123,13 @@ class WpItem extends React.Component {
       show_title = false;
     }
 
+    var articleClass = 'the-post';
+    if(this.props.articleClass){
+      articleClass = this.props.articleClass;
+    }
+
     return (
-      <article>
+      <article className={articleClass}>
         {!this.state.item
           ?
           this.props.children
