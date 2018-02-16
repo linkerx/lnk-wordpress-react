@@ -41,7 +41,9 @@ class WpItem extends React.Component {
    }
 
    var images = document.querySelectorAll('img');
-   console.log(images);
+   if(this.props.debug) {
+       console.log(images);
+   }
    for(var x=0;x<images.length;x++){
       images[x].addEventListener('click',function(){
         FullModal.openFull('museo-modal',this.src,this.alt);
@@ -58,10 +60,11 @@ class WpItem extends React.Component {
 
     var opts = {
       url: this.props.url,
+      site: this.props.site,
       type: this.props.type,
       slug: this.props.slug,
       queries: ['_embed'],
-      debug: this.props.debug
+      debug: true //this.props.debug
     }
 
     if(this.props.debug)

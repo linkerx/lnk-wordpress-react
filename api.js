@@ -106,7 +106,7 @@ module.exports = {
 
     return this.getTypes(url)
        .then(function(types){
-          var url = WpUrl + WpApiDir + WpRoute + '/';
+          url = url + WpApiDir + WpRoute + '/';
           var found = Object.keys(types).indexOf(options.type);
           if(found == -1){
             found = Object.keys(types).indexOf(options.type.slice(0,-1));
@@ -147,7 +147,7 @@ module.exports = {
           }
 
           if(options.debug){
-            console.log(url);
+            console.log("aca",url);
           }
 
           return axios.get(url)
@@ -298,6 +298,9 @@ module.exports = {
     }
     return axios.get(url)
       .then(function(response){
+        if(options.debug){
+          console.log(response.data);
+        }
         return response.data;
       });
   },

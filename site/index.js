@@ -90,7 +90,7 @@ class WpSite extends React.Component {
         } else {
           if(debugOnCheck) console.log('not type',this.props.match.params.slug1);
           var opts_term = {
-            site: this.state.site,
+            site: this.props.site,
             type: 'post',
             term: this.props.match.params.slug1,
             debug: false
@@ -153,18 +153,18 @@ class WpSite extends React.Component {
                 <div className={'type-'+this.state.type}>
                 {this.state.post
                   ?
-                    <WpSitePost ready={this.props.ready} site={this.state.site} type={this.state.type} slug={this.state.post} />
+                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} />
                   :
-                    <WpSiteArchive ready={this.props.ready} site={this.state.site} type={this.state.type} />
+                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} />
                 }
                 </div>
               :
                 <div className='not-typed'>
                 {this.state.category && !this.state.post
                   ?
-                    <WpSiteArchive ready={this.props.ready} site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
+                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
                   :
-                    <WpSitePost ready={this.props.ready} site={this.state.site} type={this.state.type} slug={this.state.post} />
+                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} />
                 }
                 </div>
             }
