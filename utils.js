@@ -21,7 +21,7 @@ module.exports = {
 
         slug = item.slug;
 
-        return site+type+cat+slug;
+        return "/"+site+type+cat+slug;
 
 
     },

@@ -245,6 +245,9 @@ module.exports = {
     if(options.url)
       url = options.url;
 
+    if(options.site)
+      url += '/'+options.site;
+
     url += WpApiDir + MenuRoute + MenuLocationsEndpoint + '/' + options.location;
 
     if(options.debug){
@@ -260,33 +263,33 @@ module.exports = {
   /**
    * Menu ID por Posicion
    */
-   getMenuIdByLocation: function(options){
 
-     var url = WpUrl;
-     var url2 = WpUrl;
-     if(options.url){
-       url = options.url;
-       url2 = options.url;
-     }
+    getMenuIdByLocation: function(options){
+        var url = WpUrl;
+        if(options.url)
+            url = options.url;
+        if(options.site)
+            url += '/'+options.site;
+        var url2 = url;
 
-     url += WpApiDir + MenuRoute + MenuLocationsEndpoint;
-     url2 += WpApiDir + MenuRoute + MenusEndpoint;
+        url += WpApiDir + MenuRoute + MenuLocationsEndpoint;
+        url2 += WpApiDir + MenuRoute + MenusEndpoint;
 
-     if(options.debug){
-       console.log(url);
-     }
+        if(options.debug){
+            console.log(url);
+        }
 
-     return axios.get(url)
-       .then(function(response){
-         if(response.data[options.location]) {
-           var url3 = url2 + '/' + response.data[options.location].ID;
-           return axios.get(url3)
+        return axios.get(url)
             .then(function(response){
-              return response.data;
+                if(response.data[options.location]) {
+                    var url3 = url2 + '/' + response.data[options.location].ID;
+                    return axios.get(url3)
+                        .then(function(response){
+                            return response.data;
+                        });
+                }
             });
-         }
-       });
-   },
+    },
 
   /**
    * Sitio unico
@@ -294,7 +297,7 @@ module.exports = {
   getSite: function(options){
     var url = WpUrl + WpApiDir + LnkRoute + LnkSitesEndpoint + '/' + options.name;
     if(options.debug){
-      console.log(url);
+      console.log(options,url);
     }
     return axios.get(url)
       .then(function(response){

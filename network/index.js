@@ -28,7 +28,7 @@ class WpNetwork extends React.Component {
 
     var opts_site = {
       name: this.props.match.params.slug,
-      debug: true
+      debug: false
     };
 
     WpApi.getSite(opts_site)

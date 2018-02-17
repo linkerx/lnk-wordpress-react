@@ -25,6 +25,7 @@ class WpMenu extends React.Component {
     });
     var opts = {
       url: this.props.url,
+      site: this.props.site,
       location: this.props.location,
       slug: this.props.slug,
       debug: this.props.debug
@@ -57,7 +58,7 @@ class WpMenu extends React.Component {
           <ul className='menu'>
           {
             this.state.menu.items.map(function (menuItem, index) {
-                return (<MenuItem key={index} action={this.props.action} item={menuItem} path={this.props.path} nivel={1} />)
+                return (<MenuItem key={index} site={this.props.site} action={this.props.action} item={menuItem} path={this.props.path} nivel={1} />)
             }.bind(this))
           }
           {
