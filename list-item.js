@@ -31,7 +31,7 @@ function ListItem(props) {
   }
 
   if(props.item.type != 'attachment'){
-    if(props.item._embedded && props.item._embedded['wp:featuredmedia']){
+    if(props.item._embedded && props.item._embedded['wp:featuredmedia'] && props.item._embedded['wp:featuredmedia'][0].media_details){
       var item_image = props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize].source_url;
     } else if(props.defaultImg) {
       var item_image = props.defaultImg;
@@ -50,8 +50,7 @@ function ListItem(props) {
   }
 
   var itemLink = WpUtils.generateItemLinkUrl(props.item);
-  console.log(itemLink);
-
+  
   return(
     <article className={activeClass}>
       <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />

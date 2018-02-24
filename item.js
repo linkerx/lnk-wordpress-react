@@ -1,10 +1,12 @@
 var React = require('react');
 var WpApi = require('./api');
+var WpUtils = require('wp/utils');
 var WpItemTitle = require('./item-title');
 var WpItemImage = require('./item-image');
 var renderHTML = require('react-render-html');
 var serialize = require('form-serialize');
 var FullModal = require('./fullscreenImage/fullmodal');
+var ShareButtons = require('./shareButtons');
 
 class WpItem extends React.Component {
 
@@ -110,9 +112,15 @@ class WpItem extends React.Component {
   }
 
   render() {
+
+    var ImgSize = 'thumbnail';
+    if(this.props.img_size) {
+        ImgSize = this.props.img_size;
+    }
+
     if(this.state.item){
-      if(this.state.item._embedded['wp:featuredmedia']){
-        var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes['thumbnail'].source_url;
+      if(this.state.item._embedded && this.state.item._embedded['wp:featuredmedia'] && this.state.item._embedded['wp:featuredmedia'][0].media_details){
+        var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes[ImgSize].source_url;
       }
     }
 
@@ -131,6 +139,11 @@ class WpItem extends React.Component {
       articleClass = this.props.articleClass;
     }
 
+    var itemLink = '';
+    if(this.state.item){
+        itemLink = WpUtils.generateItemLinkUrl(this.state.item);
+    }
+
     return (
       <article className={articleClass}>
         {!this.state.item
@@ -141,6 +154,8 @@ class WpItem extends React.Component {
             {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
 
             {item_image && <WpItemImage src={item_image} render='img'/>}
+
+            <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />
 
             {this.state.item.type != 'page' &&
               <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>

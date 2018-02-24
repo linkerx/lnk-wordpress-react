@@ -16,8 +16,10 @@ class MenuItem extends React.Component{
   render(){
     var site = "/";
     if(this.props.site){
-      site = this.props.site+"/";
+      site += this.props.site+"/";
     }
+
+    //console.log(this.props.item);
 
     var item_link = '/';
     var item_text = this.props.item.title;
@@ -37,10 +39,14 @@ class MenuItem extends React.Component{
         if(this.props.item.object == "page" || this.props.item.object == "pages") {
           item_link = site + this.props.item.object_slug;
         } else if(this.props.item.object == "post") {
-          item_link = site + 'posts/' + this.props.item.object_slug;
+          item_link = site + this.props.item.object_term + '/' + this.props.item.object_slug;
         }
     } else if(this.props.item.type == "taxonomy") {
       item_link = site + this.props.item.object_slug;
+    }
+
+    if(this.props.debug){
+        console.log(item_link);
     }
 
     var showSubmenu = true;
@@ -82,7 +88,7 @@ class MenuItem extends React.Component{
         </NavLink>
       }
         { this.props.item.children && showSubmenu &&
-          <SubMenu items={this.props.item.children} action={click_action} path={this.props.path} nivel={this.props.nivel+1} />
+          <SubMenu site={this.props.site} items={this.props.item.children} action={click_action} path={this.props.path} nivel={this.props.nivel+1} />
         }
       </li>
     )
