@@ -1,4 +1,5 @@
 var React = require('react');
+require('./styles.less');
 
 import {
   FacebookShareCount,
@@ -43,14 +44,26 @@ import {
 
 function ShareButtons (props) {
     return(
-        <div>
-        <FacebookShareButton url={props.url} quote={props.quote} className="Demo__some-network__share-button">
-            <FacebookIcon size={32} round />
-        </FacebookShareButton>
-        <FacebookShareButton url={props.url} quote={props.quote} className="Demo__some-network__share-button">
-            <FacebookIcon size={32} round />
-        </FacebookShareButton>
-        </div>
+        <section id='share-buttons'>
+            <FacebookShareButton url={props.url} quote={props.quote} className="share-facebook">
+                <FacebookIcon size={40} round />
+            </FacebookShareButton>
+            <TwitterShareButton url={props.url} quote={props.quote} className="share-twitter">
+                <TwitterIcon size={40} round />
+            </TwitterShareButton>
+            <TelegramShareButton url={props.url} quote={props.quote} className="share-whatsapp">
+                <TelegramIcon size={40} round />
+            </TelegramShareButton>
+            <WhatsappShareButton url={props.url} quote={props.quote} className="share-whatsapp">
+                <WhatsappIcon size={40} round />
+            </WhatsappShareButton>
+            <GooglePlusShareButton url={props.url} quote={props.quote} className="share-gplus">
+                <GooglePlusIcon size={40} round />
+            </GooglePlusShareButton>
+            <LinkedinShareButton url={props.url} quote={props.quote} className="share-whatsapp">
+                <LinkedinIcon size={40} round />
+            </LinkedinShareButton>
+        </section>
     )
 }
 

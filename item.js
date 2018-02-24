@@ -118,9 +118,21 @@ class WpItem extends React.Component {
         ImgSize = this.props.img_size;
     }
 
+    var itemLink = '';
+    var share = false;
     if(this.state.item){
+      /* image */
       if(this.state.item._embedded && this.state.item._embedded['wp:featuredmedia'] && this.state.item._embedded['wp:featuredmedia'][0].media_details){
         var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes[ImgSize].source_url;
+      }
+      /* link */
+      itemLink = WpUtils.generateItemLinkUrl(this.state.item);
+      /* share */
+      if(this.state.item.type == 'post'){
+          share = true;
+      }
+      if(this.props.share) {
+          share = this.props.share;
       }
     }
 
@@ -139,11 +151,6 @@ class WpItem extends React.Component {
       articleClass = this.props.articleClass;
     }
 
-    var itemLink = '';
-    if(this.state.item){
-        itemLink = WpUtils.generateItemLinkUrl(this.state.item);
-    }
-
     return (
       <article className={articleClass}>
         {!this.state.item
@@ -155,7 +162,7 @@ class WpItem extends React.Component {
 
             {item_image && <WpItemImage src={item_image} render='img'/>}
 
-            <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />
+            {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
 
             {this.state.item.type != 'page' &&
               <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
