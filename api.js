@@ -9,13 +9,15 @@ var WpApiDir = lnk_api_dir;
 var WpRoute = '/wp/v2';
 var LnkRoute = '/lnk/v1';
 var MenuRoute = '/wp-api-menus/v2';
-var CF7Route = '/contact-form-7/v1'
+var CF7Route = '/contact-form-7/v1';
+var SidebarsRoute = '/wp-rest-api-sidebars/v1'
 
 var LnkSitesEndpoint = '/sites';
 var LnkSitesPostsEndpoint = '/sites-posts';
 var MenuLocationsEndpoint = '/menu-locations';
 var MenusEndpoint = '/menus';
 var ContactFormEndpoint = '/contact-forms';
+var SidebarsEndpoint = '/sidebars';
 
 var AddQuery = '?_embed';
 
@@ -345,5 +347,52 @@ module.exports = {
       .then(function(response){
         return response.data;
       });
-   }
+  },
+
+    /* Sidebars */
+    getSidebars: function(options) {
+
+        var url = WpUrl;
+        if(options.url)
+            url = options.url;
+        if(options.site)
+            url += '/'+options.site;
+
+        url += WpApiDir + SidebarsRoute + SidebarsEndpoint;
+
+        if(options.debug){
+          console.log(options,url);
+        }
+
+        return axios.get(url)
+            .then(function(response){
+                if(options.debug){
+                    console.log(response.data);
+                }
+                return response.data;
+            });
+    },
+
+    /* Get one sidebar by position id */
+    getSidebar: function(options) {
+        var url = WpUrl;
+        if(options.url)
+            url = options.url;
+        if(options.site)
+            url += '/'+options.site;
+
+        url += WpApiDir + SidebarsRoute + SidebarsEndpoint + '/' + options.pos;
+
+        if(options.debug){
+          console.log(options,url);
+        }
+
+        return axios.get(url)
+            .then(function(response){
+                if(options.debug){
+                    console.log(response.data);
+                }
+                return response.data;
+            });
+    }
 }
