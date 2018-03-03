@@ -9,10 +9,13 @@ moment.locale('es');
 
 function ListItem(props) {
 
-  var item_image = '';
-
   if(props.debug){
     console.log(props.item);
+  }
+
+  var template = 1;
+  if(props.template){
+    template = props.template;
   }
 
   var imageRender = 'img';
@@ -30,8 +33,10 @@ function ListItem(props) {
     imageLink = true;
   }
 
+  var item_image = '';
+
   if(props.item.type != 'attachment'){
-    if(props.item._embedded && props.item._embedded['wp:featuredmedia'] && props.item._embedded['wp:featuredmedia'][0].media_details){
+    if(props.item._embedded && props.item._embedded['wp:featuredmedia'] && props.item._embedded['wp:featuredmedia'][0].media_details && props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize]){
       var item_image = props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize].source_url;
     } else if(props.defaultImg) {
       var item_image = props.defaultImg;
@@ -50,15 +55,27 @@ function ListItem(props) {
   }
 
   var itemLink = WpUtils.generateItemLinkUrl(props.item);
-  
-  return(
-    <article className={activeClass}>
-      <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
-      <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
-      <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
-      <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
-    </article>
-  )
+
+    switch(template) {
+        case 1:
+            return (
+                <article className={activeClass}>
+                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
+                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
+                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                </article>
+            )
+        case 2:
+            return (
+                <article className={activeClass}>
+                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
+                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
+                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                </article>
+            )
+    }
 }
 
 module.exports = ListItem;

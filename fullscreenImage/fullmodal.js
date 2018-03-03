@@ -1,6 +1,5 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var FontAwesome = require('react-fontawesome');
 var renderHTML = require('react-render-html');
 
 module.exports = {
@@ -16,7 +15,7 @@ module.exports = {
           <span>{renderHTML(desc)}</span>
         </div>
         <div className='close-trigger' onClick={() => {ReactDOM.render(<div></div>,document.getElementById(modalContainer))}} >
-          <FontAwesome name='compress' />
+         <i class="fas fa-compress"></i>
         </div>
       </div>
       ,document.getElementById(modalContainer));

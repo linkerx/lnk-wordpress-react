@@ -151,6 +151,8 @@ class WpItem extends React.Component {
       articleClass = this.props.articleClass;
     }
 
+    var seoFullUrl = window.location.href;
+
     return (
       <article className={articleClass}>
         {!this.state.item
@@ -158,6 +160,7 @@ class WpItem extends React.Component {
           this.props.children
           :
           <div className='post_content'>
+
             {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
 
             {item_image && <WpItemImage src={item_image} render='img'/>}

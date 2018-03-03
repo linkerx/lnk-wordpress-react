@@ -55,6 +55,11 @@ class WpList extends React.Component {
       console.log(this.props.item);
     }
 
+    var template = 1
+    if(this.props.template){
+        template = this.props.template;
+    }
+
     var imageRender = 'img';
     if(this.props.imageRender){
       imageRender = this.props.imageRender;
@@ -87,7 +92,7 @@ class WpList extends React.Component {
           this.props.children
           :
           this.state.items.map(function (item, index) {
-            return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink}  />)
+            return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink} template={template}  />)
           })
         }
       </div>

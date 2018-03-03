@@ -192,7 +192,7 @@ class WpSlider extends React.Component {
               if(this.isActive(item.id)){
                 active = true;
               }
-              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={active} imageRender='back' imageSize={this.state.options.listImgSize} />)
+              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={active} imageRender='back' imageSize={this.state.options.listImgSize} imageLink={this.props.imageLink} />)
             }.bind(this))
           }
           </div>
@@ -204,7 +204,7 @@ class WpSlider extends React.Component {
             this.props.children
             :
             this.state.current.items.map(function (item, index) {
-              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={true} imageRender='back' imageSize={this.state.options.pageImgSize} />)
+              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={true} imageRender='back' imageSize={this.state.options.pageImgSize} imageLink={this.props.imageLink} />)
             }.bind(this))
           }
         </div>
