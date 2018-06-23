@@ -16,13 +16,6 @@ BigCalendar.setLocalizer(
 
 var views = ['mes', 'semana', 'dia', 'agenda'];
 
-var today = {
-  year: moment().format('YYYY'),
-  month: moment().format('MMMM').charAt(0).toUpperCase() + moment().format('MMMM').slice(1),
-  day: moment().format('dddd').charAt(0).toUpperCase() + moment().format('dddd').slice(1),
-  number: moment().format('DD'),
-}
-
 class WpCalendar extends React.Component {
 
   constructor(props){
@@ -31,7 +24,6 @@ class WpCalendar extends React.Component {
     this.state = {
       date: moment().format('YYYY-MM[-01T00:00:00Z]'),
       items: [],
-      itemsToday: [],
       modalOpen: false,
       modalItem: null
     }
@@ -39,6 +31,8 @@ class WpCalendar extends React.Component {
     this.getEvents = this.getEvents.bind(this);
     this.addEvents = this.addEvents.bind(this);
     this.onNavigate = this.onNavigate.bind(this);
+    this.onSelectEvent = this.onSelectEvent.bind(this);
+    this.onSelectSlot = this.onSelectSlot.bind(this);
   }
 
   componentDidMount(){
@@ -50,14 +44,20 @@ class WpCalendar extends React.Component {
 
   onNavigate(date){
     var min = moment(date).format('YYYY-MM[-01T00:00:00Z]');
-    var minDate = new Date(min);
-    var maxDate = minDate.setFullYear(minDate.getFullYear() + 1 );
-    var max = moment(maxDate).format('YYYY-MM[-01T00:00:00Z]');
-    if(min < this.state.date)
-      this.getEvents(this.props.sources,min,max);
+    var fromDate = new Date(min);
+    var toDate = new Date(min);
+
+    fromDate.setMonth(fromDate.getMonth() -1);
+    fromDate.setMonth(fromDate.getMonth() -1);
+
+    toDate.setMonth(toDate.getMonth() + 1 );
+    toDate.setMonth(toDate.getMonth() + 1 );
+
+    this.getEvents(this.props.sources,moment(fromDate).format('YYYY-MM[-01T00:00:00Z]'),moment(toDate).format('YYYY-MM[-01T00:00:00Z]'));
   }
 
     getEvents(sources,min,max){
+        console.log("trae eventos de: "+min+" a "+max);
         const baseUrl = "https://www.googleapis.com/calendar/v3/calendars/";
         this.state = {
             date: this.state.date,
@@ -118,6 +118,54 @@ class WpCalendar extends React.Component {
         }.bind(this));
     }
 
+    onSelectEvent(event){
+
+      if(event.desc){
+        var opts = {
+          type: 'post',
+          id: event.desc,
+          queries: ['_embed'],
+          debug: true
+        }
+
+        WpApi.getItem(opts)
+          .then(function(item){
+            console.log(item);
+            this.setState(function(){
+              return {
+                modalOpen: true,
+                modalItem: {
+                    event: event,
+                    post: item
+                  }
+              }
+            }.bind(this));
+          }.bind(this));
+      } else {
+        this.setState(function(){
+          return {
+            modalOpen: true,
+            modalItem: {
+                event: event,
+                post: null
+              }
+          }
+        })
+      }
+    }
+
+    onSelectSlot(slotInfo){
+    }
+
+    closeModal(){
+      this.setState(function(){
+        return {
+          modalOpen: false,
+          modalItem: null
+        }
+      })
+    }
+
   render() {
 
     var espMessages = {
@@ -133,6 +181,19 @@ class WpCalendar extends React.Component {
       agenda: 'Agenda',
     }
 
+    var modalStyle = 'closed';
+    if(this.state.modalOpen){
+        modalStyle = 'opened';
+    }
+
+    if(this.state.modalItem){
+      if(this.state.modalItem.post){
+        if(this.state.modalItem.post._embedded['wp:featuredmedia']){
+          var post_image = this.state.modalItem.post._embedded['wp:featuredmedia'][0].media_details.sizes['thumbnail'].source_url;
+        }
+      }
+    }
+
     return (
         <div className='wp-calendar'>
             <BigCalendar
@@ -142,6 +203,7 @@ class WpCalendar extends React.Component {
                 culture='es'
                 onSelectEvent = {this.props.onSelectEvent}
                 onSelectSlot = {this.props.onSelectSlot}
+                onNavigate = {this.onNavigate}
                 eventPropGetter={
                     function(event){
                         return {
