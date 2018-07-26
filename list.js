@@ -41,6 +41,8 @@ class WpList extends React.Component {
         if(this.props.ready){
           setTimeout(function(){this.props.ready()}.bind(this), 1000);
         }
+        if(this.props.debug)
+          console.log("trae lista:",items);
         this.setState(function () {
           return {
             items: items
@@ -52,7 +54,7 @@ class WpList extends React.Component {
   render() {
 
     if(this.props.debug){
-      console.log(this.props.item);
+      console.log(this.state.items);
     }
 
     var template = 1

@@ -76,6 +76,15 @@ function ListItem(props) {
                 </article>
             )
     }
+
+    return (
+      <article className={activeClass}>
+        <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
+        <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+        <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
+        <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+      </article>
+    )
 }
 
 module.exports = ListItem;

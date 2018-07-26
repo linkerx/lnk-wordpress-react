@@ -123,7 +123,7 @@ class WpCalendar extends React.Component {
           }.bind(this))}
           </ul>
         :
-        <div>No hay efemérides para hoy</div>
+        <div>No hay eventos para hoy</div>
         }
       </div>
     )
