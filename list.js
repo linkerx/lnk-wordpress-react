@@ -8,6 +8,8 @@ class WpList extends React.Component {
     super(props);
     this.state = {
       items: null,
+      total: null,
+      pages: null
     }
     this.updateItems = this.updateItems.bind(this);
   }
@@ -19,7 +21,9 @@ class WpList extends React.Component {
   updateItems(){
     this.setState(function () {
       return {
-        items: null
+        items: null,
+        total: null,
+        pages: null
       }
     });
 
@@ -27,6 +31,12 @@ class WpList extends React.Component {
     if(this.props.queries){
       queries = this.props.queries
     }
+
+    itemsPerPage = 12;
+    if(this.props.itemsPerPage){
+      itemsPerPage = this.props.itemsPerPage;
+    }
+    queries.push('per_page='+this.props.itemsPerPage);
 
     var opts = {
       url: this.props.url,
@@ -37,7 +47,11 @@ class WpList extends React.Component {
     }
 
     WpApi.getList(opts)
-      .then(function(items) {
+      .then(function(response) {
+        var items = response.data;
+        var total = response.headers["x-wp-total"];
+        var pages = response.headers["x-wp-total-pages"];
+        console.log(response);
         if(this.props.ready){
           setTimeout(function(){this.props.ready()}.bind(this), 1000);
         }
@@ -50,6 +64,8 @@ class WpList extends React.Component {
         });
       }.bind(this));
   }
+
+
 
   render() {
 
@@ -87,15 +103,39 @@ class WpList extends React.Component {
       heading = this.props.heading;
     }
 
+    var showPagination = false
+    if(this.props.showPagination){
+      showPagination = this.props.showPagination;
+    }
+
+
     return (
-      <div className="list">
+      <div className="list-container">
         {!this.state.items
           ?
           this.props.children
           :
-          this.state.items.map(function (item, index) {
-            return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink} template={template}  />)
-          })
+          <div>
+            {showPagination &&
+              <div className="list-pagination-top">
+                PaginationTop
+              </div>
+            }
+
+            <div className='list'>
+              {
+                this.state.items.map(function (item, index) {
+                  return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink} template={template}  />)
+                })
+              }
+            </div>
+
+            {showPagination &&
+              <div className="list-pagination-bottom">
+                PaginationBottom
+              </div>
+            }
+          </div>
         }
       </div>
     )

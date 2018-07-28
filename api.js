@@ -79,7 +79,7 @@ module.exports = {
 
           return axios.get(url)
             .then(function (response) {
-              return response.data;
+              return response;
             });
       }.bind(this));
   },

@@ -12,7 +12,7 @@ function WpSiteArchive(props){
   //console.log(props);
 
   var queries = [
-    '_embed'
+    '_embed',
   ];
 
   if(props.category){
@@ -43,10 +43,28 @@ function WpSiteArchive(props){
     heading = props.heading;
   }
 
+  var page = 1;
+  if(props.page){
+    page = props.page;
+  }
+
   return (
     <section id='site-archive' className={props.type}>
       <h1>{archiveName}</h1>
-      <WpList site={props.site} type={props.type} ready={props.ready} queries={queries} debug={false} imageRender={imageRender} imageSize={imageSize} heading={2} />
+      <WpList
+        site={props.site}
+        type={props.type}
+        ready={props.ready}
+        queries={queries}
+        debug={false}
+        imageRender={imageRender}
+        imageSize={imageSize}
+        imageLink={true}
+        heading={2}
+        showPagination={true}
+        itemsPerPage={12}
+        page={page}
+      />
     </section>
   )
 }

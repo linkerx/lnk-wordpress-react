@@ -43,7 +43,7 @@ class WpSite extends React.Component {
   }
 
   checkURL(){
-    var debugOnCheck = false;
+    var debugOnCheck = true;
 
     this.setState(function(){
       return {
@@ -100,7 +100,7 @@ class WpSite extends React.Component {
             .then(function(category){
               if(category){
                 if(debugOnCheck) console.log('category OK');
-                if(this.props.match.params.slug2 === 'undefined'){
+                if(this.props.match.params.slug2 === undefined || this.props.match.params.slug2 === 'page'){
                   if(debugOnCheck) console.log('show category archive');
                   this.setState(function(){
                     /* POST/CATEGORY ARCHIVE */

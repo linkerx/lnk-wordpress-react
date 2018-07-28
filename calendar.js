@@ -1,6 +1,7 @@
 var React = require('react');
 var axios = require('axios');
 var WpApi = require('wp/api');
+var WpUtils = require('wp/utils');
 var WpItemTitle = require('wp/item-title');
 var WpItemImage = require('wp/item-image');
 var renderHTML = require('react-render-html');
@@ -261,8 +262,8 @@ class WpCalendar extends React.Component {
                       {this.state.modalItem.post
                         ?
                         <div className='post_content'>
-                          <WpItemTitle linkTo='#' title={this.state.modalItem.post.title.rendered} heading='2' />
-                          {post_image && <WpItemImage src={post_image} render='img'/>}
+                          <WpItemTitle linkTo={WpUtils.generateItemLinkUrl(this.state.modalItem.post)} title={this.state.modalItem.post.title.rendered} heading='2' />
+                          {post_image && <WpItemImage src={post_image} render='img' imageLink={true} linkTo={WpUtils.generateItemLinkUrl(this.state.modalItem.post)} />}
                           <div className='excerpt'>{renderHTML(this.state.modalItem.post.excerpt.rendered)}</div>
                           <div className='content'>{renderHTML(this.state.modalItem.post.content.rendered)}</div>
                         </div>
