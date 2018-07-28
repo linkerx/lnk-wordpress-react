@@ -4,6 +4,7 @@ var WpApi = require('wp/api');
 var WpItemTitle = require('wp/item-title');
 var WpItemImage = require('wp/item-image');
 var renderHTML = require('react-render-html');
+var Cargando = require('utils/cargando');
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 require('react-big-calendar/lib/css/react-big-calendar.css');
@@ -127,6 +128,17 @@ class WpCalendar extends React.Component {
 
     onSelectEvent(event){
 
+      this.setState(function(){
+        return {
+          modalOpen: true,
+          modalItem: {
+              event: event,
+              cargando: true,
+              post: null
+            }
+        }
+      })
+
       if(event.desc){
         var opts = {
           type: 'post',
@@ -145,6 +157,7 @@ class WpCalendar extends React.Component {
                 modalOpen: true,
                 modalItem: {
                     event: event,
+                    cargando: false,
                     post: item
                   }
               }
@@ -156,6 +169,7 @@ class WpCalendar extends React.Component {
             modalOpen: true,
             modalItem: {
                 event: event,
+                cargando: false,
                 post: null
               }
           }
@@ -232,6 +246,37 @@ class WpCalendar extends React.Component {
                 }
                 messages = {espMessages}
             />
+            <div className={'modal-back '+modalStyle}></div>
+            <div className={'calendar-modal '+modalStyle} >
+              <button className='close-btn' onClick={function(){this.closeModal()}.bind(this)}>
+                <i className="far fa-times-circle"></i>
+              </button>
+              {this.state.modalItem &&
+                  <div className='modal-content'>
+                  {this.state.modalItem.cargando
+                    ?
+                      <Cargando />
+                    :
+                      <div>
+                      {this.state.modalItem.post
+                        ?
+                        <div className='post_content'>
+                          <WpItemTitle linkTo='#' title={this.state.modalItem.post.title.rendered} heading='2' />
+                          {post_image && <WpItemImage src={post_image} render='img'/>}
+                          <div className='excerpt'>{renderHTML(this.state.modalItem.post.excerpt.rendered)}</div>
+                          <div className='content'>{renderHTML(this.state.modalItem.post.content.rendered)}</div>
+                        </div>
+                        :
+                        <div className='no-item'>
+                          <h3>{this.state.modalItem.event.title}</h3>
+                          <span>Sin Descripcion</span>
+                        </div>
+                      }
+                    </div>
+                  }
+                  </div>
+              }
+            </div>
         </div>
     )
   }

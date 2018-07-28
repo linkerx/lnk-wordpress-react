@@ -15,7 +15,7 @@ module.exports = {
           <span>{renderHTML(desc)}</span>
         </div>
         <div className='close-trigger' onClick={() => {ReactDOM.render(<div></div>,document.getElementById(modalContainer))}} >
-         <i class="fas fa-compress"></i>
+         <i className="fas fa-compress"></i>
         </div>
       </div>
       ,document.getElementById(modalContainer));
