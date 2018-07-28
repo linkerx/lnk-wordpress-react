@@ -36,10 +36,17 @@ class WpCalendar extends React.Component {
   }
 
   componentDidMount(){
-      var minDate = new Date(this.state.date);
-      var maxDate = minDate.setFullYear(minDate.getFullYear() + 1 );
-      var max = moment(maxDate).format('YYYY-MM[-01T00:00:00Z]');
-      this.getEvents(this.props.sources,this.state.date,max);
+      var min = this.state.date;
+      var fromDate = new Date(min);
+      var toDate = new Date(min);
+
+      fromDate.setMonth(fromDate.getMonth() -1);
+      fromDate.setMonth(fromDate.getMonth() -1);
+
+      toDate.setMonth(toDate.getMonth() + 1 );
+      toDate.setMonth(toDate.getMonth() + 1 );
+
+      this.getEvents(this.props.sources,moment(fromDate).format('YYYY-MM[-01T00:00:00Z]'),moment(toDate).format('YYYY-MM[-01T00:00:00Z]'));
   }
 
   onNavigate(date){
@@ -57,7 +64,9 @@ class WpCalendar extends React.Component {
   }
 
     getEvents(sources,min,max){
-        console.log("trae eventos de: "+min+" a "+max);
+        if(this.props.debug){
+          console.log("trae eventos de: "+min+" a "+max);
+        }
         const baseUrl = "https://www.googleapis.com/calendar/v3/calendars/";
         this.state = {
             date: this.state.date,
@@ -70,8 +79,6 @@ class WpCalendar extends React.Component {
     }
 
     addEvents(url,min,max,clase){
-        //console.log(url,min,max,clase);
-        var debug = false;
         axios.get(url)
         .then(function(response) {
             this.setState(function(){
@@ -105,7 +112,7 @@ class WpCalendar extends React.Component {
                             clase: clase,
                         }
                     }.bind(this));
-                    if(debug){
+                    if(this.props.debug){
                         console.log(events);
                     }
                 }
@@ -130,7 +137,9 @@ class WpCalendar extends React.Component {
 
         WpApi.getItem(opts)
           .then(function(item){
-            console.log(item);
+            if(this.props.debug){
+              console.log(item);
+            }
             this.setState(function(){
               return {
                 modalOpen: true,
@@ -194,6 +203,16 @@ class WpCalendar extends React.Component {
       }
     }
 
+    var selectEvent = this.onSelectEvent;
+    if(typeof this.props.onSelectEvent !== 'undefined') {
+      selectEvent = this.props.onSelectEvent;
+    }
+
+    var selectSlot = this.onSelectSlot;
+    if(typeof this.props.onSelectSlot !== 'undefined') {
+      selectSlot = this.props.onSelectSlot;
+    }
+
     return (
         <div className='wp-calendar'>
             <BigCalendar
@@ -201,8 +220,8 @@ class WpCalendar extends React.Component {
                 events={this.state.items}
                 defaultView='month'
                 culture='es'
-                onSelectEvent = {this.props.onSelectEvent}
-                onSelectSlot = {this.props.onSelectSlot}
+                onSelectEvent = {selectEvent}
+                onSelectSlot = {selectSlot}
                 onNavigate = {this.onNavigate}
                 eventPropGetter={
                     function(event){
@@ -219,5 +238,3 @@ class WpCalendar extends React.Component {
 }
 
 module.exports = WpCalendar;
-
-// mock events

@@ -10,7 +10,7 @@ moment.locale('es');
 
 var views = ['mes', 'semana', 'dia', 'agenda'];
 
-class WpCalendar extends React.Component {
+class WpCalendarDay extends React.Component {
 
   constructor(props){
     super(props);
@@ -32,24 +32,29 @@ class WpCalendar extends React.Component {
       var maxDate = new Date(d.getTime() - 180*60*1000);
 
       maxDate.setDate(maxDate.getDate() + 1);
-      console.log("max",maxDate)
+      if(this.props.debug){
+        console.log("max",maxDate)
+      }
       this.getEvents(this.props.sources,moment(minDate).format('YYYY-MM-DD[T00:00:00Z]'),moment(maxDate).format('YYYY-MM-DD[T00:00:00Z]'));
   }
 
     getEvents(sources,min,max){
+      if(this.props.debug){
         console.log("trae eventos de: "+min+" a "+max);
-        const baseUrl = "https://www.googleapis.com/calendar/v3/calendars/";
-        this.state = {
-            items: [],
-        }
-        sources.map(function(source){
-            this.addEvents(baseUrl+source.calId+'/events?key='+source.apiKey+'&timeMin='+min+'&timeMax='+max+'&showDeleted=false&singleEvents=true',min,max,source.clase);
-        }.bind(this));
+      }
+      const baseUrl = "https://www.googleapis.com/calendar/v3/calendars/";
+      this.state = {
+          items: [],
+      }
+      sources.map(function(source){
+          this.addEvents(baseUrl+source.calId+'/events?key='+source.apiKey+'&timeMin='+min+'&timeMax='+max+'&showDeleted=false&singleEvents=true',min,max,source.clase);
+      }.bind(this));
     }
 
     addEvents(url,min,max,clase){
-        console.log("resultado: ",url,min,max,clase);
-        var debug = true;
+        if(this.props.debug){
+          console.log("resultado: ",url,min,max,clase);
+        }
         axios.get(url)
         .then(function(response) {
             this.setState(function(){
@@ -82,7 +87,7 @@ class WpCalendar extends React.Component {
                             clase: clase,
                         }
                     }.bind(this));
-                    if(debug){
+                    if(this.props.debug){
                         console.log(events);
                     }
                 }
@@ -95,7 +100,9 @@ class WpCalendar extends React.Component {
     }
 
   onSelectEvent(item){
-    console.log(item);
+    if(this.props.debug){
+      console.log(item);
+    }
   }
 
   render() {
@@ -130,6 +137,4 @@ class WpCalendar extends React.Component {
   }
 }
 
-module.exports = WpCalendar;
-
-// mock events
+module.exports = WpCalendarDay;
