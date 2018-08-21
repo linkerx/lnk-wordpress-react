@@ -179,6 +179,11 @@ class WpCalendar extends React.Component {
     }
 
     onSelectSlot(slotInfo){
+      console.log(slotInfo);
+      alert(
+        `selected slot: \n\nstart ${slotInfo.start.toLocaleString()} ` +
+        `\nend: ${slotInfo.end.toLocaleString()}`
+      )
     }
 
     closeModal(){
@@ -270,6 +275,8 @@ class WpCalendar extends React.Component {
                         :
                         <div className='no-item'>
                           <h3>{this.state.modalItem.event.title}</h3>
+                          <div className='inicio'>{this.state.modalItem.event.start.toLocaleDateString()}</div>
+                          <div className='fin'>{this.state.modalItem.event.end.toLocaleDateString()}</div>
                           <span>Sin Descripcion</span>
                         </div>
                       }
