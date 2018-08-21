@@ -32,11 +32,13 @@ class WpList extends React.Component {
       queries = this.props.queries
     }
 
-    itemsPerPage = 12;
-    if(this.props.itemsPerPage){
-      itemsPerPage = this.props.itemsPerPage;
+    if(typeof this.props.queries == 'undefined') {
+      var itemsPerPage = 12;
+      if(this.props.itemsPerPage){
+        itemsPerPage = this.props.itemsPerPage;
+      }
+      queries.push('per_page='+itemsPerPage);
     }
-    queries.push('per_page='+this.props.itemsPerPage);
 
     var opts = {
       url: this.props.url,
@@ -51,7 +53,7 @@ class WpList extends React.Component {
         var items = response.data;
         var total = response.headers["x-wp-total"];
         var pages = response.headers["x-wp-total-pages"];
-        console.log(response);
+        //console.log(response);
         if(this.props.ready){
           setTimeout(function(){this.props.ready()}.bind(this), 1000);
         }
