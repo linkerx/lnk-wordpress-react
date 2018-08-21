@@ -1,5 +1,6 @@
 var React = require('react');
 var WpApi = require('./api');
+var Pagination = require('./pagination');
 var ListItem = require('./list-item');
 
 class WpList extends React.Component {
@@ -8,22 +9,31 @@ class WpList extends React.Component {
     super(props);
     this.state = {
       items: null,
-      total: null,
-      pages: null
+      totalItems: null,
+      totalPages: null,
+      page: 1,
     }
     this.updateItems = this.updateItems.bind(this);
+    this.handlePaginationClick = this.handlePaginationClick.bind(this);
   }
 
   componentDidMount(){
-      this.updateItems();
+
+    var currentPage = 1;
+    if(this.props.currentPage){
+      currentPage = this.props.currentPage;
+    }
+
+    this.updateItems(currentPage);
   }
 
-  updateItems(){
+  updateItems(currentPage){
     this.setState(function () {
       return {
         items: null,
-        total: null,
-        pages: null
+        totalItems: null,
+        totalPages: null,
+        page: this.state.page
       }
     });
 
@@ -32,11 +42,12 @@ class WpList extends React.Component {
       queries = this.props.queries
     }
 
-    itemsPerPage = 12;
+    var itemsPerPage = 12;
     if(this.props.itemsPerPage){
       itemsPerPage = this.props.itemsPerPage;
     }
-    queries.push('per_page='+this.props.itemsPerPage);
+    queries.push('per_page='+itemsPerPage);
+    queries.push('page='+currentPage);
 
     var opts = {
       url: this.props.url,
@@ -48,9 +59,11 @@ class WpList extends React.Component {
 
     WpApi.getList(opts)
       .then(function(response) {
+
         var items = response.data;
         var total = response.headers["x-wp-total"];
-        var pages = response.headers["x-wp-total-pages"];
+        var pages = response.headers["x-wp-totalpages"];
+
         console.log(response);
         if(this.props.ready){
           setTimeout(function(){this.props.ready()}.bind(this), 1000);
@@ -59,13 +72,19 @@ class WpList extends React.Component {
           console.log("trae lista:",items);
         this.setState(function () {
           return {
-            items: items
+            items: items,
+            totalItems: total,
+            totalPages: pages,
+            page: currentPage
           }
         });
       }.bind(this));
   }
 
-
+  handlePaginationClick(data){
+    console.log(data.selected);
+    this.updateItems(data.selected + 1)
+  }
 
   render() {
 
@@ -108,6 +127,10 @@ class WpList extends React.Component {
       showPagination = this.props.showPagination;
     }
 
+    var itemsPerPage = 12;
+    if(this.props.itemsPerPage){
+      itemsPerPage = this.props.itemsPerPage;
+    }
 
     return (
       <div className="list-container">
@@ -118,7 +141,7 @@ class WpList extends React.Component {
           <div>
             {showPagination &&
               <div className="list-pagination-top">
-                PaginationTop
+                <Pagination totalItems={this.state.totalItems} totalPages={this.state.totalPages} currentPage={this.state.page-1} itemsPerPage={itemsPerPage} handleClick={this.handlePaginationClick}  />
               </div>
             }
 
@@ -132,7 +155,7 @@ class WpList extends React.Component {
 
             {showPagination &&
               <div className="list-pagination-bottom">
-                PaginationBottom
+                <Pagination totalItems={this.state.totalItems} totalPages={this.state.totalPages} currentPage={this.state.page-1} itemsPerPage={itemsPerPage} handleClick={this.handlePaginationClick} />
               </div>
             }
           </div>
@@ -141,7 +164,5 @@ class WpList extends React.Component {
     )
   }
 }
-
-// TODO: propTypes
 
 module.exports = WpList;

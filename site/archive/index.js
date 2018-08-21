@@ -63,7 +63,7 @@ function WpSiteArchive(props){
         heading={2}
         showPagination={true}
         itemsPerPage={12}
-        page={page}
+        page={page} 
       />
     </section>
   )
