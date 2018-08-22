@@ -16,7 +16,8 @@ function WpSiteArchive(props){
   ];
 
   if(props.category){
-      queries.push('categories='+props.category)
+      queries.push('categories='+props.category);
+      queries.push('per_page=12');
   }
 
   var archiveName = props.type+'s';
@@ -63,7 +64,7 @@ function WpSiteArchive(props){
         heading={2}
         showPagination={true}
         itemsPerPage={12}
-        page={page} 
+        page={page}
       />
     </section>
   )

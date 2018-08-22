@@ -133,6 +133,8 @@ class WpList extends React.Component {
       itemsPerPage = this.props.itemsPerPage;
     }
 
+    console.log(this.state.items,this.state.totalItems,this.state.totalPages,this.state.page-1,this.handlePaginationClick);
+
     return (
       <div className="list-container">
         {!this.state.items

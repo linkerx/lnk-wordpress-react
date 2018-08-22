@@ -1,8 +1,11 @@
 var React = require('react');
-var ReactPaginate = require('react-paginate');
+import ReactPaginate from 'react-paginate';
 require('./styles.less');
 
 function Pagination(props) {
+
+  console.log(props);
+
   return (
     <ReactPaginate
       previousLabel={"anterior"}
