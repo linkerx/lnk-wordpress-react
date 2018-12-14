@@ -13,7 +13,7 @@ function FullscreenImage(props) {
 
   return (
     <div className='open-trigger' onClick={() => {FullModal.openFull(props.modalContainer,props.imageSrc,desc)}} >
-      <i class="fas fa-expand"></i>
+      <i className="fas fa-expand"></i>
     </div>
   )
 }

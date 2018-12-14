@@ -43,23 +43,23 @@ class ItemImage extends React.Component {
             <div className='image_wrapper'>
             {imageLink
               ?
-              <Link to={this.props.linkTo} > <img src={this.props.src} onLoad={this.endLoading()} onError={this.endLoading()} /></Link>
+              <Link to={this.props.linkTo} > <img src={this.props.src} onLoad={this.endLoading()} onError={this.endLoading()} alt={this.props.alt} /></Link>
               :
-              <img src={this.props.src} onLoad={this.endLoading()} onError={this.endLoading()} />
+              <img src={this.props.src} onLoad={this.endLoading()} onError={this.endLoading()} alt={this.props.alt} />
             }
             </div>
           :
             <div className='image_wrapper'>
             {imageLink
               ?
-              <Link to={this.props.linkTo} ><div className='image' style={background}></div></Link>
+              <Link to={this.props.linkTo} ><div className='image' style={background} alt={this.props.alt} ></div></Link>
               :
-              <div className='image' style={background}></div>
+              <div className='image' style={background} alt={this.props.alt} ></div>
             }
             </div>
         }
         {fullscreen &&
-          <FullscreenImage imageSrc={item_image} modalContainer='museo-modal' />
+          <FullscreenImage imageSrc={this.props.src} modalContainer='museo-modal' desc={this.props.alt} />
         }
       </div>
     )

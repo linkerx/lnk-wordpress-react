@@ -124,6 +124,7 @@ class WpItem extends React.Component {
       /* image */
       if(this.state.item._embedded && this.state.item._embedded['wp:featuredmedia'] && this.state.item._embedded['wp:featuredmedia'][0].media_details){
         var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes[ImgSize].source_url;
+        var item_image_alt = this.state.item._embedded['wp:featuredmedia'][0].alt_text;
       }
       /* link */
       itemLink = WpUtils.generateItemLinkUrl(this.state.item);
