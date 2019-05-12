@@ -9,15 +9,15 @@ function WpSiteArchive(props){
     site = '/'+props.site;
   }
 
-  console.log(props);
+  //console.log(props);
 
   var queries = [
     '_embed',
-    'per_page=3'
   ];
 
   if(props.category){
-      queries.push('categories='+props.category)
+      queries.push('categories='+props.category);
+      queries.push('per_page=12');
   }
 
   var archiveName = props.type+'s';
@@ -44,10 +44,29 @@ function WpSiteArchive(props){
     heading = props.heading;
   }
 
+  var page = 1;
+  if(props.page){
+    page = props.page;
+  }
+
   return (
     <section id='site-archive' className={props.type}>
       <h1>{archiveName}</h1>
-      <WpList site={site} type={props.type} queries={queries} debug={true} imageRender={imageRender} imageSize={imageSize} heading={heading} />
+      <WpList
+        site={props.site}
+        type={props.type}
+        ready={props.ready}
+        heading={heading}
+        queries={queries}
+        debug={false}
+        imageRender={imageRender}
+        imageSize={imageSize}
+        imageLink={true}
+        heading={2}
+        showPagination={true}
+        itemsPerPage={12}
+        page={page}
+      />
     </section>
   )
 }

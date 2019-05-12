@@ -1,4 +1,5 @@
 import React from 'react';
+import WpUtils from './utils';
 import moment from 'moment';
 import ItemTitle from './item-title';
 import ItemImage from './item-image';
@@ -8,10 +9,13 @@ moment.locale('es');
 
 function ListItem(props) {
 
-  var item_image = '';
-
   if(props.debug){
     console.log(props.item);
+  }
+
+  var template = 1;
+  if(props.template){
+    template = props.template;
   }
 
   var imageRender = 'img';
@@ -24,14 +28,16 @@ function ListItem(props) {
     imageSize = props.imageSize;
   }
 
+  var imageLink = false;
+  if(props.imageLink){
+    imageLink = true;
+  }
+
+  var item_image = '';
+
   if(props.item.type !== 'attachment'){
-    console.log(props.item, imageSize);
-    if(props.item._embedded && props.item._embedded['wp:featuredmedia']){
-      if (typeof(props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize]) !== 'undefined'){
-        item_image = props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize].source_url;
-      } else {
-        item_image = props.item._embedded['wp:featuredmedia'][0].source_url;
-      }
+    if(props.item._embedded && props.item._embedded['wp:featuredmedia'] && props.item._embedded['wp:featuredmedia'][0].media_details && props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize]){
+      item_image = props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize].source_url;
     } else if(props.defaultImg) {
       item_image = props.defaultImg;
     }
@@ -48,26 +54,29 @@ function ListItem(props) {
     heading = props.heading;
   }
 
-  return(
-    <article className={activeClass}>
-    {
-      props.layout === 'title-first' ?
-        <div className='wrapper'>
-          <ItemTitle title={props.item.title.rendered} linkTo={'/'+props.item.type+'/'+props.item.slug} heading={heading} />
-          <ItemImage render={imageRender} src={item_image} />
-          <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
-          <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
-        </div>
-      :
-      <div className='wrapper'>
-        <ItemImage render={imageRender} src={item_image} />
-        <ItemTitle title={props.item.title.rendered} linkTo={'/'+props.item.type+'/'+props.item.slug} heading={heading} />
-        <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
-        <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
-      </div>
+  var itemLink = WpUtils.generateItemLinkUrl(props.item);
+
+  switch(template) {
+        case 1:
+            return (
+                <article className={activeClass}>
+                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
+                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
+                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                </article>
+            )
+        case 2:
+            return (
+                <article className={activeClass}>
+                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
+                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
+                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                </article>
+            )
+        default:
     }
-    </article>
-  )
 }
 
 export default ListItem;

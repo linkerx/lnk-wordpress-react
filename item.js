@@ -4,6 +4,9 @@ import WpItemTitle from './item-title';
 import WpItemImage from './item-image';
 import renderHTML from 'react-render-html';
 import serialize from 'form-serialize';
+import FullModal from './fullscreenImage/fullmodal';
+import ShareButtons from './shareButtons';
+import WpUtils from './utils';
 
 class WpItem extends React.Component {
 
@@ -13,7 +16,6 @@ class WpItem extends React.Component {
       item: null,
     }
     this.updateItem = this.updateItem.bind(this);
-    this.formSubmit = this.formSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -31,17 +33,24 @@ class WpItem extends React.Component {
       form.addEventListener('submit',function(e){
         e.preventDefault();
         var data = serialize(form);
-        this.formSubmit(idInput,data);
+        WpApi.postContactForm(idInput,data,{debug:true})
+          .then(function(response){
+            alert("Su mensaje fue enviado con éxito.");
+            form.reset();
+          });
         return false;
       }.bind(this));
    }
-  }
 
-  formSubmit(id,data){
-    WpApi.postContactForm(id,data,{debug:true})
-      .then(function(response){
-        console.log(response);
+   var images = document.querySelectorAll('img');
+   if(this.props.debug) {
+       console.log(images);
+   }
+   for(var x=0;x<images.length;x++){
+      images[x].addEventListener('click',function(){
+        FullModal.openFull('museo-modal',this.src,this.alt);
       });
+   }
   }
 
   updateItem(){
@@ -53,6 +62,7 @@ class WpItem extends React.Component {
 
     var opts = {
       url: this.props.url,
+      site: this.props.site,
       type: this.props.type,
       slug: this.props.slug,
       queries: ['_embed'],
@@ -66,13 +76,16 @@ class WpItem extends React.Component {
       .then(function(item){
         this.setState(function(){
 
-          //if(this.props.debug){
+          if(this.props.debug){
             console.log(item);
-          //}
+          }
           if(item[0]){
+
             var content = item[0].content.rendered;
             var htmlObject = document.createElement('div');
             htmlObject.innerHTML = content;
+
+            /* FORMS */
             var form = htmlObject.getElementsByClassName('wpcf7-form')[0];
             if(form){
               form.action = '';
@@ -82,7 +95,14 @@ class WpItem extends React.Component {
               }
               htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
             }
+
             item[0].content.parsed = htmlObject.outerHTML;
+
+            /* FULLSCREEN IMAGES */
+            if(this.props.ready){
+              setTimeout(function(){this.props.ready()}.bind(this), 1000);
+            }
+
             return {
               item: item[0]
             }
@@ -92,9 +112,28 @@ class WpItem extends React.Component {
   }
 
   render() {
+
+    var ImgSize = 'thumbnail';
+    if(this.props.img_size) {
+        ImgSize = this.props.img_size;
+    }
+
+    var itemLink = '';
+    var share = false;
     if(this.state.item){
-      if(this.state.item._embedded['wp:featuredmedia']){
-        var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes['thumbnail'].source_url;
+      /* image */
+      if(this.state.item._embedded && this.state.item._embedded['wp:featuredmedia'] && this.state.item._embedded['wp:featuredmedia'][0].media_details){
+        var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes[ImgSize].source_url;
+        var item_image_alt = this.state.item._embedded['wp:featuredmedia'][0].alt_text;
+      }
+      /* link */
+      itemLink = WpUtils.generateItemLinkUrl(this.state.item);
+      /* share */
+      if(this.state.item.type === 'post'){
+          share = true;
+      }
+      if(this.props.share) {
+          share = this.props.share;
       }
     }
 
@@ -108,18 +147,28 @@ class WpItem extends React.Component {
       show_title = false;
     }
 
+    var articleClass = 'the-post';
+    if(this.props.articleClass){
+      articleClass = this.props.articleClass;
+    }
+
+    var seoFullUrl = window.location.href;
+
     return (
-      <article>
+      <article className={articleClass}>
         {!this.state.item
           ?
           this.props.children
           :
           <div className='post_content'>
+
             {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
 
             {item_image && <WpItemImage src={item_image} render='img'/>}
 
-            {!this.state.type === 'page' &&
+            {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
+
+            {this.state.item.type !== 'page' &&
               <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
             }
             <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>

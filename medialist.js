@@ -36,7 +36,8 @@ class WpMediaList extends React.Component {
     }
 
     WpApi.getList(opts)
-      .then(function(items) {
+      .then(function(response) {
+        var items = response.data;
         this.setState(function () {
           return {
             items: items,

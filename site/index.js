@@ -86,17 +86,17 @@ class WpSite extends React.Component {
         } else {
           if(debugOnCheck) console.log('not type',this.props.match.params.slug1);
           var opts_term = {
-            site: this.state.site,
+            site: this.props.site,
             type: 'post',
             term: this.props.match.params.slug1,
-            debug: true
+            debug: false
           };
           if(debugOnCheck) console.log('searching for post category... ',this.props.match.params.slug1);
           WpApi.getCategory(opts_term)
             .then(function(category){
               if(category){
                 if(debugOnCheck) console.log('category OK');
-                if(this.props.match.params.slug2 === 'undefined'){
+                if(this.props.match.params.slug2 === undefined || this.props.match.params.slug2 === 'page'){
                   if(debugOnCheck) console.log('show category archive');
                   this.setState(function(){
                     /* POST/CATEGORY ARCHIVE */
@@ -137,7 +137,7 @@ class WpSite extends React.Component {
 
   render() {
 
-    console.log(this.state);
+    //console.log(this.state);
 
     return(
       <section id='wpsite-route'>
@@ -149,18 +149,18 @@ class WpSite extends React.Component {
                 <div className={'type-'+this.state.type}>
                 {this.state.post
                   ?
-                    <WpSitePost site={this.state.site} type={this.state.type} slug={this.state.post} />
+                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} />
                   :
-                    <WpSiteArchive site={this.state.site} type={this.state.type} />
+                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} />
                 }
                 </div>
               :
                 <div className='not-typed'>
-                {this.state.post
+                {this.state.category && !this.state.post
                   ?
-                    <WpSitePost site={this.state.site} type={this.state.type} slug={this.state.post} />
+                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
                   :
-                    <WpSiteArchive site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
+                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} />
                 }
                 </div>
             }

@@ -10,12 +10,13 @@ var WpRoute = '/wp/v2';
 var LnkRoute = '/lnk/v1';
 var MenuRoute = '/wp-api-menus/v2';
 var CF7Route = '/contact-form-7/v1';
-
+var SidebarsRoute = '/wp-rest-api-sidebars/v1'
 var LnkSitesEndpoint = '/sites';
 var LnkSitesPostsEndpoint = '/sites-posts';
 var MenuLocationsEndpoint = '/menu-locations';
 var MenusEndpoint = '/menus';
 var ContactFormEndpoint = '/contact-forms';
+var SidebarsEndpoint = '/sidebars';
 
 //var AddQuery = '?_embed';
 
@@ -77,7 +78,7 @@ module.exports = {
 
           return axios.get(url)
             .then(function (response) {
-              return response.data;
+              return response;
             });
       });
   },
@@ -94,6 +95,11 @@ module.exports = {
     if(options.site)
       url += '/'+options.site;
 
+
+
+    if(options.debug){
+      console.log(url,options);
+    }
     /**
      * si type es un tipo de dato va enla url,
      * sino busca solo el slug
@@ -127,7 +133,13 @@ module.exports = {
             url += 'posts';
           }
 
-          url += '/?slug=' + options.slug;
+          if(options.id){
+            url += '/'+options.id+'/?opt=1'
+          }
+
+          if(options.slug){
+            url += '/?slug=' + options.slug;
+          }
 
           if(options.queries){
               url += '&' + options.queries.map(function(query,index) {
@@ -136,7 +148,7 @@ module.exports = {
           }
 
           if(options.debug){
-            console.log(url);
+            console.log("aca",url);
           }
 
           return axios.get(url)
@@ -234,7 +246,10 @@ module.exports = {
     if(options.url)
       url = options.url;
 
-    url += '/'+WpApiDir + MenuRoute + MenuLocationsEndpoint + '/' + options.location;
+    if(options.site)
+      url += '/'+options.site;
+
+    url += '/' + WpApiDir + MenuRoute + MenuLocationsEndpoint + '/' + options.location;
 
     if(options.debug){
       console.log(url);
@@ -249,33 +264,33 @@ module.exports = {
   /**
    * Menu ID por Posicion
    */
-   getMenuIdByLocation: function(options){
 
-     var url = WpUrl;
-     var url2 = WpUrl;
-     if(options.url){
-       url = options.url;
-       url2 = options.url;
-     }
+    getMenuIdByLocation: function(options){
+        var url = WpUrl;
+        if(options.url)
+            url = options.url;
+        if(options.site)
+            url += '/'+options.site;
+        var url2 = url;
 
-     url += '/'+WpApiDir + MenuRoute + MenuLocationsEndpoint;
-     url2 += '/'+WpApiDir + MenuRoute + MenusEndpoint;
+        url += '/'+WpApiDir + MenuRoute + MenuLocationsEndpoint;
+        url2 += '/'+WpApiDir + MenuRoute + MenusEndpoint;
 
-     if(options.debug){
-       console.log(url);
-     }
+        if(options.debug){
+            console.log(url);
+        }
 
-     return axios.get(url)
-       .then(function(response){
-         if(response.data[options.location]) {
-           var url3 = url2 + '/' + response.data[options.location].ID;
-           return axios.get(url3)
+        return axios.get(url)
             .then(function(response){
-              return response.data;
+                if(response.data[options.location]) {
+                    var url3 = url2 + '/' + response.data[options.location].ID;
+                    return axios.get(url3)
+                        .then(function(response){
+                            return response.data;
+                        });
+                }
             });
-         }
-       });
-   },
+    },
 
   /**
    * Sitio unico
@@ -283,10 +298,13 @@ module.exports = {
   getSite: function(options){
     var url = WpUrl +'/'+ WpApiDir + LnkRoute + LnkSitesEndpoint + '/' + options.name;
     if(options.debug){
-      console.log(url);
+      console.log(options,url);
     }
     return axios.get(url)
       .then(function(response){
+        if(options.debug){
+          console.log(response.data);
+        }
         return response.data;
       });
   },
@@ -328,5 +346,52 @@ module.exports = {
       .then(function(response){
         return response.data;
       });
-   }
+  },
+
+    /* Sidebars */
+    getSidebars: function(options) {
+
+        var url = WpUrl;
+        if(options.url)
+            url = options.url;
+        if(options.site)
+            url += '/'+options.site;
+
+        url += WpApiDir + SidebarsRoute + SidebarsEndpoint;
+
+        if(options.debug){
+          console.log(options,url);
+        }
+
+        return axios.get(url)
+            .then(function(response){
+                if(options.debug){
+                    console.log(response.data);
+                }
+                return response.data;
+            });
+    },
+
+    /* Get one sidebar by position id */
+    getSidebar: function(options) {
+        var url = WpUrl;
+        if(options.url)
+            url = options.url;
+        if(options.site)
+            url += '/'+options.site;
+
+        url += WpApiDir + SidebarsRoute + SidebarsEndpoint + '/' + options.pos;
+
+        if(options.debug){
+          console.log(options,url);
+        }
+
+        return axios.get(url)
+            .then(function(response){
+                if(options.debug){
+                    console.log(response.data);
+                }
+                return response.data;
+            });
+    }
 }

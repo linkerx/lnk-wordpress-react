@@ -1,1 +1,80 @@
+@import (reference) "common/default.less";
+
+#site-post .image_container {
+  width:100%;
+  height:auto;
+  margin-bottom: 5px;
+
+  @media @narrow, @super-narrow {
+    width: 100%;
+    float:none;
+  }
+}
+
+#site-post .image_container img {
+  width:100%;
+  height:auto;
+}
+
+#site-post .content {
+  text-align: justify;
+  padding-bottom: 50px;
+}
+
+#site-post .content h1 {
+  margin-top:15px;
+}
+
+#site-post .content p {
+  margin-bottom: 20px;
+}
+
+#site-post .content p img {
+  @media @narrow, @super-narrow {
+    width:100%;
+  }
+}
+
+#site-post .content p img.alignleft,
+#site-post .wp-caption.alignleft {
+  float: left;
+  margin: 10px;
+  margin-left: 0;
+}
+
+#site-post .wp-caption .wp-caption-text{
+  font-size: 0.8em;
+  color: #999;
+}
+
+#site-post .content p img.alignright,
+#site-post .wp-caption.alignright {
+  float: right;
+  margin: 10px;
+  margin-right: 0;
+}
+
+#site-post ul {
+    clear:both;
+}
+
+#site-post ul li {
+  list-style: circle;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  list-style-position: inside;
+}
+
+#site-post blockquote {
+  width: 86%;
+  padding: 10px 2%;
+  border: 1;
+  margin: 20px 5%;
+
+  color: #999;
+  font-size: 1.3em;
+  font-style: italic;
+}
+
+
 @import "wpStyles/site-post.less";

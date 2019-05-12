@@ -1,5 +1,6 @@
 var React = require('react');
 var WpApi = require('./api');
+var renderHTML = require('react-render-html');
 
 class WpSidebar extends React.Component {
 
@@ -23,7 +24,7 @@ class WpSidebar extends React.Component {
     });
     var opts = {
       url: this.props.url,
-      position: this.props.location,
+      pos: this.props.pos,
       debug: this.props.debug
     }
 
@@ -45,23 +46,16 @@ class WpSidebar extends React.Component {
     }
 
     return (
-      <nav className={cls}>
-        {!this.state.menu
+      <sidebar id={this.props.pos}>
+        {!this.state.sidebar
           ?
             this.props.children
           :
           <div className='sidebar-container'>
-          {this.state.sidebar.name}
-            <div className='widgets'>
-            {
-              this.state.sidebar.widgets.map(function (widget, index) {
-                  return (<WpWidget key={widget.id} widget={widget} />);
-              }.bind(this))
-            }
-            </div>
+            {renderHTML(this.state.sidebar.rendered)}
           </div>
         }
-      </nav>
+      </sidebar>
     )
   }
 }

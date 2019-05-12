@@ -21,7 +21,7 @@ class WpNetworkItem extends React.Component {
                 <h2>{this.props.item.post_title}</h2>
               </Link></div>
             {this.props.item.thumbnail ?
-              <ItemImage src={this.props.item.thumbnail} endLoading={this.props.endLoading} render='img' /> : <div></div>
+              <ItemImage src={this.props.item.thumbnail} endLoading={this.props.endLoading} render={this.props.imageRender} /> : <div></div>
             }
             <div className='resumen'>{this.props.item.post_excerpt}</div>
             <div style={{'clear':'both'}}></div>
@@ -33,7 +33,7 @@ class WpNetworkItem extends React.Component {
           <div className='area'><Link to={this.props.item.blog.blog_url}>{this.props.item.blog.blog_name}</Link></div>
         </header>
         {this.props.item.thumbnail ?
-          <ItemImage src={this.props.item.thumbnail} endLoading={this.props.endLoading} render='img' /> : <div></div>
+          <ItemImage src={this.props.item.thumbnail} endLoading={this.props.endLoading} render={this.props.imageRender} /> : <div></div>
         }
         <div className='titulo'>
           <Link to={this.props.item.blog.blog_url+this.props.item.the_term+'/'+this.props.item.post_name}>
