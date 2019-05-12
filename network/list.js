@@ -1,8 +1,8 @@
 import React from 'react';
-import WpApi from './api';
-import ListItem from './list-item';
+import WpApi from '../api';
+import WpNetworkItem from './item' ;
 
-class WpList extends React.Component {
+class WpNetworkList extends React.Component {
 
   constructor(props) {
     super(props);
@@ -22,15 +22,11 @@ class WpList extends React.Component {
         items: null
       }
     });
-    var opts = {
-      url: this.props.url,
-      site: this.props.site,
-      type: this.props.type,
-      queries: this.props.queries,
-      debug: this.props.debug
-    }
 
-    WpApi.getList(opts)
+    var count = 12;
+    if(typeof(this.props.count) != 'undefined')
+      count = this.props.count;
+    WpApi.getSitesPosts(count)
       .then(function(items) {
         this.setState(function () {
           return {
@@ -46,14 +42,14 @@ class WpList extends React.Component {
       console.log(this.props.item);
     }
 
-    var layout = 'title-first';
-    if(this.props.layout){
-      layout = this.props.layout;
-    }
-
     var imageRender = 'img';
     if(this.props.imageRender){
       imageRender = this.props.imageRender;
+    }
+
+    var layout = 'title-first';
+    if(this.props.layout){
+      layout = this.props.layout;
     }
 
     var imageSize = 'thumbnail';
@@ -78,7 +74,9 @@ class WpList extends React.Component {
           this.props.children
           :
           this.state.items.map(function (item, index) {
-            return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} heading={heading} layout={layout} />)
+            return (
+              <WpNetworkItem key={index} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} heading={heading} layout={layout} />
+            )
           })
         }
       </div>
@@ -88,4 +86,4 @@ class WpList extends React.Component {
 
 // TODO: propTypes
 
-export default WpList;
+export default WpNetworkList;

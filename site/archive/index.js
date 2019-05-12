@@ -1,6 +1,6 @@
-var React = require('react');
-var WpList = require('wp/list');
-require('./styles.less');
+import React from 'react';
+import WpList from '../../list';
+import './styles.less';
 
 function WpSiteArchive(props){
 
@@ -12,7 +12,8 @@ function WpSiteArchive(props){
   console.log(props);
 
   var queries = [
-    '_embed'
+    '_embed',
+    'per_page=3'
   ];
 
   if(props.category){
@@ -21,7 +22,7 @@ function WpSiteArchive(props){
 
   var archiveName = props.type+'s';
 
-  if(props.type == 'posts'){
+  if(props.type === 'posts'){
     archiveName = 'sarasa';
     if(props.category){
       archiveName = props.category_name;
@@ -46,9 +47,9 @@ function WpSiteArchive(props){
   return (
     <section id='site-archive' className={props.type}>
       <h1>{archiveName}</h1>
-      <WpList site={props.site} type={props.type} queries={queries} debug={true} imageRender={imageRender} imageSize={imageSize} heading={2} />
+      <WpList site={site} type={props.type} queries={queries} debug={true} imageRender={imageRender} imageSize={imageSize} heading={heading} />
     </section>
   )
 }
 
-module.exports = WpSiteArchive;
+export default WpSiteArchive;

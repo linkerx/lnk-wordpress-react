@@ -1,7 +1,7 @@
-var React = require('react');
-var WpApi = require('./api');
-var MenuItem = require('./menu-item');
-var NavLink = require('react-router-dom').NavLink;
+import React from 'react';
+import WpApi from './api';
+import MenuItem from './menu-item';
+import { NavLink } from 'react-router-dom';
 
 class WpMenu extends React.Component {
 
@@ -26,7 +26,6 @@ class WpMenu extends React.Component {
     var opts = {
       url: this.props.url,
       location: this.props.location,
-      slug: this.props.slug,
       debug: this.props.debug
     }
 
@@ -67,7 +66,7 @@ class WpMenu extends React.Component {
                   <li key={100+index}>
                     <NavLink exact to={item.url} activeClassName="active" >{item.title}</NavLink>
                   </li>)
-            }.bind(this))
+            })
           }
           </ul>
         }
@@ -76,6 +75,4 @@ class WpMenu extends React.Component {
   }
 }
 
-// TODO: propTypes
-
-module.exports = WpMenu;
+export default WpMenu;

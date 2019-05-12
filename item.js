@@ -1,9 +1,9 @@
-var React = require('react');
-var WpApi = require('./api');
-var WpItemTitle = require('./item-title');
-var WpItemImage = require('./item-image');
-var renderHTML = require('react-render-html');
-var serialize = require('form-serialize');
+import React from 'react';
+import WpApi from './api';
+import WpItemTitle from './item-title';
+import WpItemImage from './item-image';
+import renderHTML from 'react-render-html';
+import serialize from 'form-serialize';
 
 class WpItem extends React.Component {
 
@@ -87,7 +87,7 @@ class WpItem extends React.Component {
               item: item[0]
             }
           }
-        }.bind(this));
+        });
       }.bind(this));
   }
 
@@ -119,7 +119,7 @@ class WpItem extends React.Component {
 
             {item_image && <WpItemImage src={item_image} render='img'/>}
 
-            {!this.state.type == 'page' &&
+            {!this.state.type === 'page' &&
               <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
             }
             <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
@@ -132,4 +132,4 @@ class WpItem extends React.Component {
 
 }
 
-module.exports = WpItem;
+export default WpItem;

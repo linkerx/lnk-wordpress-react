@@ -1,8 +1,7 @@
-var React = require('react');
-var WpApi = require('wp/api');
-var ReactRouter = require('react-router-dom');
-var Route = ReactRouter.Route;
-var WpSite = require('wp/site');
+import React from 'react';
+import WpApi from '../api';
+import { Route } from 'react-router-dom';
+import WpSite from '../site';
 
 class WpNetwork extends React.Component {
   constructor(props){
@@ -50,7 +49,7 @@ class WpNetwork extends React.Component {
 
   render(){
 
-    //console.log(this.state);
+    console.log(this.state);
 
     return (
       <div className='network-wrapper'>
@@ -60,7 +59,7 @@ class WpNetwork extends React.Component {
             ?
               <Route path={'/'+this.props.match.params.slug+'/:slug1?/:slug2?/:slug3?'} render={ function(props) { return ( <WpSite {...props} site={this.props.match.params.slug} /> ) }.bind(this) } />
             :
-              <Route path='/:slug1/:slug2?/:slug3?' render={ function(props) { return ( <WpSite {...props} /> ) }.bind(this) } />
+              <Route path='/:slug1/:slug2?/:slug3?' render={ function(props) { return ( <WpSite {...props} /> ) } } />
           }
           </div>
         }
@@ -69,4 +68,4 @@ class WpNetwork extends React.Component {
   }
 }
 
-module.exports = WpNetwork;
+export default WpNetwork;

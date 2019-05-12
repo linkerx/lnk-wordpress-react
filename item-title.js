@@ -11,7 +11,7 @@ function ItemTitle(props) {
 
   return (
       <CustomTag>
-        {props.linkTo != "#"
+        {props.linkTo !== "#"
           ?
           <Link to={props.linkTo}>{renderHTML(props.title)}</Link>
           :

@@ -1,9 +1,6 @@
 var React = require('react');
 
 class ItemImage extends React.Component {
-  constructor(props){
-    super(props);
-  }
 
   endLoading(){
 
@@ -23,7 +20,7 @@ class ItemImage extends React.Component {
       <div className={cls}>
         {this.props.render === 'img'
           ?
-            <img
+            <img alt=""
               src={this.props.src}
               onLoad={this.endLoading()}
               onError={this.endLoading()}
@@ -36,4 +33,4 @@ class ItemImage extends React.Component {
   }
 }
 
-module.exports = ItemImage;
+export default ItemImage;

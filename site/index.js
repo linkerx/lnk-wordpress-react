@@ -1,12 +1,8 @@
-var React = require('react');
-var ReactRouter = require('react-router-dom');
-var Route = ReactRouter.Route;
-var Switch = ReactRouter.Switch;
-var WpApi = require('wp/api');
-var WpSiteArchive = require('./archive');
-var WpSitePost = require('./post');
-var WpItem = require('wp/item');
-var Cargando = require('utils/cargando');
+import React from 'react';
+import WpApi from '../api';
+import WpSiteArchive from './archive';
+import WpSitePost from './post';
+import Cargando from 'components/utils/cargando';
 
 class WpSite extends React.Component {
 
@@ -37,7 +33,7 @@ class WpSite extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.location.pathname != this.props.location.pathname) {
+    if(nextProps.location.pathname !== this.props.location.pathname) {
       this.checkURL();
     }
   }
@@ -148,7 +144,7 @@ class WpSite extends React.Component {
           {this.state.check
             ?
               <div className='wpsite-content'>
-              {this.state.type != 'posts'
+              {this.state.type !== 'posts'
               ?
                 <div className={'type-'+this.state.type}>
                 {this.state.post
@@ -160,11 +156,11 @@ class WpSite extends React.Component {
                 </div>
               :
                 <div className='not-typed'>
-                {this.state.category
+                {this.state.post
                   ?
-                    <WpSiteArchive site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
-                  :
                     <WpSitePost site={this.state.site} type={this.state.type} slug={this.state.post} />
+                  :
+                    <WpSiteArchive site={this.state.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
                 }
                 </div>
             }
@@ -177,4 +173,4 @@ class WpSite extends React.Component {
   }
 }
 
-module.exports = WpSite;
+export default WpSite;

@@ -1,10 +1,7 @@
-var React = require('react');
-var MenuItem = require('./menu-item');
+import React from 'react';
+import MenuItem from './menu-item';
 
 class SubMenu extends React.Component{
-  constructor(props){
-    super(props)
-  }
 
   render(){
     return (
@@ -19,4 +16,4 @@ class SubMenu extends React.Component{
   }
 }
 
-module.exports = SubMenu;
+export default SubMenu;

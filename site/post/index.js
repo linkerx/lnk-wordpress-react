@@ -1,6 +1,6 @@
-var React = require('react');
-var WpItem = require('wp/item');
-require('./styles.less');
+import React from 'react';
+import WpItem from '../../item';
+import './styles.less';
 
 function WpSitePost(props){
   return (
@@ -10,4 +10,4 @@ function WpSitePost(props){
   )
 }
 
-module.exports = WpSitePost;
+export default WpSitePost;

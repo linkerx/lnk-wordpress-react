@@ -1,12 +1,9 @@
-var React = require('react');
-var NavLink = require('react-router-dom').NavLink;
-var ItemImage = require('./item-image');
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import ItemImage from './item-image';
+import SubMenu from './submenu';
 
 class MenuItem extends React.Component{
-
-  constructor(props) {
-    super(props)
-  }
 
   isExternal(url){
     var r = new RegExp('^(?:[a-z]+:)?//', 'i');
@@ -27,19 +24,19 @@ class MenuItem extends React.Component{
       click_action = this.props.action;
     }
 
-    if(this.props.item.target != ""){
+    if(this.props.item.target !== ""){
       item_target = this.props.item.target;
     }
 
-    if(this.props.item.type == "custom"){
+    if(this.props.item.type === "custom"){
       item_link = this.props.item.url;
-    } else if(this.props.item.type == "post_type") {
-        if(this.props.item.object == "page" || this.props.item.object == "pages") {
+    } else if(this.props.item.type === "post_type") {
+        if(this.props.item.object === "page" || this.props.item.object === "pages") {
           item_link = site + this.props.item.object_slug;
-        } else if(this.props.item.object == "post") {
+        } else if(this.props.item.object === "post") {
           item_link = site + 'posts/' + this.props.item.object_slug;
         }
-    } else if(this.props.item.type == "taxonomy") {
+    } else if(this.props.item.type === "taxonomy") {
       item_link = site + this.props.item.object_slug;
     }
 
@@ -53,7 +50,7 @@ class MenuItem extends React.Component{
       nivel = this.props.nivel;
 
     var is_external = false;
-    if((this.props.item.type == "custom" && this.isExternal(item_link)) || this.props.item.url == "#"){
+    if((this.props.item.type === "custom" && this.isExternal(item_link)) || this.props.item.url === "#"){
       is_external = true;
     }
 
@@ -82,13 +79,11 @@ class MenuItem extends React.Component{
         </NavLink>
       }
         { this.props.item.children && showSubmenu &&
-          <SubMenu items={this.props.item.children} action={click_action} path={this.props.path} nivel={this.props.nivel+1} />
+          <SubMenu items={this.props.item.children} action={click_action} path={this.props.path} nivel={nivel+1} />
         }
       </li>
     )
   }
 }
 
-module.exports=MenuItem;
-
-var SubMenu = require('./submenu');
+export default MenuItem;

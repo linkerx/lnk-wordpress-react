@@ -3,13 +3,13 @@ var axios = require('axios');
 /**
  * Api Variables
  */
-var WpUrl = lnk_api_host;
-var WpApiDir = lnk_api_dir;
+var WpUrl = process.env.REACT_APP_WP_API_URL;
+var WpApiDir = process.env.REACT_APP_WP_API_PREFIX;
 
 var WpRoute = '/wp/v2';
 var LnkRoute = '/lnk/v1';
 var MenuRoute = '/wp-api-menus/v2';
-var CF7Route = '/contact-form-7/v1'
+var CF7Route = '/contact-form-7/v1';
 
 var LnkSitesEndpoint = '/sites';
 var LnkSitesPostsEndpoint = '/sites-posts';
@@ -17,7 +17,7 @@ var MenuLocationsEndpoint = '/menu-locations';
 var MenusEndpoint = '/menus';
 var ContactFormEndpoint = '/contact-forms';
 
-var AddQuery = '?_embed';
+//var AddQuery = '?_embed';
 
 module.exports = {
   /**
@@ -32,7 +32,7 @@ module.exports = {
     if(options.site)
       url += '/'+options.site;
 
-    url += WpApiDir + WpRoute + '/';
+    url += '/'+WpApiDir + WpRoute + '/';
 
     if(options.debug)
       console.log('getList InitialUrl: '+url);
@@ -46,15 +46,15 @@ module.exports = {
           }
 
           var found = Object.keys(types).indexOf(options.type);
-          if(found == -1){
-            var found = Object.keys(types).indexOf(options.type.slice(0,-1));
+          if(found === -1){
+            found = Object.keys(types).indexOf(options.type.slice(0,-1));
           }
 
-          if(options.type == 'media') {
+          if(options.type === 'media') {
             found = 1;
           }
 
-          if(found != -1) {
+          if(found !== -1) {
             url += options.type;
           } else {
             url += 'posts/';
@@ -79,7 +79,7 @@ module.exports = {
             .then(function (response) {
               return response.data;
             });
-      }.bind(this));
+      });
   },
 
   /**
@@ -101,27 +101,27 @@ module.exports = {
 
     return this.getTypes(url)
        .then(function(types){
-          var url = WpUrl + WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
+          var url = WpUrl +'/'+ WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
           var found = Object.keys(types).indexOf(options.type);
-          if(found == -1){
+          if(found === -1){
             found = Object.keys(types).indexOf(options.type.slice(0,-1));
           }
 
-          if(options.type == 'media') {
+          if(options.type === 'media') {
             found = 1;
           }
 
           /**
             POST & PAGES
            */
-           if(options.type == 'page') {
+           if(options.type === 'page') {
              options.type = 'pages';
            }
-           if(options.type == 'post') {
+           if(options.type === 'post') {
              options.type = 'posts';
            }
 
-          if(found != -1) {
+          if(found !== -1) {
             url += options.type;
           } else {
             url += 'posts';
@@ -156,8 +156,8 @@ module.exports = {
     if(options.site)
       url += '/'+options.site;
 
-    url += WpApiDir + WpRoute + '/types';
-
+    url += '/'+ WpApiDir + WpRoute + '/types';
+    console.log()
     return axios.get(url)
       .then(function (response){
         return response.data;
@@ -173,16 +173,16 @@ module.exports = {
     return this.getTypes(url)
       .then(function(types){
          var found = Object.keys(types).indexOf(options.type);
-         if(found == -1){
+         if(found === -1){
            found = Object.keys(types).indexOf(options.type.slice(0,-1));
            options.type = options.type.slice(0,-1)
          }
 
-         if(options.type == 'media') {
+         if(options.type === 'media') {
            found = 1;
          }
 
-         if(found != -1) {
+         if(found !== -1) {
            return options.type;
          } else {
            return false;
@@ -200,7 +200,7 @@ module.exports = {
     if(options.site)
       url += '/'+options.site;
 
-    url += WpApiDir + WpRoute + '/categories?per_page=100';
+    url += '/'+ WpApiDir + WpRoute + '/categories?per_page=100';
 
     if(options.debug)
       console.log(url);
@@ -234,7 +234,7 @@ module.exports = {
     if(options.url)
       url = options.url;
 
-    url += WpApiDir + MenuRoute + MenuLocationsEndpoint + '/' + options.location;
+    url += '/'+WpApiDir + MenuRoute + MenuLocationsEndpoint + '/' + options.location;
 
     if(options.debug){
       console.log(url);
@@ -258,8 +258,8 @@ module.exports = {
        url2 = options.url;
      }
 
-     url += WpApiDir + MenuRoute + MenuLocationsEndpoint;
-     url2 += WpApiDir + MenuRoute + MenusEndpoint;
+     url += '/'+WpApiDir + MenuRoute + MenuLocationsEndpoint;
+     url2 += '/'+WpApiDir + MenuRoute + MenusEndpoint;
 
      if(options.debug){
        console.log(url);
@@ -281,7 +281,7 @@ module.exports = {
    * Sitio unico
    */
   getSite: function(options){
-    var url = WpUrl + WpApiDir + LnkRoute + LnkSitesEndpoint + '/' + options.name;
+    var url = WpUrl +'/'+ WpApiDir + LnkRoute + LnkSitesEndpoint + '/' + options.name;
     if(options.debug){
       console.log(url);
     }
@@ -295,7 +295,7 @@ module.exports = {
    * Lista de Sitios de la Red (Wordpress Multisite)
    */
   getSitesList: function(){
-    var url = WpUrl + WpApiDir + LnkRoute + LnkSitesEndpoint;
+    var url = WpUrl +'/'+ WpApiDir + LnkRoute + LnkSitesEndpoint;
     return axios.get(url)
       .then(function(response){
         return response.data;
@@ -305,8 +305,8 @@ module.exports = {
   /**
    * Lista de Post de todos los Sitios
    */
-  getSitesPosts: function(){
-    var url = WpUrl + WpApiDir + LnkRoute + LnkSitesPostsEndpoint
+  getSitesPosts: function(count){
+    var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesPostsEndpoint + "/?count=" + count;
     return axios.get(url)
       .then(function(response){
         return response.data;
@@ -317,7 +317,7 @@ module.exports = {
     * Postear en un formulario de Contact Form 7
     */
    postContactForm: function(form,data,options){
-     var url = WpUrl + WpApiDir + CF7Route + ContactFormEndpoint + '/' +form + '/feedback';
+     var url = WpUrl +'/'+ WpApiDir + CF7Route + ContactFormEndpoint + '/' +form + '/feedback';
 
      if(options.debug){
        console.log(url);
