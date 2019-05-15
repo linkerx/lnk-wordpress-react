@@ -1,6 +1,6 @@
 import React from 'react';
 import WpList from '../../list';
-import './styles.less';
+import './styles.scss';
 
 function WpSiteArchive(props){
 

@@ -1,11 +1,30 @@
-@import (reference) "common/default.less";
+@import 'styles/variables/mqueries.scss';
+
+#site-post article {
+  margin: 30px auto;
+  @media #{$super-wide} {
+    width:1200px;
+  }
+
+  @media #{$wide} {
+      width:1000px;
+  }
+
+  @media #{$square} {
+      width:800px;
+  }
+
+  @media #{$all-narrow} {
+      width:100%;
+  }
+}
 
 #site-post .image_container {
   width:100%;
   height:auto;
   margin-bottom: 5px;
 
-  @media @narrow, @super-narrow {
+  @media #{$all-narrow} {
     width: 100%;
     float:none;
   }
@@ -16,21 +35,17 @@
   height:auto;
 }
 
-#site-post .content {
-  text-align: justify;
-  padding-bottom: 50px;
+#site-post .post_content h1 {
+  margin: 20px 0;
+  font-size: 2.5em;
 }
 
-#site-post .content h1 {
-  margin-top:15px;
+#site-post .post_content p {
+  margin: 20px 0;
 }
 
-#site-post .content p {
-  margin-bottom: 20px;
-}
-
-#site-post .content p img {
-  @media @narrow, @super-narrow {
+#site-post .post_content p img {
+  @media #{$all-narrow} {
     width:100%;
   }
 }
@@ -77,4 +92,4 @@
 }
 
 
-@import "wpStyles/site-post.less";
+//@import "styles/wp/site-post.scss";
