@@ -15,7 +15,7 @@
   }
 
   @media #{$all-narrow} {
-      width:100%;
+      width:95%;
   }
 }
 
@@ -91,5 +91,11 @@
   font-style: italic;
 }
 
+#site-post #share-buttons {
+  margin:20px 0;
+  width:100%;
+  display:flex;
+  justify-content: space-between;
+}
 
 //@import "styles/wp/site-post.scss";

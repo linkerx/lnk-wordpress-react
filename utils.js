@@ -10,9 +10,9 @@ module.exports = {
             site = item.blog_data.path.slice(1,-1)+"/";
         }
 
-        if(item.type == 'post') {
+        if(item.type === 'post') {
           if(item._embedded && item._embedded['wp:term']){
-            if(item._embedded['wp:term'][0][0].taxonomy == 'category')
+            if(item._embedded['wp:term'][0][0].taxonomy === 'category')
               cat = item._embedded['wp:term'][0][0].slug+"/";
           }
         } else {

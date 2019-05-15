@@ -42,13 +42,13 @@ class WpItem extends React.Component {
       }.bind(this));
    }
 
-   var images = document.querySelectorAll('img');
+   var images = document.querySelectorAll('.post_content img');
    if(this.props.debug) {
        console.log(images);
    }
    for(var x=0;x<images.length;x++){
       images[x].addEventListener('click',function(){
-        FullModal.openFull('museo-modal',this.src,this.alt);
+        FullModal.openFull('full-modal',this.src,this.alt);
       });
    }
   }
@@ -118,6 +118,11 @@ class WpItem extends React.Component {
         ImgSize = this.props.img_size;
     }
 
+    var template = 1;
+    if(this.props.template){
+      template = this.props.template;
+    }
+
     var itemLink = '';
     var share = false;
     if(this.state.item){
@@ -154,29 +159,47 @@ class WpItem extends React.Component {
 
     var seoFullUrl = window.location.href;
 
-    return (
-      <article className={articleClass}>
-        {!this.state.item
-          ?
-          this.props.children
-          :
-          <div className='post_content'>
-
-            {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
-
-            {item_image && <WpItemImage src={item_image} render='img'/>}
-
-            {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
-
-            {this.state.item.type !== 'page' &&
-              <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
+    switch(template) {
+      case 1:
+          return (
+            <article className={articleClass}>
+              {!this.state.item
+                ?
+                this.props.children
+                :
+                <div className='post_content'>
+                  {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
+                  {item_image && <WpItemImage src={item_image} render='img'/>}
+                  {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
+                  {this.state.item.type !== 'page' &&
+                    <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
+                  }
+                  <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
+                </div>
+              }
+            </article>
+          )
+      case 2:
+        return (
+          <article className={articleClass}>
+            {!this.state.item
+              ?
+              this.props.children
+              :
+              <div className='post_content'>
+                {item_image && <WpItemImage src={item_image} render='img'/>}
+                {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
+                {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
+                {this.state.item.type !== 'page' &&
+                  <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
+                }
+                <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
+              </div>
             }
-            <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
-
-          </div>
-        }
-      </article>
-    )
+          </article>
+        )
+        default:
+    }       
   }
 
 }

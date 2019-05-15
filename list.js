@@ -42,7 +42,7 @@ class WpList extends React.Component {
       queries = this.props.queries
     }
 
-    if(typeof this.props.queries == 'undefined') {
+    if(typeof(this.props.queries) === 'undefined') {
       var itemsPerPage = 12;
       if(this.props.itemsPerPage){
         itemsPerPage = this.props.itemsPerPage;
@@ -96,11 +96,6 @@ class WpList extends React.Component {
     var template = 1
     if(this.props.template){
         template = this.props.template;
-    }
-
-    var layout = 'title-first';
-    if(this.props.layout){
-      layout = this.props.layout;
     }
 
     var imageRender = 'img';

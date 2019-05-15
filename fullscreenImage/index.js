@@ -1,10 +1,8 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 var FullModal = require('./fullmodal');
-require('./styles.less');
+require('./styles.scss');
 
 function FullscreenImage(props) {
-  //console.log(props.modalContainer,props.imageSrc);
 
   var desc = 'Sin descripcion';
   if(props.desc){

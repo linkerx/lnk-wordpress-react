@@ -35,7 +35,7 @@ class MenuItem extends React.Component{
     } else if(this.props.item.type === "post_type") {
         if(this.props.item.object === "page" || this.props.item.object === "pages") {
           item_link = site + this.props.item.object_slug;
-        } else if(this.props.item.object == "post") {
+        } else if(this.props.item.object === "post") {
           item_link = site + this.props.item.object_term + '/' + this.props.item.object_slug;
         }
     } else if(this.props.item.type === "taxonomy") {
@@ -47,7 +47,7 @@ class MenuItem extends React.Component{
     }
 
     var showSubmenu = true;
-    if(this.props.showSubmenu !== undefined && !this.props.showSubmenu){
+    if(typeof(this.props.showSubmenu) !== undefined && !this.props.showSubmenu){
       showSubmenu = false;
     }
 
