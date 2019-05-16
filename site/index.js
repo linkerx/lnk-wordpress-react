@@ -139,6 +139,11 @@ class WpSite extends React.Component {
 
     //console.log(this.state);
 
+    var template = 1;
+    if(this.props.template){
+      template = this.props.template;
+    }
+
     return(
       <section id='wpsite-route'>
           {this.state.check
@@ -149,18 +154,18 @@ class WpSite extends React.Component {
                 <div className={'type-'+this.state.type}>
                 {this.state.post
                   ?
-                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} />
+                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template}/>
                   :
-                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} />
+                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={template} />
                 }
                 </div>
               :
                 <div className='not-typed'>
                 {this.state.category && !this.state.post
                   ?
-                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} />
+                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={template} />
                   :
-                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} />
+                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template} />
                 }
                 </div>
             }

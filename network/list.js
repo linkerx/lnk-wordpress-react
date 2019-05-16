@@ -47,9 +47,9 @@ class WpNetworkList extends React.Component {
       imageRender = this.props.imageRender;
     }
 
-    var layout = 'title-first';
-    if(this.props.layout){
-      layout = this.props.layout;
+    var template = 1;
+    if(this.props.template){
+      template = this.props.template;
     }
 
     var imageSize = 'thumbnail';
@@ -75,7 +75,7 @@ class WpNetworkList extends React.Component {
           :
           this.state.items.map(function (item, index) {
             return (
-              <WpNetworkItem key={index} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} heading={heading} layout={layout} />
+              <WpNetworkItem key={index} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} heading={heading} template={template} />
             )
           })
         }
