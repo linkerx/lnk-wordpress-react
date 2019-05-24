@@ -39,7 +39,7 @@ class WpItem extends React.Component {
             form.reset();
           });
         return false;
-      }.bind(this));
+      });
    }
 
    var images = document.querySelectorAll('.post_content img');
@@ -137,9 +137,14 @@ class WpItem extends React.Component {
       if(this.state.item.type === 'post'){
           share = true;
       }
-      if(this.props.share) {
+      if(typeof(this.props.share) != 'undefined') {
           share = this.props.share;
       }
+    }
+
+    var render = 'img';
+    if(typeof(this.props.render) != 'undefined'){
+      render = this.props.render;
     }
 
     var heading = 1;
@@ -157,8 +162,10 @@ class WpItem extends React.Component {
       articleClass = this.props.articleClass;
     }
 
+    /* 
+    TODO: agregar SEO y renderizado en el server
     var seoFullUrl = window.location.href;
-
+    */
     switch(template) {
       case 1:
           return (
@@ -169,7 +176,7 @@ class WpItem extends React.Component {
                 :
                 <div className='post_content'>
                   {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
-                  {item_image && <WpItemImage src={item_image} render='img'/>}
+                  {item_image && <WpItemImage src={item_image} render={render} altText={item_image_alt}/>}
                   {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
                   {this.state.item.type !== 'page' &&
                     <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>

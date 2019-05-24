@@ -53,7 +53,7 @@ function WpSiteArchive(props){
     <section id='site-archive' className={props.type}>
       <h1>{archiveName}</h1>
       <WpList
-        site={props.site}
+        site={site}
         type={props.type}
         ready={props.ready}
         heading={heading}
@@ -62,7 +62,6 @@ function WpSiteArchive(props){
         imageRender={imageRender}
         imageSize={imageSize}
         imageLink={true}
-        heading={2}
         showPagination={true}
         itemsPerPage={12}
         page={page}
