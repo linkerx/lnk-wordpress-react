@@ -18,6 +18,7 @@ class WpSite extends React.Component {
       site: site,
       check: false,
       lvl: 0,
+      home: false,
       type: null,
       category: null,
       post: null
@@ -39,7 +40,7 @@ class WpSite extends React.Component {
   }
 
   checkURL(){
-    var debugOnCheck = false;
+    var debugOnCheck = true;
     if(this.props.debugOnCheck){
       debugOnCheck = this.props.debugOnCheck;
     }
@@ -49,17 +50,28 @@ class WpSite extends React.Component {
         site: this.state.site,
         check: false,
         lvl: 0,
+        home: false,
         type: null,
         category: null,
         post: null
       }
     });
 
+    if(typeof(this.props.match.params.slug1) === 'undefined') {
+      this.setState({
+        site: this.state.site,
+        check:true,
+        home:true
+      });
+    }
+
     var opts_type = {
       site: this.state.site,
       type: this.props.match.params.slug1,
-      debug: false
+      debug: true
     };
+
+    if(debugOnCheck) console.log(opts_type);
 
     if(debugOnCheck) console.log('the params are: ',this.props.match.params);
     if(debugOnCheck) console.log('serching for type... ',this.props.match.params.slug1);
@@ -148,28 +160,35 @@ class WpSite extends React.Component {
       <section id='wpsite-route'>
           {this.state.check
             ?
-              <div className='wpsite-content'>
-              {this.state.type !== 'posts'
-              ?
-                <div className={'type-'+this.state.type}>
-                {this.state.post
+              <div>
+              {this.state.home 
+                ?
+                <div className='wpsite-home'>Hola Sitio Home</div>
+                :
+                  <div className='wpsite-content'>
+                  {this.state.type !== 'posts'
                   ?
-                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template}/>
+                    <div className={'type-'+this.state.type}>
+                    {this.state.post
+                      ?
+                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template}/>
+                      :
+                        <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={template} />
+                    }
+                    </div>
                   :
-                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={template} />
+                    <div className='not-typed'>
+                    {this.state.category && !this.state.post
+                      ?
+                        <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={template} />
+                      :
+                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template} />
+                    }
+                    </div>
                 }
                 </div>
-              :
-                <div className='not-typed'>
-                {this.state.category && !this.state.post
-                  ?
-                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={template} />
-                  :
-                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template} />
-                }
-                </div>
-            }
-            </div>
+              }
+              </div>
           :
             <Cargando />
         }

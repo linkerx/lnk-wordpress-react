@@ -54,7 +54,7 @@ class WpNetwork extends React.Component {
           <div>
           {this.state.site
             ?
-              <Route path={'/'+this.props.match.params.slug+'/:slug1?/:slug2?/:slug3?'} render={ function(props) { return ( <WpSite {...props} site={this.props.match.params.slug} template={2} /> ) }.bind(this) } />
+              <Route path={'/'+this.state.site+'/:slug1?/:slug2?/:slug3?'} render={ function(props) { return ( <WpSite {...props} site={this.state.site} template={2} /> ) }.bind(this) } />
             :
               <Route path='/:slug1/:slug2?/:slug3?' render={ function(props) { return ( <WpSite {...props} template={2} /> ) } } />
           }

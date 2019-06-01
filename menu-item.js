@@ -60,8 +60,13 @@ class MenuItem extends React.Component{
       is_external = true;
     }
 
+    var classes = this.props.item.classes;
+    if (typeof(this.props.activeSubmenu) && this.props.activeSubmenu){
+      classes = classes+' '+this.props.activeSubmenuClass;
+    }
+
     return(
-      <li key={this.props.item.id} className={this.props.item.classes+" nivel-"+this.props.nivel}>
+      <li key={this.props.item.id} className={classes+" nivel-"+this.props.nivel}>
       {is_external
         ?
         <a href={item_link} onClick={click_action} target={item_target}>
