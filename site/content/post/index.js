@@ -1,5 +1,5 @@
 import React from 'react';
-import WpItem from '../../item';
+import WpItem from '../../../item';
 import './styles.scss';
 
 function WpSitePost(props){
