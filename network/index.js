@@ -48,9 +48,6 @@ class WpNetwork extends React.Component {
   }
 
   render(){
-
-    console.log(this.state);
-
     return (
       <div className='network-wrapper'>
         {this.state.check &&

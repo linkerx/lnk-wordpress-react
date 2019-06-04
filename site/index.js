@@ -39,7 +39,10 @@ class WpSite extends React.Component {
   }
 
   checkURL(){
-    var debugOnCheck = true;
+    var debugOnCheck = false;
+    if(this.props.debugOnCheck){
+      debugOnCheck = this.props.debugOnCheck;
+    }
 
     this.setState(function(){
       return {
@@ -136,9 +139,6 @@ class WpSite extends React.Component {
   }
 
   render() {
-
-    //console.log(this.state);
-
     var template = 1;
     if(this.props.template){
       template = this.props.template;

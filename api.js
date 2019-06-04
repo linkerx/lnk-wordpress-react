@@ -169,7 +169,6 @@ module.exports = {
       url += '/'+options.site;
 
     url += '/'+ WpApiDir + WpRoute + '/types';
-    console.log()
     return axios.get(url)
       .then(function (response){
         return response.data;

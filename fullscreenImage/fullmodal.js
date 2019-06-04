@@ -9,7 +9,7 @@ module.exports = {
         <div className='modal'>
         </div>
         <div className='img-container' onClick={() => {ReactDOM.render(<div></div>,document.getElementById(modalContainer))}} >
-          <img src={imageSrc} />
+          <img src={imageSrc} alt={desc}/>
         </div>
         <div className='descripcion' >
           <span>{renderHTML(desc)}</span>
