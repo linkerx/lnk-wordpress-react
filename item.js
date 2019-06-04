@@ -137,9 +137,14 @@ class WpItem extends React.Component {
       if(this.state.item.type === 'post'){
           share = true;
       }
-      if(this.props.share) {
+      if(typeof(this.props.share) != 'undefined') {
           share = this.props.share;
       }
+    }
+
+    var render = 'img';
+    if(typeof(this.props.render) != 'undefined'){
+      render = this.props.render;
     }
 
     var heading = 1;
@@ -171,7 +176,7 @@ class WpItem extends React.Component {
                 :
                 <div className='post_content'>
                   {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
-                  {item_image && <WpItemImage src={item_image} render='img' altText={item_image_alt}/>}
+                  {item_image && <WpItemImage src={item_image} render={render} altText={item_image_alt}/>}
                   {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
                   {this.state.item.type !== 'page' &&
                     <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>

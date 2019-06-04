@@ -1,5 +1,5 @@
 import React from 'react';
-import WpList from '../../list';
+import WpList from '../../../list';
 import './styles.scss';
 
 function WpSiteArchive(props){
