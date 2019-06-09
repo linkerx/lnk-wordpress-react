@@ -18,7 +18,7 @@ class WpSiteHome extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.site != this.props.site) {
+        if(nextProps.site !== this.props.site) {
             this.getSite(this.props.site);
         }
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import 'styles/wp/site-sidebar.scss';
 
 class WpSiteSidebar extends React.Component {
     render(){

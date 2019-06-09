@@ -52,7 +52,7 @@ class WpNetwork extends React.Component {
             this.setState({
                 check: true,
                 site: this.props.match.params.slug,
-                site_data: main_site[0]
+                site_data: main_site[0 ]
             });
           }.bind(this));
       }.bind(this));

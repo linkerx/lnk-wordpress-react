@@ -3,6 +3,7 @@ import WpSiteHeader from './header';
 import WpSiteMenu from './menu';
 import WpSiteContent from './content';
 import WpSiteSidebar from './sidebar';
+import 'styles/wp/site.scss';
 
 class WpSite extends React.Component {
 
@@ -27,11 +28,13 @@ class WpSite extends React.Component {
     }
 
     return(
-      <section id='wpsite-route'>
+      <section id='wp-site'>
         <WpSiteHeader site={this.props.site} openMenu={this.openMenu} data={this.props.site_data} />
-        <WpSiteMenu site={this.props.site} />
-        <WpSiteContent {...this.props} template={template} />
-        <WpSiteSidebar site={this.props.site} />
+        <div className='wp-site-wrapper'>
+          <WpSiteMenu site={this.props.site} />
+          <WpSiteContent {...this.props} template={template} />
+          <WpSiteSidebar site={this.props.site} />
+        </div>
       </section>
     )
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import WpMenu from '../../menu';
+import 'styles/wp/site-menu.scss';
 
 class WpSiteMenu extends React.Component {
     render(){

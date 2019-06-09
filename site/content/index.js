@@ -4,6 +4,7 @@ import WpSiteArchive from './archive';
 import WpSitePost from './post';
 import WpSiteHome from './home';
 import Cargando from 'components/utils/cargando';
+import 'styles/wp/site-content.scss';
 
 class WpSiteContent extends React.Component {
     constructor(props){
@@ -158,7 +159,7 @@ class WpSiteContent extends React.Component {
         }
 
         return (
-            <div className='wp-site-content'>
+            <div id='wp-site-content'>
                 <div>
                 {this.state.check 
                 ?
