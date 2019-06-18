@@ -379,7 +379,7 @@ module.exports = {
         if(options.site)
             url += '/'+options.site;
 
-        url += WpApiDir + SidebarsRoute + SidebarsEndpoint + '/' + options.pos;
+        url += '/'+ WpApiDir + SidebarsRoute + SidebarsEndpoint + '/' + options.pos;
 
         if(options.debug){
           console.log(options,url);

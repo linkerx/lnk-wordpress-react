@@ -25,6 +25,7 @@ class WpSidebar extends React.Component {
     var opts = {
       url: this.props.url,
       pos: this.props.pos,
+      site: this.props.site,
       debug: this.props.debug
     }
 
@@ -46,7 +47,7 @@ class WpSidebar extends React.Component {
     }
 
     return (
-      <sidebar id={this.props.pos}>
+      <div id={this.props.pos} className={cls}>
         {!this.state.sidebar
           ?
             this.props.children
@@ -55,11 +56,11 @@ class WpSidebar extends React.Component {
             {renderHTML(this.state.sidebar.rendered)}
           </div>
         }
-      </sidebar>
+      </div>
     )
   }
 }
 
 // TODO: propTypes
 
-module.exports = WpSidebar;
+export default WpSidebar;
