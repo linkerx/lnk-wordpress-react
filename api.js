@@ -13,6 +13,7 @@ var CF7Route = '/contact-form-7/v1';
 var SidebarsRoute = '/wp-rest-api-sidebars/v1'
 var LnkSitesEndpoint = '/sites';
 var LnkSitesPostsEndpoint = '/sites-posts';
+var LnkSitePostsEndpoint = '/site-posts';
 var MenuLocationsEndpoint = '/menu-locations';
 var MenusEndpoint = '/menus';
 var ContactFormEndpoint = '/contact-forms';
@@ -296,6 +297,23 @@ module.exports = {
    */
   getSite: function(options){
     var url = WpUrl +'/'+ WpApiDir + LnkRoute + LnkSitesEndpoint + '/' + options.name;
+    if(options.debug){
+      console.log(options,url);
+    }
+    return axios.get(url)
+      .then(function(response){
+        if(options.debug){
+          console.log(response.data);
+        }
+        return response.data;
+      });
+  },
+
+  /**
+   * Posts de Sitio unico
+   */
+  getSitePosts: function(options){
+    var url = WpUrl +'/'+ WpApiDir + LnkRoute + LnkSitePostsEndpoint + '/' + options.name;
     if(options.debug){
       console.log(options,url);
     }

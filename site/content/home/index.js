@@ -39,16 +39,17 @@ class WpSiteHome extends React.Component {
             opts.name = site_name;
         }
 
-        WpApi.getSite(opts)
-            .then(function(site){
-            if(typeof(this.props.show) != 'undefined'){
-                setTimeout(function(){this.props.show()}.bind(this), 2000);
-            }
-            this.setState(function(){
-                return {
-                site:site
+        WpApi.getSite(opts).then(function(site){
+            WpApi.getSitePosts(opts).then(function(posts){
+                if(typeof(this.props.show) != 'undefined'){
+                    setTimeout(function(){this.props.show()}.bind(this), 2000);
+                    this.setState(function(){
+                        return {
+                            site:site
+                        }
+                    });
                 }
-            })
+            }.bind(this))
         }.bind(this))
     }
     
