@@ -10,7 +10,7 @@ class WpNetwork extends React.Component {
     this.state = {
       check: false,
       site: null,
-      dite_data: null
+      site_data: null
     }
 
     this.checkSite = this.checkSite.bind(this);
@@ -21,6 +21,7 @@ class WpNetwork extends React.Component {
   }
 
   checkSite(){
+    var debugAll = true;
     this.setState({
       check: false,
       site: null,
@@ -29,11 +30,12 @@ class WpNetwork extends React.Component {
 
     var opts_site = {
       name: this.props.match.params.slug,
-      debug: false
+      debug: debugAll
     };
-
+    if (debugAll) { console.log("Check site:",this.props.match.params.slug) }
     WpApi.getSite(opts_site)
       .then(function(site){
+        if (debugAll) { console.log(this.props.match.params.slug,"is a Site") }
         setTimeout(function(){this.props.show()}.bind(this), 3000);
         this.setState({
             check: true,
@@ -42,6 +44,7 @@ class WpNetwork extends React.Component {
         });
       }.bind(this))
       .catch(function(error) {
+        if (debugAll) { console.log(this.props.match.params.slug,"is NOT a Site") }
         var opts_site2 = {
           name: '',
           debug: false
@@ -51,7 +54,7 @@ class WpNetwork extends React.Component {
             setTimeout(function(){this.props.show()}.bind(this), 3000);
             this.setState({
                 check: true,
-                site: this.props.match.params.slug,
+                site: "",
                 site_data: main_site[0 ]
             });
           }.bind(this));
@@ -67,7 +70,7 @@ class WpNetwork extends React.Component {
             ?
               <Route path={'/'+this.state.site+'/:slug1?/:slug2?/:slug3?'} render={ function(props) { return ( <WpSite {...props} site={this.state.site} site_data={this.state.site_data} template={2} /> ) }.bind(this) } />
             :
-              <Route path='/:slug1/:slug2?/:slug3?' render={ function(props) { return ( <WpSite {...props} site_data={this.state.site_data} template={2} /> ) } } />
+              <Route path='/:slug1/:slug2?/:slug3?' render={ function(props) { return ( <WpSite {...props} site_data={this.state.site_data} template={2} /> ) }.bind(this) } />
           }
           </div>
         }

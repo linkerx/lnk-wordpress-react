@@ -1,23 +1,19 @@
-var React = require('react');
-var Share = require('react-share');
+import React from 'react';
 
-var FacebookShareButton = Share.FacebookShareButton;
-var TwitterShareButton = Share.TwitterShareButton;
-var GooglePlusShareButton = Share.GooglePlusShareButton;
-var WhatsappShareButton = Share.WhatsappShareButton;
-var TelegramShareButton = Share.TelegramShareButton;
-var LinkedinShareButton = Share.LinkedinShareButton;
+import { 
+    FacebookShareButton, 
+    TwitterShareButton, 
+    WhatsappShareButton,
+    TelegramShareButton,
+    LinkedinShareButton,
+    FacebookIcon,
+    TwitterIcon,
+    WhatsappIcon,
+    TelegramIcon,
+    LinkedinIcon
+} from 'react-share';
 
-var FacebookIcon = Share.FacebookIcon;
-var TwitterIcon = Share.TwitterIcon;
-var GooglePlusIcon = Share.GooglePlusIcon;
-var WhatsappIcon = Share.WhatsappIcon;
-var TelegramIcon = Share.TelegramIcon;
-var LinkedinIcon = Share.LinkedinIcon;
-
-require('./styles.less');
-
-
+require('./styles.scss');
 
 function ShareButtons (props) {
 
@@ -37,9 +33,6 @@ function ShareButtons (props) {
             <WhatsappShareButton url={seoFullUrl} quote={props.quote} className="share-whatsapp">
                 <WhatsappIcon size={40} round />
             </WhatsappShareButton>
-            <GooglePlusShareButton url={seoFullUrl} quote={props.quote} className="share-gplus">
-                <GooglePlusIcon size={40} round />
-            </GooglePlusShareButton>
             <LinkedinShareButton url={seoFullUrl} quote={props.quote} className="share-whatsapp">
                 <LinkedinIcon size={40} round />
             </LinkedinShareButton>
@@ -47,4 +40,4 @@ function ShareButtons (props) {
     )
 }
 
-module.exports = ShareButtons;
+export default ShareButtons;

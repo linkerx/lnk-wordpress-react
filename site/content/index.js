@@ -34,8 +34,8 @@ class WpSiteContent extends React.Component {
         }
       }
     
-      componentWillReceiveProps(nextProps){
-        if(nextProps.location.pathname !== this.props.location.pathname) {
+      componentDidUpdate(prevProps){
+        if(prevProps.location.pathname !== this.props.location.pathname) {
           this.checkURL();
         }
       }
@@ -72,9 +72,8 @@ class WpSiteContent extends React.Component {
           };
     
           if(debugOnCheck) console.log(opts_type);
-    
           if(debugOnCheck) console.log('the params are: ',this.props.match.params);
-          if(debugOnCheck) console.log('serching for type... ',this.props.match.params.slug1);
+          if(debugOnCheck) console.log('serching for type... ',this.props.match.params.slug1, this.props);
           WpApi.getType(opts_type)
             .then(function(type){
               if(type){
@@ -85,6 +84,7 @@ class WpSiteContent extends React.Component {
                     return {
                       check:true,
                       type: type,
+                      home: false
                     }
                   });
                 } else {
@@ -94,12 +94,13 @@ class WpSiteContent extends React.Component {
                     return {
                       check: true,
                       type: type,
-                      post: this.props.match.params.slug2
+                      post: this.props.match.params.slug2,
+                      home: false
                     }
                   }.bind(this));
                 }
               } else {
-                if(debugOnCheck) console.log('not type',this.props.match.params.slug1);
+                if(debugOnCheck) console.log('not type',this.props.match.params.slug1, this.props);
                 var opts_term = {
                   site: this.props.site,
                   type: 'post',
@@ -117,6 +118,7 @@ class WpSiteContent extends React.Component {
                           /* POST/CATEGORY ARCHIVE */
                           return {
                             check: true,
+                            home: false,
                             type: 'posts',
                             category: category.id,
                             category_name: category.name
@@ -128,6 +130,7 @@ class WpSiteContent extends React.Component {
                           /* POST/CATEGORY/POST ITEM */
                           return {
                             check: true,
+                            home: false,
                             type: 'posts',
                             category: category.id,
                             category_name: category.name,
@@ -136,10 +139,12 @@ class WpSiteContent extends React.Component {
                         })
                       }
                     } else {
+                      if(debugOnCheck) console.log('is a page!',this.props.match.params.slug1);
                       this.setState(function(){
                         /* PAGE/POST ITEM */
                         return {
                           check: true,
+                          home: false,
                           type: 'page',
                           post: this.props.match.params.slug1
                         }
