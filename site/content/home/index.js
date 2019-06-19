@@ -1,5 +1,7 @@
 import React from 'react';
 import WpApi from '../../../api';
+import WpList from '../../../list';
+import renderHTML from 'react-render-html';
 import './styles.scss';
 
 class WpSiteHome extends React.Component {
@@ -43,12 +45,12 @@ class WpSiteHome extends React.Component {
             WpApi.getSitePosts(opts).then(function(posts){
                 if(typeof(this.props.show) != 'undefined'){
                     setTimeout(function(){this.props.show()}.bind(this), 2000);
-                    this.setState(function(){
-                        return {
-                            site:site
-                        }
-                    });
                 }
+                this.setState(function(){
+                    return {
+                        site:site
+                    }
+                });
             }.bind(this))
         }.bind(this))
     }
@@ -56,7 +58,28 @@ class WpSiteHome extends React.Component {
     render (){
         return(
             <section id='site-home' className={this.props.site}>
-            
+            { this.state.site !== null &&
+                <div className='site-home-content'>
+                    <div id='site-post' className='page'>
+                    { this.state.site.frontpage > 0 &&
+                        <div>
+                            <h2>{renderHTML(this.state.site.page.post_title)}</h2>
+                            <div className='content'>
+                            {renderHTML(this.state.site.page.post_content)}
+                            </div>
+                        </div>
+                    } 
+                    </div>
+                    <div className='site-posts'>
+                    {
+                        <div>
+                            <h2>Novedades de {this.state.site.blog_name}</h2>
+                            <WpList site={this.props.site} type='posts' />
+                        </div>
+                    }   
+                    </div>
+                </div>
+            }
             </section>  
         )
     }
