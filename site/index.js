@@ -22,9 +22,19 @@ class WpSite extends React.Component {
   }
 
   render() {
+    var debug = false;
+    if(typeof(this.props.debug) !== 'undefined'){
+      debug = this.props.debug;
+    }
+
     var template = 1;
     if(this.props.template){
       template = this.props.template;
+    }
+
+    if(debug) {
+      console.log("WpSite Props: ",this.props);
+      console.log("WpSite State: ",this.state);      
     }
 
     return(

@@ -83,7 +83,9 @@ class WpList extends React.Component {
   }
 
   handlePaginationClick(data){
-    console.log(data.selected);
+    if(this.props.debug){
+      console.log(data.selected);
+    }
     this.updateItems(data.selected + 1)
   }
 
@@ -133,7 +135,9 @@ class WpList extends React.Component {
       itemsPerPage = this.props.itemsPerPage;
     }
 
-    console.log(this.state.items,this.state.totalItems,this.state.totalPages,this.state.page-1,this.handlePaginationClick);
+    if(this.props.debug){
+      console.log(this.state.items,this.state.totalItems,this.state.totalPages,this.state.page-1,this.handlePaginationClick);
+    }
 
     return (
       <div className="list-container">

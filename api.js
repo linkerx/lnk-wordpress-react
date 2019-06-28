@@ -91,12 +91,12 @@ module.exports = {
 
     var url = WpUrl
 
-    if(options.url)
+    if(typeof(options.url)!=='undefined'){
       url = options.url;
-    if(options.site)
+    }
+    if(typeof(options.site)!=='undefined'){
       url += '/'+options.site;
-
-
+    }
 
     if(options.debug){
       console.log(url,options);
@@ -105,10 +105,10 @@ module.exports = {
      * si type es un tipo de dato va enla url,
      * sino busca solo el slug
      */
-
     return this.getTypes(url)
        .then(function(types){
-          var url = WpUrl +'/'+ WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
+          url += '/' + WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
+          
           var found = Object.keys(types).indexOf(options.type);
           if(found === -1){
             found = Object.keys(types).indexOf(options.type.slice(0,-1));

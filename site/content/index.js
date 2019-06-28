@@ -10,13 +10,8 @@ class WpSiteContent extends React.Component {
     constructor(props){
         super(props);
     
-        var site = "";
-        if(props.site){
-          site = props.site;
-        }
-    
         this.state = {
-          site: site,
+          site: "",
           check: false,
           lvl: 0,
           home: false,
@@ -46,9 +41,14 @@ class WpSiteContent extends React.Component {
           debugOnCheck = this.props.debugOnCheck;
         }
     
+        var site = "";
+        if(typeof(this.props.site)!=='undefined'){
+          site = this.props.site;
+        }
+    
         this.setState(function(){
           return {
-            site: this.state.site,
+            site: site,
             check: false,
             lvl: 0,
             home: false,
@@ -60,7 +60,6 @@ class WpSiteContent extends React.Component {
     
         if(typeof(this.props.match.params.slug1) === 'undefined') {
           this.setState({
-            site: this.state.site,
             check:true,
             home:true
           });
@@ -102,7 +101,7 @@ class WpSiteContent extends React.Component {
               } else {
                 if(debugOnCheck) console.log('not type',this.props.match.params.slug1, this.props);
                 var opts_term = {
-                  site: this.props.site,
+                  site: this.state.site,
                   type: 'post',
                   term: this.props.match.params.slug1,
                   debug: false
@@ -172,7 +171,7 @@ class WpSiteContent extends React.Component {
                         {this.state.home 
                             ?
                             <div className='wpsite-home'>
-                            <WpSiteHome ready={this.props.ready} site={this.state.site} />
+                              <WpSiteHome ready={this.props.ready} site={this.state.site} />
                             </div>
                             :
                             <div className='wpsite-content'>
@@ -202,6 +201,9 @@ class WpSiteContent extends React.Component {
                 :
                     <Cargando />
                 }
+                </div>
+                <div className='children'>
+                  {this.props.children}
                 </div>
             </div>
         )

@@ -66,10 +66,10 @@ class WpItem extends React.Component {
       type: this.props.type,
       slug: this.props.slug,
       queries: ['_embed'],
-      debug: this.props.debug
+      debug: true//this.props.debug
     }
 
-    if(this.props.debug)
+    //if(this.props.debug)
       console.log(opts);
 
     WpApi.getItem(opts)

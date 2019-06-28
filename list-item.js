@@ -45,6 +45,11 @@ function ListItem(props) {
     item_image = props.item.media_details.sizes[imageSize].source_url;
   }
 
+  var showContent = false;
+  if(typeof(props.showContent) !== 'undefined'){
+    showContent = props.showContent;
+  } 
+
   var activeClass = 'inactive';
   if(props.active)
     activeClass = 'active';
@@ -64,6 +69,7 @@ function ListItem(props) {
                   <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
                   <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                  <div className='content'>{showContent && renderHTML(props.item.content.rendered)}</div>
                 </article>
             )
         case 2:
@@ -73,8 +79,21 @@ function ListItem(props) {
                   <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
                   <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                  <div className='content'>{showContent && renderHTML(props.item.content.rendered)}</div>
                 </article>
             )
+        case 3:
+          return (
+              <article className={activeClass}>
+                <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                <div className='post_content'>
+                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
+                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
+                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                  <div className='content'>{showContent && renderHTML(props.item.content.rendered)}</div>
+                </div>
+              </article>
+          )
         default:
     }
 }

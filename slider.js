@@ -1,6 +1,6 @@
-var React = require('react');
-var WpApi = require('./api');
-var ListItem = require('./list-item');
+import React from 'react';
+import WpApi from './api';
+import ListItem from './list-item';
 
 class WpSlider extends React.Component {
 
@@ -192,7 +192,7 @@ class WpSlider extends React.Component {
               if(this.isActive(item.id)){
                 active = true;
               }
-              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={active} imageRender='back' imageSize={this.state.options.listImgSize} imageLink={this.props.imageLink} />)
+              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={active} imageRender='back' imageSize={this.state.options.listImgSize} imageLink={this.props.imageLink} showContent={this.props.showContent} template={this.props.template} />)
             }.bind(this))
           }
           </div>
@@ -204,7 +204,7 @@ class WpSlider extends React.Component {
             this.props.children
             :
             this.state.current.items.map(function (item, index) {
-              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={true} imageRender='back' imageSize={this.state.options.pageImgSize} imageLink={this.props.imageLink} />)
+              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={true} imageRender='back' imageSize={this.state.options.pageImgSize} imageLink={this.props.imageLink} showContent={this.props.showContent} template={this.props.template} />)
             }.bind(this))
           }
         </div>
@@ -228,4 +228,4 @@ class WpSlider extends React.Component {
   }
 }
 
-module.exports = WpSlider;
+export default WpSlider;
