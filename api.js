@@ -13,6 +13,7 @@ var CF7Route = '/contact-form-7/v1';
 var SidebarsRoute = '/wp-rest-api-sidebars/v1'
 var LnkSitesEndpoint = '/sites';
 var LnkSitesPostsEndpoint = '/sites-posts';
+var LnkSitesFeaturedPostsEndpoint = '/sites-featured-posts';
 var LnkSitePostsEndpoint = '/site-posts';
 var MenuLocationsEndpoint = '/menu-locations';
 var MenusEndpoint = '/menus';
@@ -342,6 +343,17 @@ module.exports = {
    */
   getSitesPosts: function(count){
     var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesPostsEndpoint + "/?count=" + count;
+    return axios.get(url)
+      .then(function(response){
+        return response.data;
+      });
+  },
+
+  /**
+   * Lista de Post Destacados de todos los Sitios
+   */
+  getSitesFeaturedPosts: function(){
+    var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesFeaturedPostsEndpoint;
     return axios.get(url)
       .then(function(response){
         return response.data;
