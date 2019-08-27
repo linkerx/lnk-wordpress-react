@@ -31,7 +31,11 @@ class MenuItem extends React.Component{
     }
 
     if(this.props.item.type === "custom"){
-      item_link = this.props.item.url;
+      if(this.props.item.url === "#") {
+        item_link = "javascript:void(0)";
+      } else {
+        item_link = this.props.item.url;
+      }
     } else if(this.props.item.type === "post_type") {
         if(this.props.item.object === "page" || this.props.item.object === "pages") {
           item_link = site + this.props.item.object_slug;

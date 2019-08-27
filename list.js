@@ -155,8 +155,8 @@ class WpList extends React.Component {
             <div className='list'>
               {
                 this.state.items.map(function (item, index) {
-                  return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink} template={template} heading={heading}  />)
-                })
+                  return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink} template={template} heading={heading} site={this.props.site} />)
+                }.bind(this))
               }
             </div>
 

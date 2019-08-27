@@ -1,7 +1,9 @@
 
 module.exports = {
-    generateItemLinkUrl: function(item){
-        var site = "";
+    generateItemLinkUrl: function(item,site){
+        if(typeof(site) == 'undefined') {
+          var site = "";
+        }
         var type = "";
         var cat = "";
         var slug = "";
@@ -21,7 +23,7 @@ module.exports = {
 
         slug = item.slug;
 
-        return "/"+site+type+cat+slug;
+        return "/"+site+"/"+type+cat+slug;
 
 
     },

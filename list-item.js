@@ -59,7 +59,7 @@ function ListItem(props) {
     heading = props.heading;
   }
 
-  var itemLink = WpUtils.generateItemLinkUrl(props.item);
+  var itemLink = WpUtils.generateItemLinkUrl(props.item,props.site);
 
   switch(template) {
         case 1:
