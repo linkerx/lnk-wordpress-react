@@ -70,7 +70,7 @@ class WpSiteHome extends React.Component {
                         </div>
                     } 
                     </div>
-                    <div className='site-posts'>
+                    <div id='site-posts'>
                     {
                         <div>
                             <h2>Novedades de {this.state.site.blog_name}</h2>

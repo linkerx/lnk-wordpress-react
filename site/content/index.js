@@ -40,6 +40,10 @@ class WpSiteContent extends React.Component {
         if(this.props.debugOnCheck){
           debugOnCheck = this.props.debugOnCheck;
         }
+
+        if(debugOnCheck) console.log("Viene pedido con sitio:",this.props.site);
+        if(debugOnCheck) console.log("Viene pedido con sitio:",this.props.path);
+        
     
         var site = "";
         if(typeof(this.props.site)!=='undefined'){
@@ -107,8 +111,11 @@ class WpSiteContent extends React.Component {
                   debug: false
                 };
                 if(debugOnCheck) console.log('searching for post category... ',this.props.match.params.slug1);
+                if(debugOnCheck) console.log('with params:',opts_term);
+
                 WpApi.getCategory(opts_term)
                   .then(function(category){
+                    if(debugOnCheck) console.log("Respuesta de Cat:",category);
                     if(category){
                       if(debugOnCheck) console.log('category OK');
                       if(this.props.match.params.slug2 === undefined || this.props.match.params.slug2 === 'page'){
