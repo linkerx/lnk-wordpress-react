@@ -205,7 +205,7 @@ class WpSliderFeatured extends React.Component {
           </div>
 
         </div>
-      </div>
+      </div> 
     )
   }
 }
