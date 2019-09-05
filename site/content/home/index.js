@@ -74,7 +74,7 @@ class WpSiteHome extends React.Component {
                     {
                         <div>
                             <h2>Novedades de {this.state.site.blog_name}</h2>
-                            <WpList site={this.props.site} type='posts' heading={3}/>
+                            <WpList site={this.props.site} type='posts' heading={3} />
                         </div>
                     }   
                     </div>

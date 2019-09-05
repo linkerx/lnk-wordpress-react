@@ -23,9 +23,9 @@ function WpSiteArchive(props){
   var archiveName = props.type+'s';
 
   if(props.type === 'posts'){
-    archiveName = 'sarasa';
+    archiveName = 'Publicaciones';
     if(props.category){
-      archiveName = props.category_name;
+      archiveName = props.category;
     }
   }
 
