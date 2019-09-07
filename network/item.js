@@ -34,27 +34,46 @@ class WpNetworkItem extends React.Component {
                 </div>
           </article>
           )
-      case 2:
-          return (
-            <article className='novedad'>
-                <div className='wrapper'>
-                  <header>
-                    <div className='fecha'>{fecha}</div>
-                    <div className='area'><Link to={this.props.item.blog.blog_url}>{this.props.item.blog.blog_name}</Link></div>
-                  </header>
-                 {this.props.item.thumbnail ?
-                    <ItemImage src={this.props.item.thumbnail} endLoading={this.props.endLoading} render={this.props.imageRender} /> : <div></div>
-                  }
-                  <div className='titulo'>
-                    <Link to={this.props.item.blog.blog_url+this.props.item.the_term+'/'+this.props.item.post_name}>
-                      <h2>{this.props.item.post_title}</h2>
-                    </Link></div>
-                   <div className='resumen'>{this.props.item.post_excerpt}</div>
-                  <div style={{'clear':'both'}}></div>
-                </div>
-          </article>
-        )
-        default:
+          case 2:
+            return (
+              <article className='novedad'>
+                  <div className='wrapper'>
+                    <header>
+                      <div className='fecha'>{fecha}</div>
+                      <div className='area'><Link to={this.props.item.blog.blog_url}>{this.props.item.blog.blog_name}</Link></div>
+                    </header>
+                   {this.props.item.thumbnail ?
+                      <ItemImage src={this.props.item.thumbnail} endLoading={this.props.endLoading} render={this.props.imageRender} /> : <div></div>
+                    }
+                    <div className='titulo'>
+                      <Link to={this.props.item.blog.blog_url+this.props.item.the_term+'/'+this.props.item.post_name}>
+                        <h2>{this.props.item.post_title}</h2>
+                      </Link></div>
+                     <div className='resumen'>{this.props.item.post_excerpt}</div>
+                    <div style={{'clear':'both'}}></div>
+                  </div>
+            </article>
+          )
+          case 3:
+            return (
+              <article className='novedad'>
+                  <div className='wrapper'>
+                    <header>
+                      <div className='fecha'>{this.props.item.lnk_agenda}</div>
+                      <div className='area'><Link to={this.props.item.blog.blog_url}>{this.props.item.blog.blog_name}</Link></div>
+                    </header>
+                   {this.props.item.thumbnail ?
+                      <ItemImage src={this.props.item.thumbnail} endLoading={this.props.endLoading} render={this.props.imageRender} /> : <div></div>
+                    }
+                    <div className='titulo'>
+                      <Link to={this.props.item.blog.blog_url+this.props.item.the_term+'/'+this.props.item.post_name}>
+                        <h2>{this.props.item.post_title}</h2>
+                      </Link></div>
+                    <div style={{'clear':'both'}}></div>
+                  </div>
+            </article>
+          )
+            default:
     }
   }
 }

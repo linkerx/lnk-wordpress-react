@@ -350,6 +350,17 @@ module.exports = {
   },
 
   /**
+   * Lista de Post de todos los Sitios que van en la agenda
+   */
+  getSitesPostsAgenda: function(count){
+    var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesPostsEndpoint + "/?count=" + count + "&agenda=1";
+    return axios.get(url)
+      .then(function(response){
+        return response.data;
+      });
+  },
+
+  /**
    * Lista de Post Destacados de todos los Sitios
    */
   getSitesFeaturedPosts: function(){
