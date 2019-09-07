@@ -50,21 +50,32 @@ function ListItem(props) {
     showContent = props.showContent;
   } 
 
-  var activeClass = 'inactive';
-  if(props.active)
-    activeClass = 'active';
-
   var heading = 2;
   if(props.heading){
     heading = props.heading;
   }
+
+  var fItemClass = '';
+
+  var activeClass = 'inactive';
+  if(props.active) {
+    activeClass = 'active';
+    fItemClass += activeClass+' ';
+  }
+
+  var featuredModeClass = 'mode1'
+  if(props.item.lnk_featured_mode) {
+    featuredModeClass = 'mode'+props.item.lnk_featured_mode;
+    fItemClass += featuredModeClass+' ';
+  }
+
 
   var itemLink = WpUtils.generateItemLinkUrl(props.item);
 
   switch(template) {
         case 1:
             return (
-                <article className={activeClass}>
+                <article className={fItemClass}>
                   <ItemTitle title={props.item.post_title} item={props.item} linkTo={itemLink} heading={heading} />
                   <ItemImage render={imageRender} src={props.item.thumbnail} item={props.item} linkTo={itemLink} imageLink={imageLink} />
                   <div className='date'>{moment(props.item.post_date).format('DD/MM/YYYY')}</div>
@@ -74,23 +85,23 @@ function ListItem(props) {
             )
         case 2:
             return (
-                <article className={activeClass}>
-                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
-                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
-                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
-                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
-                  <div className='content'>{showContent && renderHTML(props.item.content.rendered)}</div>
+                <article className={fItemClass}>
+                  <ItemImage render={imageRender} src={props.item.thumbnail} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  <ItemTitle title={props.item.post_title} item={props.item} linkTo={itemLink} heading={heading} />
+                  <div className='date'>{moment(props.item.post_date).format('DD/MM/YYYY')}</div>
+                  <div className='excerpt'>{renderHTML(props.item.post_excerpt)}</div>
+                  <div className='content'>{showContent && renderHTML(props.item.post_content)}</div>
                 </article>
             )
         case 3:
           return (
-              <article className={activeClass}>
-                <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+              <article className={fItemClass}>
+                <ItemImage render={imageRender} src={props.item.thumbnail} item={props.item} linkTo={itemLink} imageLink={imageLink} />
                 <div className='post_content'>
-                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
-                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
-                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
-                  <div className='content'>{showContent && renderHTML(props.item.content.rendered)}</div>
+                  <ItemTitle title={props.item.post_title} item={props.item} linkTo={itemLink} heading={heading} />
+                  <div className='date'>{moment(props.item.post_date).format('DD/MM/YYYY')}</div>
+                  <div className='excerpt'>{renderHTML(props.item.post_excerpt)}</div>
+                  <div className='content'>{showContent && renderHTML(props.item.post_content)}</div>
                 </div>
               </article>
           )
