@@ -352,8 +352,8 @@ module.exports = {
   /**
    * Lista de Post de todos los Sitios que van en la agenda
    */
-  getSitesPostsAgenda: function(count){
-    var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesPostsEndpoint + "/?count=" + count + "&agenda=1";
+  getSitesPostsAgenda: function(count,dateFormat){
+    var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesPostsEndpoint + "/?count=" + count + "&agenda=1" + "&format=" + dateFormat;
     return axios.get(url)
       .then(function(response){
         return response.data;

@@ -26,7 +26,13 @@ class WpNetworkList extends React.Component {
     var count = 12;
     if(typeof(this.props.count) != 'undefined')
       count = this.props.count;
-    WpApi.getSitesPostsAgenda(count)
+
+    var dateFormat = 'd/m/Y';
+    if(typeof(this.props.dateFormat) != 'undefined')
+      count = this.props.dateFormat;
+
+    
+    WpApi.getSitesPostsAgenda(count,dateFormat)
       .then(function(items) {
         this.setState(function () {
           return {
