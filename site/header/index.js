@@ -4,7 +4,9 @@ import 'styles/wp/site-header.scss';
 
 class WpSiteHeader extends React.Component {
     render(){
-        //console.log("Data Header Site:",this.props.data);
+        if (this.props.debug) 
+            console.log("Data Header Site:",this.props.data);
+        
         return (
             <div id='wp-site-header'>
                 <div className='fondo'></div>
