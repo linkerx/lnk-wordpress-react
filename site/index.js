@@ -10,16 +10,26 @@ class WpSite extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      menu_opened: false
+      menu_opened: false,
+      sidebar_opened: false,
     }
-    this.openMenu = this.openMenu.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
+    this.toggleSidebar = this.toggleSidebar.bind(this);
   }
 
-  openMenu(){
+
+  toggleMenu(){
     this.setState({
-      menu_opened: true
+      menu_opened: !this.state.menu_opened
     })
   }
+
+  toggleSidebar(){
+    this.setState({
+      sidebar_opened: !this.state.sidebar_opened
+    })
+  }
+
 
   render() {
     var debug = false;
@@ -39,11 +49,19 @@ class WpSite extends React.Component {
 
     return(
       <section id='wp-site'>
-        <WpSiteHeader site={this.props.site} openMenu={this.openMenu} data={this.props.site_data} />
-        <div className='wp-site-wrapper'>
-          <WpSiteMenu site={this.props.site} />
+        <WpSiteHeader 
+          site={this.props.site} 
+          toggleMenu={this.toggleMenu} 
+          toggleSidebar={this.toggleSidebar} 
+          menuOpened={this.state.menu_opened} 
+          sidebarOpened={this.state.sidebar_opened} 
+          debug={false} 
+          data={this.props.site_data} 
+        />
+       <div className='wp-site-wrapper'>
+          <WpSiteMenu site={this.props.site} opened={this.state.menu_opened} />
           <WpSiteContent {...this.props} template={template} />
-          <WpSiteSidebar site={this.props.site} />
+          <WpSiteSidebar site={this.props.site} oopened={this.state.sidebar_opened} />
         </div>
       </section>
     )

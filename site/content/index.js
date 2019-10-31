@@ -36,7 +36,7 @@ class WpSiteContent extends React.Component {
       }
     
       checkURL(){
-        var debugOnCheck = false;
+        var debugOnCheck = true;
         if(this.props.debugOnCheck){
           debugOnCheck = this.props.debugOnCheck;
         }

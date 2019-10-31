@@ -4,7 +4,11 @@ import 'styles/wp/site-menu.scss';
 
 class WpSiteMenu extends React.Component {
     render(){
-        return <div id='wp-site-menu'>
+        var classMenu = 'closed';
+        if(this.props.opened) {
+            classMenu = 'opened';
+        }
+        return <div id='wp-site-menu' className={classMenu}>
             <WpMenu site={this.props.site} location='site-menu-location' />
         </div>
     }
