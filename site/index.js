@@ -17,6 +17,23 @@ class WpSite extends React.Component {
     this.toggleSidebar = this.toggleSidebar.bind(this);
   }
 
+  componentDidMount() {
+    var menuOpened = false;
+    var sidebarOpened = false;
+    if(this.props.site_data.barra_izq === 1) {
+      menuOpened = true;
+    }
+    if(this.props.site_data.barra_der === 1) {
+      sidebarOpened = true;
+    }
+    
+    console.log("barras: ",menuOpened,sidebarOpened);
+
+    this.setState({
+      menu_opened: menuOpened,
+      sidebar_opened: sidebarOpened
+    });
+  }
 
   toggleMenu(){
     this.setState({
