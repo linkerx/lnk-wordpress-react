@@ -33,13 +33,13 @@ class WpItem extends React.Component {
       form.addEventListener('submit',function(e){
         e.preventDefault();
         var data = serialize(form);
-        WpApi.postContactForm(idInput,data,{debug:true})
+        WpApi.postContactForm(idInput,data,{debug:true, site: this.props.site})
           .then(function(response){
             alert("Su mensaje fue enviado con éxito.");
             form.reset();
           });
         return false;
-      });
+      }.bind(this));
    }
 
    var images = document.querySelectorAll('.post_content img');
