@@ -12,27 +12,25 @@ class WpSite extends React.Component {
     this.state = {
       menu_opened: false,
       sidebar_opened: false,
+      header_fixed: false
     }
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleSidebar = this.toggleSidebar.bind(this);
+    this.checkSidebars = this.checkSidebars.bind(this);
+    this.bindHeaderChecker = this.bindHeaderChecker.bind(this);
+    this.unbindHeaderChecker = this.unbindHeaderChecker.bind(this);
+    this.checkHeader = this.checkHeader.bind(this);
   }
 
   componentDidMount() {
-    var menuOpened = false;
-    var sidebarOpened = false;
-    if(this.props.site_data.barra_izq === 1) {
-      menuOpened = true;
+    if (window.innerWidth > 800) {
+      this.checkSidebars();
     }
-    if(this.props.site_data.barra_der === 1) {
-      sidebarOpened = true;
-    }
-    
-    console.log("barras: ",menuOpened,sidebarOpened);
+    this.bindHeaderChecker();
+  }
 
-    this.setState({
-      menu_opened: menuOpened,
-      sidebar_opened: sidebarOpened
-    });
+  componentWillUnmount() {
+    this.unbindHeaderChecker();
   }
 
   toggleMenu(){
@@ -47,6 +45,43 @@ class WpSite extends React.Component {
     })
   }
 
+  checkSidebars(){
+    var menuOpened = true;
+    var sidebarOpened = true;
+    if(this.props.site_data.barra_izq === 1) {
+      menuOpened = true;
+    }
+    if(this.props.site_data.barra_der === 1) {
+      sidebarOpened = true;
+    }
+    
+    console.log("barras: ",menuOpened,sidebarOpened);
+
+    this.setState({
+      menu_opened: menuOpened,
+      sidebar_opened: sidebarOpened
+    });
+  }
+  
+  bindHeaderChecker(){
+    window.addEventListener('scroll', this.checkHeader);
+  }
+
+  unbindHeaderChecker() {
+    window.removeEventListener('scroll', this.checkHeader);  
+  }
+
+  checkHeader() {
+    if(window.scrollY > 120){
+      this.setState({
+        header_fixed: true
+      });    
+    } else {
+      this.setState({
+        header_fixed: false
+      })
+    }
+  }
 
   render() {
     var debug = false;
@@ -68,6 +103,7 @@ class WpSite extends React.Component {
       <section id='wp-site'>
         <WpSiteHeader 
           site={this.props.site} 
+          fixed={this.state.header_fixed}
           toggleMenu={this.toggleMenu} 
           toggleSidebar={this.toggleSidebar} 
           menuOpened={this.state.menu_opened} 
@@ -78,7 +114,7 @@ class WpSite extends React.Component {
        <div className='wp-site-wrapper'>
           <WpSiteMenu site={this.props.site} opened={this.state.menu_opened} />
           <WpSiteContent {...this.props} template={template} />
-          <WpSiteSidebar site={this.props.site} oopened={this.state.sidebar_opened} />
+          <WpSiteSidebar site={this.props.site} opened={this.state.sidebar_opened} />
         </div>
       </section>
     )

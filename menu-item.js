@@ -51,8 +51,8 @@ class MenuItem extends React.Component{
     }
 
     var showSubmenu = true;
-    if(typeof(this.props.showSubmenu) !== undefined && !this.props.showSubmenu){
-      showSubmenu = false;
+    if(typeof(this.props.showSubmenu) !== 'undefined'){
+      showSubmenu = this.props.showSubmenu;
     }
 
     var nivel = 1;
@@ -68,6 +68,8 @@ class MenuItem extends React.Component{
     if (typeof(this.props.activeSubmenu) && this.props.activeSubmenu){
       classes = classes+' '+this.props.activeSubmenuClass;
     }
+
+    console.log("CHILDREN: ",this.props.item.children,showSubmenu);
 
     return(
       <li key={this.props.item.id} className={classes+" nivel-"+this.props.nivel}>
@@ -93,7 +95,7 @@ class MenuItem extends React.Component{
           <span>{item_text}</span>
         </NavLink>
       }
-        { this.props.item.children && showSubmenu &&
+        { (this.props.item.children && showSubmenu) &&
           <SubMenu site={this.props.site} items={this.props.item.children} action={click_action} path={this.props.path} nivel={nivel+1} />
         }
       </li>

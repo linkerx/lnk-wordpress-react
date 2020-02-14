@@ -61,7 +61,7 @@ class WpMenu extends React.Component {
                 if(typeof(this.props.activeSubmenuItem) != 'undefined' && this.props.activeSubmenuItem === menuItem.id) {
                     active = true;
                 }
-                return (<MenuItem key={index} site={this.props.site} action={this.props.action} item={menuItem} path={this.props.path} nivel={1} submenuActive={active} submenuActiveClass='submenu-active'/>)
+                return (<MenuItem key={index} site={this.props.site} action={this.props.action} item={menuItem} path={this.props.path} nivel={1} showSubmenu={this.props.showSubmenu} submenuActive={active} submenuActiveClass='submenu-active'/>)
             }.bind(this))
           }
           {
