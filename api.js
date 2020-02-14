@@ -375,7 +375,14 @@ module.exports = {
     * Postear en un formulario de Contact Form 7
     */
    postContactForm: function(form,data,options){
-     var url = WpUrl +'/'+ WpApiDir + CF7Route + ContactFormEndpoint + '/' +form + '/feedback';
+    
+    var url = WpUrl;
+    if(options.url)
+        url = options.url;
+    if(options.site)
+        url += '/'+options.site;
+
+     var url = url +'/'+ WpApiDir + CF7Route + ContactFormEndpoint + '/' +form + '/feedback';
 
      if(options.debug){
        console.log(url);
