@@ -6,7 +6,7 @@ class WpNetworkItem extends React.Component {
 
   render(){
     var objFecha = new Date(this.props.item.post_date);
-    var fecha = objFecha.getDate() + '/' + objFecha.getMonth() + '/' + objFecha.getFullYear();
+    var fecha = objFecha.getDate() + '/' + (objFecha.getMonth() + 1) + '/' + objFecha.getFullYear();
 
     var template = 1;
     if(this.props.template){
