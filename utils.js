@@ -1,15 +1,16 @@
 
 module.exports = {
-    generateItemLinkUrl: function(item,site){
-        if(typeof(site) == 'undefined') {
-          var site = "";
-        }
+    generateItemLinkUrl: function(item,the_site){
+        
+        var site = "";
         var type = "";
         var cat = "";
         var slug = "";
 
-        if(item.blog_data){
-            site = item.blog_data.path.slice(1,-1)+"/";
+        if(typeof(the_site) !== 'undefined') {
+          site = the_site;
+        } else if(item.blog_data) {
+          site = item.blog_data.path.slice(1,-1)+"/";
         }
 
         if(item.type === 'post') {
@@ -23,8 +24,35 @@ module.exports = {
 
         slug = item.slug;
 
-        return "/"+site+"/"+type+cat+slug;
+        var url = "/"+site+"/"+type+cat+slug;
 
+        console.log(url)
+
+        return url
+    },
+    generateGetPostUrl: function(item){
+      var type = "";
+      var cat = "";
+      var slug = "";
+      var site = "";
+
+      if(item.blog){
+          site = item.blog.blog_url.slice(1,-1)+"/";
+      }
+
+      if(item.post_type === 'post') {
+        cat = item.the_term+"/";
+      } else {
+        type = item.post_type+"/";
+      }
+
+      slug = item.post_name;
+
+      var url = site+type+cat+slug;
+
+      console.log("LINK FEATURED CREATED: ",url);
+
+      return url;
 
     },
     generateCatLinkUrl: function(cat){

@@ -69,7 +69,7 @@ class MenuItem extends React.Component{
       classes = classes+' '+this.props.activeSubmenuClass;
     }
 
-    console.log("CHILDREN: ",this.props.item.children,showSubmenu);
+    //console.log("CHILDREN: ",this.props.item.children,showSubmenu);
 
     return(
       <li key={this.props.item.id} className={classes+" nivel-"+this.props.nivel}>

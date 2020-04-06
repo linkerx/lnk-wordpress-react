@@ -30,6 +30,20 @@
   }
 }
 
+#site-post .wp-block-file .wp-block-file__button {
+  background: #32373c;
+  border-radius: 2em;
+  color: #fff;
+  font-size: 13px;
+  padding: .5em 1em;
+  margin: 10px;
+}
+
+#site-post img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
 #site-post .image_container img {
   width:100%;
   height:auto;
@@ -95,11 +109,20 @@
   font-style: italic;
 }
 
+#site-post .aligncenter {
+  text-align: center;
+}
+
 #site-post #share-buttons {
   margin:20px 0;
   width:100%;
   display:flex;
   justify-content: space-between;
 }
+
+#site-post .wp-block-columns {
+  display: flex;
+}
+
 
 //@import "styles/wp/site-post.scss";
