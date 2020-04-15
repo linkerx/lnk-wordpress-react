@@ -113,7 +113,7 @@ class WpSite extends React.Component {
         />
        <div className='wp-site-wrapper'>
           <WpSiteMenu site={this.props.site} opened={this.state.menu_opened} />
-          <WpSiteContent {...this.props} template={template} />
+          <WpSiteContent {...this.props} template={template} >{this.props.children}</WpSiteContent>
           <WpSiteSidebar site={this.props.site} opened={this.state.sidebar_opened} />
         </div>
       </section>

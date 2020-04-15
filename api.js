@@ -30,17 +30,20 @@ module.exports = {
 
     var url = WpUrl
 
-    if(options.url)
+    if(typeof(options.url) !== 'undefined') {
       url = options.url;
-    if(options.site)
+    }
+
+    if(typeof(options.site) !== 'undefined') {
       url += '/'+options.site;
+    }
 
     url += '/'+WpApiDir + WpRoute + '/';
 
     if(options.debug)
       console.log('getList InitialUrl: '+url);
 
-    return this.getTypes(url)
+    return this.getTypes(options)
        .then(function(types){
 
           if(options.debug){
@@ -106,7 +109,7 @@ module.exports = {
      * si type es un tipo de dato va enla url,
      * sino busca solo el slug
      */
-    return this.getTypes(url)
+    return this.getTypes(options)
        .then(function(types){
           url += '/' + WpApiDir + WpRoute + '/'; // + options.type + '/?slug=' + options.slug;
           

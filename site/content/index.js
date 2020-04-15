@@ -23,15 +23,22 @@ class WpSiteContent extends React.Component {
     }
 
     componentDidMount(){
-        this.checkURL();
+
+        //console.log("CHILDREN:",this.props.children);
+
+        if(typeof(this.props.children) === 'undefined') {
+          this.checkURL();
+        }
         if (this.props.show && typeof this.props.show === "function") {
           setTimeout(function(){this.props.show()}.bind(this), 2000);
         }
       }
     
       componentDidUpdate(prevProps){
-        if(prevProps.location.pathname !== this.props.location.pathname) {
-          this.checkURL();
+        if(typeof(this.props.children) === 'undefined') {
+          if(prevProps.location.pathname !== this.props.location.pathname) {
+            this.checkURL();
+          }
         }
       }
     
@@ -172,7 +179,7 @@ class WpSiteContent extends React.Component {
         return (
             <div id='wp-site-content'>
                 <div>
-                {this.state.check 
+                {this.state.check
                 ?
                     <div>
                         {this.state.home 
@@ -206,7 +213,11 @@ class WpSiteContent extends React.Component {
                         }
                     </div>
                 :
+                <div>
+                  { !this.props.children &&
                     <Cargando />
+                  }
+                </div>
                 }
                 </div>
                 <div className='children'>
