@@ -32,7 +32,7 @@ class WpMediaList extends React.Component {
       url: this.props.url,
       type: 'media',
       queries: this.props.queries,
-      debug: true
+      debug: false
     }
 
     WpApi.getList(opts)

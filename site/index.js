@@ -55,7 +55,7 @@ class WpSite extends React.Component {
       sidebarOpened = true;
     }
     
-    console.log("barras: ",menuOpened,sidebarOpened);
+    //console.log("barras: ",menuOpened,sidebarOpened);
 
     this.setState({
       menu_opened: menuOpened,

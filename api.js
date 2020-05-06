@@ -168,12 +168,17 @@ module.exports = {
   getTypes: function(options){
     var url = WpUrl
 
-    if(options.url)
+    if(options.url) {
       url = options.url;
+    } else {
     if(options.site)
       url += '/'+options.site;
+    }
 
     url += '/'+ WpApiDir + WpRoute + '/types';
+
+    console.log("URL getTypes: ",url);
+
     return axios.get(url)
       .then(function (response){
         return response.data;
@@ -183,11 +188,20 @@ module.exports = {
   /* obtiene un tipo */
   getType: function(options){
     var url = WpUrl;
-    if(options.url)
+    
+    if(options.url) {
       url = options.url;
+    } else {
+    if(options.site)
+      url += '/'+options.site;
+    }
 
-    return this.getTypes(url)
+    console.log("URL getType: ",url);
+
+    return this.getTypes({url:url})
       .then(function(types){
+
+        console.log('TIPOS ENCONTARDOS:',types);
          var found = Object.keys(types).indexOf(options.type);
          if(found === -1){
            found = Object.keys(types).indexOf(options.type.slice(0,-1));
@@ -356,7 +370,7 @@ module.exports = {
    * Lista de Post de todos los Sitios que van en la agenda
    */
   getSitesPostsAgenda: function(count,dateFormat){
-    var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesPostsEndpoint + "/?count=" + count + "&agenda=1" + "&format=" + dateFormat;
+    var url = WpUrl +"/"+ WpApiDir + LnkRoute + LnkSitesPostsEndpoint + "/?count=" + count + "&agenda=1&format=" + dateFormat;
     return axios.get(url)
       .then(function(response){
         return response.data;
@@ -385,7 +399,7 @@ module.exports = {
     if(options.site)
         url += '/'+options.site;
 
-     var url = url +'/'+ WpApiDir + CF7Route + ContactFormEndpoint + '/' +form + '/feedback';
+    url = url +'/'+ WpApiDir + CF7Route + ContactFormEndpoint + '/' +form + '/feedback';
 
      if(options.debug){
        console.log(url);

@@ -76,7 +76,7 @@ class WpSiteContent extends React.Component {
           });
         } else {
           var opts_type = {
-            site: this.state.site,
+            site: site,
             type: this.props.match.params.slug1,
             debug: true
           };

@@ -50,7 +50,7 @@ module.exports = {
 
       var url = site+type+cat+slug;
 
-      console.log("LINK FEATURED CREATED: ",url);
+      //console.log("LINK FEATURED CREATED: ",url);
 
       return url;
 

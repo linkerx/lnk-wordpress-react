@@ -72,7 +72,7 @@ function ListItem(props) {
 
   var itemLink = WpUtils.generateGetPostUrl(props.item);
 
-  console.log("LINK FEATURED: ",itemLink,props.item);
+  //console.log("LINK FEATURED: ",itemLink,props.item);
 
   switch(template) {
         case 1:

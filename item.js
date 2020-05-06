@@ -14,8 +14,10 @@ class WpItem extends React.Component {
     super();
     this.state = {
       item: null,
+      formBinded: false,
     }
     this.updateItem = this.updateItem.bind(this);
+    this.formSubmit = this.formSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -24,22 +26,23 @@ class WpItem extends React.Component {
 
   componentDidUpdate(){
     var form = document.getElementsByClassName('wpcf7-form')[0];
-    if(form){
+    //console.log('FORM ',form);
+
+    if(form && !this.state.formBinded){
 
       /**
        * FORM SUBMISSION
        */
       var idInput = document.querySelector('.wpcf7-form input[name=_wpcf7]').value;
-      form.addEventListener('submit',function(e){
-        e.preventDefault();
-        var data = serialize(form);
-        WpApi.postContactForm(idInput,data,{debug:true, site: this.props.site})
-          .then(function(response){
-            alert("Su mensaje fue enviado con éxito.");
-            form.reset();
-          });
-        return false;
-      }.bind(this));
+      var theSubmit = document.querySelector('.wpcf7-form input[type=submit]');
+      theSubmit.removeEventListener('click', function(e) {this.formSubmit(idInput,form,e)}.bind(this),false);
+      theSubmit.addEventListener('click', function(e) {
+        this.formSubmit(idInput,form,e);
+      }.bind(this),false);
+      //console.log('BINDED ',theSubmit);
+      this.setState({
+        formBinded: true
+      });
    }
 
    var images = document.querySelectorAll('.post_content img');
@@ -51,6 +54,18 @@ class WpItem extends React.Component {
         FullModal.openFull('full-modal',this.src,this.alt);
       });
    }
+  }
+
+  formSubmit(idInput, form, e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var data = serialize(form);
+      WpApi.postContactForm(idInput,data,{debug:true, site: this.props.site})
+      .then(function(response){
+        alert("Su mensaje fue enviado con éxito.");
+        form.reset();
+      });
+      return false;
   }
 
   updateItem(){
@@ -127,7 +142,12 @@ class WpItem extends React.Component {
     var share = false;
     if(this.state.item){
       /* image */
-      if(this.state.item._embedded && this.state.item._embedded['wp:featuredmedia'] && this.state.item._embedded['wp:featuredmedia'][0].media_details){
+      if(
+        typeof(this.state.item._embedded) !== 'undefined' &&
+        typeof(this.state.item._embedded['wp:featuredmedia']) !== 'undefined' &&
+        typeof(this.state.item._embedded['wp:featuredmedia'][0].media_details) !== 'undefined' &&
+        typeof(this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes) !== 'undefined' &&
+        typeof(this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes[ImgSize]) !== 'undefined'       ){
         var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes[ImgSize].source_url;
         var item_image_alt = this.state.item._embedded['wp:featuredmedia'][0].alt_text;
       }
