@@ -51,10 +51,15 @@ class WpList extends React.Component {
     }
     queries.push('page='+currentPage);
 
+    var type = 'posts';
+    if(typeof(this.props.type) !== 'undefined') {
+      type = this.props.type;
+    }
+
     var opts = {
       url: this.props.url,
       site: this.props.site,
-      type: this.props.type,
+      type: type,
       queries: queries,
       debug: this.props.debug
     }
