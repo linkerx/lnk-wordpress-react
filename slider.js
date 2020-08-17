@@ -65,11 +65,16 @@ class WpSlider extends React.Component {
       }
     });
 
+    let queries = ['_embed'];
+    if( typeof(this.props.queries) !== 'undefinded') {
+      queries = this.props.queries;
+    }
+
     var opts = {
       url: this.props.url,
       site: this.props.site,
       type: this.props.type,
-      queries: this.props.queries,
+      queries: queries,
       debug: this.props.debug
     }
 
