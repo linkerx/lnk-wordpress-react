@@ -26,7 +26,7 @@ module.exports = {
 
         var url = "/"+site+"/"+type+cat+slug;
 
-        console.log(url)
+        //console.log(url)
 
         return url
     },
