@@ -47,7 +47,7 @@ module.exports = {
        .then(function(types){
 
           if(options.debug){
-            console.log('type: ',options.type);
+            console.log('options: ',options);
             console.log('allTypes:',types);
           }
 
@@ -73,6 +73,7 @@ module.exports = {
           }
 
           if(options.queries){
+            console.log('queries: ',options.queries);
             url += '?' + options.queries.map(function(query,index) {
               return (query)
             }).join('&');

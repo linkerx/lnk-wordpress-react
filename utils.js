@@ -8,7 +8,7 @@ module.exports = {
         var slug = "";
 
         if(typeof(the_site) !== 'undefined') {
-          site = the_site;
+          site = the_site+"/";
         } else if(item.blog_data) {
           site = item.blog_data.path.slice(1,-1)+"/";
         }
@@ -24,7 +24,7 @@ module.exports = {
 
         slug = item.slug;
 
-        var url = "/"+site+"/"+type+cat+slug;
+        var url = "/"+site+type+cat+slug;
 
         //console.log(url)
 

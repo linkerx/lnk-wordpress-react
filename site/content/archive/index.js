@@ -6,7 +6,7 @@ function WpSiteArchive(props){
 
   var site = "/";
   if(props.site){
-    site = '/'+props.site;
+    site = props.site;
   }
 
   //console.log(props);
@@ -25,7 +25,7 @@ function WpSiteArchive(props){
   if(props.type === 'posts'){
     archiveName = 'Publicaciones';
     if(props.category){
-      archiveName = props.category;
+      archiveName = props.category_name;
     }
   }
 
