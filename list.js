@@ -147,7 +147,7 @@ class WpList extends React.Component {
           :
           <div>
             {showPagination &&
-              <div className="list-pagination-top">
+              <div className="list-pagination list-pagination-top">
                 <Pagination totalItems={this.state.totalItems} totalPages={this.state.totalPages} currentPage={this.state.page-1} itemsPerPage={itemsPerPage} handleClick={this.handlePaginationClick}  />
               </div>
             }
@@ -161,7 +161,7 @@ class WpList extends React.Component {
             </div>
 
             {showPagination &&
-              <div className="list-pagination-bottom">
+              <div className="list-pagination list-pagination-bottom">
                 <Pagination totalItems={this.state.totalItems} totalPages={this.state.totalPages} currentPage={this.state.page-1} itemsPerPage={itemsPerPage} handleClick={this.handlePaginationClick} />
               </div>
             }
