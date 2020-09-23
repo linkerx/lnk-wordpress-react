@@ -236,13 +236,13 @@ class WpItem extends React.Component {
                 this.props.children
                 :
                 <div className='post_content'>
-                  {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
-                  {item_image && <WpItemImage src={item_image} render='img'/>}
-                  <div className='date'>{moment(this.state.item.date).format('DD/MM/YYYY')}</div>
                   {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
+                  {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
+                  <div className='date'>{moment(this.state.item.date).format('DD/MM/YYYY')}</div>
                   {this.state.item.type !== 'page' &&
                     <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
                   }
+                  {item_image && <WpItemImage src={item_image} render='img'/>}
                   <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
                 </div>
               }
