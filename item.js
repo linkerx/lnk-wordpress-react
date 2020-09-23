@@ -136,8 +136,10 @@ class WpItem extends React.Component {
         ImgSize = this.props.img_size;
     }
 
+    console.log("TEMPLATE: ",this.props.template)
+
     var template = 1;
-    if(this.props.template){
+    if(typeof(this.props.template) !== 'undefined'){
       template = this.props.template;
     }
 

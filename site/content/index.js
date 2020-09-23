@@ -171,9 +171,13 @@ class WpSiteContent extends React.Component {
     
     render(){
         
-        var template = 1;
-        if(this.props.template){
-          template = this.props.template;
+        let postTemplate = 1;
+        if(this.props.postTemplate){
+          postTemplate = this.props.postTemplate;
+        }
+        let archiveTemplate = 1;
+        if(this.props.archiveTemplate){
+          archiveTemplate = this.props.archiveTemplate;
         }
 
         return (
@@ -194,18 +198,18 @@ class WpSiteContent extends React.Component {
                                 <div className={'type-'+this.state.type}>
                                 {this.state.post
                                 ?
-                                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template}/>
+                                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate}/>
                                 :
-                                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={template} />
+                                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={archiveTemplate} />
                                 }
                                 </div>
                             :
                                 <div className='not-typed'>
                                 {this.state.category && !this.state.post
                                 ?
-                                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={template} />
+                                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={archiveTemplate} />
                                 :
-                                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={template} />
+                                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate} />
                                 }
                                 </div>
                             }
