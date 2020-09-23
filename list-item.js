@@ -100,6 +100,16 @@ function ListItem(props) {
                 </div>
               </article>
           )
+          case 4:
+            return (
+                <article className={activeClass}>
+                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
+                  <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
+                  <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
+                  <div className='content'>{showContent && renderHTML(props.item.content.rendered)}</div>
+                </article>
+            )
         default:
     }
 }
