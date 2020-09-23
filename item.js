@@ -7,6 +7,9 @@ import serialize from 'form-serialize';
 import FullModal from './fullscreenImage/fullmodal';
 import ShareButtons from './shareButtons';
 import WpUtils from './utils';
+import moment from 'moment';
+
+moment.locale('es');
 
 class WpItem extends React.Component {
 
@@ -225,6 +228,26 @@ class WpItem extends React.Component {
             }
           </article>
         )
+        case 3:
+          return (
+            <article className={articleClass}>
+              {!this.state.item
+                ?
+                this.props.children
+                :
+                <div className='post_content'>
+                  {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
+                  {item_image && <WpItemImage src={item_image} render='img'/>}
+                  <div className='date'>{moment(this.state.item.date).format('DD/MM/YYYY')}</div>
+                  {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
+                  {this.state.item.type !== 'page' &&
+                    <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
+                  }
+                  <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
+                </div>
+              }
+            </article>
+          )
         default:
     }       
   }
