@@ -7,6 +7,9 @@ import serialize from 'form-serialize';
 import FullModal from './fullscreenImage/fullmodal';
 import ShareButtons from './shareButtons';
 import WpUtils from './utils';
+import moment from 'moment';
+
+moment.locale('es');
 
 class WpItem extends React.Component {
 
@@ -133,8 +136,10 @@ class WpItem extends React.Component {
         ImgSize = this.props.img_size;
     }
 
+    console.log("TEMPLATE: ",this.props.template)
+
     var template = 1;
-    if(this.props.template){
+    if(typeof(this.props.template) !== 'undefined'){
       template = this.props.template;
     }
 
@@ -225,6 +230,26 @@ class WpItem extends React.Component {
             }
           </article>
         )
+        case 3:
+          return (
+            <article className={articleClass}>
+              {!this.state.item
+                ?
+                this.props.children
+                :
+                <div className='post_content'>
+                  {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
+                  {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
+                  <div className='date'>{moment(this.state.item.date).format('DD/MM/YYYY')}</div>
+                  {this.state.item.type !== 'page' &&
+                    <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
+                  }
+                  {item_image && <WpItemImage src={item_image} render='img'/>}
+                  <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
+                </div>
+              }
+            </article>
+          )
         default:
     }       
   }

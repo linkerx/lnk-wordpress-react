@@ -81,9 +81,13 @@ class WpSlider extends React.Component {
     WpApi.getList(opts)
       .then(function(response) {
         var items = response.data;
-        if(this.state.options.autoListCount)
-          this.state.options.listCount = items.length;
-
+        if(this.state.options.autoListCount){
+          let newOpt = this.state.options;
+          newOpt.listCount = items.length;
+          this.setState({
+            options: newOpt
+          })
+        }
         if(items.length >= this.state.options.listCount) {
 
           this.setState(function () {

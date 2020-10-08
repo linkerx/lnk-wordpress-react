@@ -89,9 +89,13 @@ class WpSite extends React.Component {
       debug = this.props.debug;
     }
 
-    var template = 1;
-    if(this.props.template){
-      template = this.props.template;
+    var postTemplate = 1;
+    if(typeof(this.props.postTemplate) !== 'undefined'){
+      postTemplate = this.props.postTemplate;
+    }
+    var archiveTemplate = 1;
+    if(typeof(this.props.archiveTemplate) !== 'undefined'){
+      archiveTemplate = this.props.archiveTemplate;
     }
 
     if(debug) {
@@ -113,7 +117,7 @@ class WpSite extends React.Component {
         />
        <div className='wp-site-wrapper'>
           <WpSiteMenu site={this.props.site} opened={this.state.menu_opened} />
-          <WpSiteContent {...this.props} template={template} >{this.props.children}</WpSiteContent>
+          <WpSiteContent {...this.props} postTemplate={postTemplate} archiveTemplate={archiveTemplate} >{this.props.children}</WpSiteContent>
           <WpSiteSidebar site={this.props.site} opened={this.state.sidebar_opened} />
         </div>
       </section>
