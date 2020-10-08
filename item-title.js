@@ -7,6 +7,11 @@ function ItemTitle(props) {
   if(props.heading)
     heading = props.heading
 
+  var titleLink = true;
+  if(typeof(props.titleLink) !== 'undefined') {
+    titleLink = props.titleLink;
+  }
+
   var CustomTag = 'h'+heading;
 
   return (

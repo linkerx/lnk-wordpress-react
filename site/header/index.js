@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import 'styles/wp/site-header.scss';
-import 'styles/wp/site-header-fixed.scss';
+//import 'styles/wp/site-header-fixed.scss';
 
 class WpSiteHeader extends React.Component {
     render(){
