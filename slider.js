@@ -81,9 +81,13 @@ class WpSlider extends React.Component {
     WpApi.getList(opts)
       .then(function(response) {
         var items = response.data;
-        if(this.state.options.autoListCount)
-          this.state.options.listCount = items.length;
-
+        if(this.state.options.autoListCount){
+          let newOpt = this.state.options;
+          newOpt.listCount = items.length;
+          this.setState({
+            options: newOpt
+          })
+        }
         if(items.length >= this.state.options.listCount) {
 
           this.setState(function () {
@@ -197,7 +201,20 @@ class WpSlider extends React.Component {
               if(this.isActive(item.id)){
                 active = true;
               }
-              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={active} imageRender='back' imageSize={this.state.options.listImgSize} imageLink={this.props.imageLink} showContent={this.props.showContent} template={this.props.template} />)
+              return (
+                <ListItem 
+                  key={item.id} 
+                  item={item} 
+                  debug={this.props.debug} 
+                  active={active} 
+                  imageRender='back' 
+                  imageSize={this.state.options.listImgSize} 
+                  imageLink={this.props.imageLink} 
+                  titleLink={this.props.titleLink} 
+                  showContent={this.props.showContent} 
+                  template={this.props.template} 
+                />
+              )
             }.bind(this))
           }
           </div>
@@ -209,7 +226,20 @@ class WpSlider extends React.Component {
             this.props.children
             :
             this.state.current.items.map(function (item, index) {
-              return (<ListItem key={item.id} item={item} debug={this.props.debug} active={true} imageRender='back' imageSize={this.state.options.pageImgSize} imageLink={this.props.imageLink} showContent={this.props.showContent} template={this.props.template} />)
+              return (
+                <ListItem 
+                  key={item.id} 
+                  item={item} 
+                  debug={this.props.debug} 
+                  active={true} 
+                  imageRender='back' 
+                  imageSize={this.state.options.pageImgSize} 
+                  imageLink={this.props.imageLink} 
+                  titleLink={this.props.titleLink} 
+                  showContent={this.props.showContent} 
+                  template={this.props.template} 
+                />
+              )
             }.bind(this))
           }
         </div>
