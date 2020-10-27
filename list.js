@@ -18,16 +18,30 @@ class WpList extends React.Component {
   }
 
   componentDidMount(){
-
     var currentPage = 1;
     if(this.props.currentPage){
       currentPage = this.props.currentPage;
     }
-
     this.updateItems(currentPage);
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.debug) {
+      console.log('props wpList: ', JSON.stringify(this.props.queries))
+      console.log('prevProps wpList: ', JSON.stringify(prevProps.queries));
+    }
+
+    if (JSON.stringify(this.props.queries) !== JSON.stringify(prevProps.queries)) {
+      this.updateItems(1);
+    }
+  } 
+
   updateItems(currentPage){
+
+    if(this.props.debug) {
+      console.log('wpList actualizando...');
+    }
+
     this.setState(function () {
       return {
         items: null,
@@ -38,8 +52,11 @@ class WpList extends React.Component {
     });
 
     var queries = ['_embed'];
-    if(this.props.queries){
-      queries = this.props.queries
+    if(typeof(this.props.queries) !== 'undefined'){
+      queries = queries.concat(this.props.queries);
+    }
+    if(this.props.debug) {
+      console.log("QUERIES:",queries);
     }
 
     if(typeof(this.props.queries) === 'undefined') {
