@@ -73,7 +73,9 @@ module.exports = {
           }
 
           if(options.queries){
-            console.log('queries: ',options.queries);
+            if(options.debug) {
+              console.log('queries: ',options.queries);
+            }
             url += '?' + options.queries.map(function(query,index) {
               return (query)
             }).join('&');
