@@ -10,6 +10,37 @@ class MenuItem extends React.Component{
     return r.test(url);
   }
 
+  componentDidMount() {
+    var site = "/";
+    if(this.props.site){
+      site += this.props.site+"/";
+    }
+    var item_link = '/';
+    if(this.props.item.type === "custom"){
+      if(this.props.item.url === "#") {
+        item_link = "javascript:void(0)";
+      } else {
+        item_link = this.props.item.url;
+      }
+    } else if(this.props.item.type === "post_type") {
+        if(this.props.item.object === "page" || this.props.item.object === "pages") {
+          item_link = site + this.props.item.object_slug;
+        } else if(this.props.item.object === "post") {
+          item_link = site + this.props.item.object_term + '/' + this.props.item.object_slug;
+        }
+    } else if(this.props.item.type === "taxonomy") {
+      item_link = site + this.props.item.object_slug;
+    }
+
+    if(this.props.item.parent !== 0) {
+      if(item_link === window.location.pathname) {
+        console.log("LINK: ", item_link);
+        var parents = document.querySelector("li#menu"+this.props.item.parent+" a");
+        parents.classList.add("active");
+      }
+    }
+  }
+
   render(){
     var site = "/";
     if(this.props.site){
@@ -69,10 +100,19 @@ class MenuItem extends React.Component{
       classes = classes+' '+this.props.activeSubmenuClass;
     }
 
+    var submenuClass = 'submenu closed';
+    if (typeof(this.props.submenuClass) !== 'undefined') {
+      submenuClass = this.props.submenuClass;
+    }
+
+    var submenuIcon = true;
+    if (typeof(this.props.submenuIcon) !== 'undefined') {
+      submenuIcon = this.props.showIcon;
+    }
     //console.log("CHILDREN: ",this.props.item.children,showSubmenu);
 
     return(
-      <li key={this.props.item.id} className={classes+" nivel-"+this.props.nivel}>
+      <li key={this.props.item.id} className={classes+" nivel-"+this.props.nivel} id={"menu"+this.props.item.id}>
       {is_external
         ?
         <a href={item_link} onClick={click_action} target={item_target}>
@@ -96,7 +136,7 @@ class MenuItem extends React.Component{
         </NavLink>
       }
         { (this.props.item.children && showSubmenu) &&
-          <SubMenu site={this.props.site} items={this.props.item.children} action={click_action} path={this.props.path} nivel={nivel+1} />
+          <SubMenu site={this.props.site} items={this.props.item.children} action={click_action} path={this.props.path} nivel={nivel+1} submenuClass={submenuClass} showIcon={submenuIcon} />
         }
       </li>
     )
