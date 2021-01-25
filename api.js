@@ -180,8 +180,10 @@ module.exports = {
 
     url += '/'+ WpApiDir + WpRoute + '/types';
 
-    console.log("URL getTypes: ",url);
-
+    if(options.debug){
+      console.log("URL getTypes: ",url);
+    }
+    
     return axios.get(url)
       .then(function (response){
         return response.data;

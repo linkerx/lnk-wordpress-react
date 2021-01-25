@@ -132,6 +132,16 @@ class WpList extends React.Component {
       imageSize = this.props.imageSize;
     }
 
+    var videoAsFeaturedImage = false;
+    if(typeof(this.props.videoAsFeaturedImage) !== 'undefined') {
+      videoAsFeaturedImage = this.props.videoAsFeaturedImage;
+    }
+
+    var showFeaturedAudio = false;
+    if(typeof(this.props.showFeaturedAudio) !== 'undefined') {
+      showFeaturedAudio = this.props.showFeaturedAudio;
+    }
+
     var imageLink = false;
     if(this.props.imageLink){
       imageLink = this.props.imageLink;
@@ -177,7 +187,7 @@ class WpList extends React.Component {
             <div className='list'>
               {
                 this.state.items.map(function (item, index) {
-                  return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink} template={template} heading={heading} site={this.props.site} />)
+                  return (<ListItem key={item.id} item={item} imageRender={imageRender} imageSize={imageSize} defaultImg={defaultImg} imageLink={imageLink} template={template} heading={heading} site={this.props.site} videoAsFeaturedImage={videoAsFeaturedImage} showFeaturedAudio = {showFeaturedAudio}/>)
                 }.bind(this))
               }
             </div>

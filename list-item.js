@@ -3,6 +3,8 @@ import WpUtils from './utils';
 import moment from 'moment';
 import ItemTitle from './item-title';
 import ItemImage from './item-image';
+import ItemVideo from './item-video';
+import ItemAudio from './item-audio';
 import renderHTML from 'react-render-html';
 
 moment.locale('es');
@@ -33,23 +35,52 @@ function ListItem(props) {
     imageLink = true;
   }
 
-  var item_image = '';
-
-  if(props.item.type !== 'attachment'){
-    if(
-      typeof(props.item._embedded) !== 'undefined' &&
-      typeof(props.item._embedded['wp:featuredmedia']) !== 'undefined' &&
-      typeof(props.item._embedded['wp:featuredmedia'][0].media_details) !== 'undefined' &&
-      typeof(props.item._embedded['wp:featuredmedia'][0].media_details.sizes) !== 'undefined' &&
-      typeof(props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize]) !== 'undefined'
-    ){
-        item_image = props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize].source_url;
-    } else if(props.defaultImg) {
-      item_image = props.defaultImg;
-    }
-  } else {
-    item_image = props.item.media_details.sizes[imageSize].source_url;
+  var videoAsFeaturedImage = false;
+  if(typeof(props.videoAsFeaturedImage) !== 'undefined') {
+    videoAsFeaturedImage = props.videoAsFeaturedImage;
   }
+
+  var featuredImageType = 'img';
+  var video_src = '';
+  var image_src = '';
+  if(videoAsFeaturedImage && typeof(props.item.video) !== 'undefined' && props.item.video !== '') {
+    featuredImageType = 'vid';
+    video_src = props.item.video;
+  } else {
+    if(props.item.type !== 'attachment'){
+      if(
+        typeof(props.item._embedded) !== 'undefined' &&
+        typeof(props.item._embedded['wp:featuredmedia']) !== 'undefined' &&
+        typeof(props.item._embedded['wp:featuredmedia'][0].media_details) !== 'undefined' &&
+        typeof(props.item._embedded['wp:featuredmedia'][0].media_details.sizes) !== 'undefined' &&
+        typeof(props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize]) !== 'undefined'
+      ){
+          image_src = props.item._embedded['wp:featuredmedia'][0].media_details.sizes[imageSize].source_url;
+      } else if(props.defaultImg) {
+        image_src = props.defaultImg;
+      }
+    } else {
+      image_src = props.item.media_details.sizes[imageSize].source_url;
+    }
+  }
+  if(props.debug){
+    console.log("DATA IMG : ", videoAsFeaturedImage, props.item.video);
+    console.log("FEATURED TYPE: ",featuredImageType);
+  }
+
+  var showFeaturedAudio = false;
+  if(typeof(props.showFeaturedAudio) !== 'undefined') {
+    showFeaturedAudio = props.showFeaturedAudio;
+  }
+  var audio_src = "";
+  if(showFeaturedAudio && typeof(props.item.audio) !== 'undefined' && props.item.audio !== '') {
+    audio_src = props.item.audio;
+  } else {
+    showFeaturedAudio = false;
+  }
+
+  console.log("SHOW AUDIO: ",props.showFeaturedAudio, showFeaturedAudio );
+  console.log("AUDIO: ",props.item.audio );
 
   var showContent = false;
   if(typeof(props.showContent) !== 'undefined'){
@@ -72,7 +103,19 @@ function ListItem(props) {
             return (
                 <article className={activeClass}>
                   <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
-                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  
+                  <div className='featured'>
+                  { featuredImageType == 'img' ?
+                    <ItemImage render={imageRender} src={image_src} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                    :
+                    <ItemVideo src={video_src} />
+                  }
+                  </div>
+                  
+                  { showFeaturedAudio &&
+                    <ItemAudio src={audio_src} />
+                  }
+
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
                   <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
                   <div className='content'>{showContent && renderHTML(props.item.content.rendered)}</div>
@@ -81,7 +124,19 @@ function ListItem(props) {
         case 2:
             return (
                 <article className={activeClass}>
-                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+
+                  <div className='featured'>
+                  { featuredImageType == 'img' ?
+                    <ItemImage render={imageRender} src={image_src} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                    :
+                    <ItemVideo src={video_src} />
+                  }
+                  </div>
+
+                  { showFeaturedAudio &&
+                    <ItemAudio src={audio_src} />
+                  }
+
                   <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
                   <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
@@ -91,7 +146,19 @@ function ListItem(props) {
         case 3:
           return (
               <article className={activeClass}>
-                <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+
+                <div className='featured'>
+                { featuredImageType == 'img' ?
+                  <ItemImage render={imageRender} src={image_src} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                  :
+                  <ItemVideo src={video_src} />
+                }
+                </div>
+
+                { showFeaturedAudio &&
+                    <ItemAudio src={audio_src} />
+                  }
+
                 <div className='post_content'>
                   <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
@@ -103,7 +170,19 @@ function ListItem(props) {
           case 4:
             return (
                 <article className={activeClass}>
-                  <ItemImage render={imageRender} src={item_image} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+
+                  <div className='featured'>
+                  { featuredImageType == 'img' ?
+                    <ItemImage render={imageRender} src={image_src} item={props.item} linkTo={itemLink} imageLink={imageLink} />
+                    :
+                    <ItemVideo src={video_src} />
+                  }
+                  </div>
+
+                  { showFeaturedAudio &&
+                    <ItemAudio src={audio_src} />
+                  }
+                  
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
                   <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
                   <div className='excerpt'>{renderHTML(props.item.excerpt.rendered)}</div>
