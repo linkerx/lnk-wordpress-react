@@ -1,5 +1,9 @@
 @import 'styles/variables/mqueries.scss';
 
+.type-page #site-post .date {
+  display:none;
+}
+
 #site-post article {
   margin: 30px auto;
   @media #{$super-wide} {

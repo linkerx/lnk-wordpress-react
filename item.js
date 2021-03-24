@@ -2,6 +2,7 @@ import React from 'react';
 import WpApi from './api';
 import WpItemTitle from './item-title';
 import WpItemImage from './item-image';
+import WpItemAudio from './item-audio';
 import renderHTML from 'react-render-html';
 import serialize from 'form-serialize';
 import FullModal from './fullscreenImage/fullmodal';
@@ -109,7 +110,9 @@ class WpItem extends React.Component {
               form.action = '';
               var inputs = htmlObject.querySelectorAll('.wpcf7-form .wpcf7-form-control');
               for(var x=0;x<inputs.length;x++){
+                if(inputs[x].type != 'submit'){
                   inputs[x].removeAttribute('value');
+                }
               }
               htmlObject.getElementsByClassName('wpcf7-form')[0].innerHTML = form.innerHTML;
             }
@@ -156,8 +159,33 @@ class WpItem extends React.Component {
         var item_image = this.state.item._embedded['wp:featuredmedia'][0].media_details.sizes[ImgSize].source_url;
         var item_image_alt = this.state.item._embedded['wp:featuredmedia'][0].alt_text;
       }
+
+      /* audio */
+      var audio_src = "";
+      var audio_texto1 = "";
+      var audio_texto2 = "";
+      var audio_separador = false;
+
+      if(typeof(this.state.item.audio) !== 'undefined' && this.state.item.audio !== '') {
+        audio_src = this.state.item.audio;
+
+        var tieneTexto = false;
+        if(typeof(this.state.item.audio_texto1) !== 'undefined' && this.state.item.audio_texto1 !== '') {
+          audio_texto1 = this.state.item.audio_texto1;
+          tieneTexto = true;
+        }
+        if(typeof(this.state.item.audio_texto2) !== 'undefined' && this.state.item.audio_texto2 !== '') {
+          audio_texto2 = this.state.item.audio_texto2;
+          if(tieneTexto){
+            audio_separador = true;
+          } 
+        }
+    
+      }
+
       /* link */
       itemLink = WpUtils.generateItemLinkUrl(this.state.item);
+
       /* share */
       if(this.state.item.type === 'post'){
           share = true;
@@ -202,6 +230,7 @@ class WpItem extends React.Component {
                 <div className='post_content'>
                   {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
                   {item_image && <WpItemImage src={item_image} render={render} altText={item_image_alt}/>}
+                  {audio_src != '' && <WpItemAudio src={audio_src} texto1={audio_texto1} texto2={audio_texto2} separador={audio_separador} />}
                   {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
                   {this.state.item.type !== 'page' &&
                     <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
@@ -221,6 +250,7 @@ class WpItem extends React.Component {
               <div className='post_content'>
                 {item_image && <WpItemImage src={item_image} render='img'/>}
                 {show_title && <WpItemTitle linkTo='#' title={this.state.item.title.rendered} heading={heading} />}
+                {audio_src != '' && <WpItemAudio src={audio_src} texto1={audio_texto1} texto2={audio_texto2} separador={audio_separador} />}
                 {share && <ShareButtons url={itemLink} quote={this.state.item.title.rendered} />}
                 {this.state.item.type !== 'page' &&
                   <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
@@ -245,6 +275,7 @@ class WpItem extends React.Component {
                     <div className='excerpt'>{renderHTML(this.state.item.excerpt.rendered)}</div>
                   }
                   {item_image && <WpItemImage src={item_image} render='img'/>}
+                  {audio_src != '' && <WpItemAudio src={audio_src} texto1={audio_texto1} texto2={audio_texto2} separador={audio_separador} />}
                   <div className='content'>{renderHTML(this.state.item.content.parsed)}</div>
                 </div>
               }

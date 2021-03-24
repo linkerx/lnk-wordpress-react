@@ -73,14 +73,33 @@ function ListItem(props) {
     showFeaturedAudio = props.showFeaturedAudio;
   }
   var audio_src = "";
+  var audio_texto1 = "";
+  var audio_texto2 = "";
+  var audio_separador = false;
+
   if(showFeaturedAudio && typeof(props.item.audio) !== 'undefined' && props.item.audio !== '') {
     audio_src = props.item.audio;
+
+    var tieneTexto = false;
+    if(typeof(props.item.audio_texto1) !== 'undefined' && props.item.audio_texto1 !== '') {
+      audio_texto1 = props.item.audio_texto1;
+      tieneTexto = true;
+    }
+    if(typeof(props.item.audio_texto2) !== 'undefined' && props.item.audio_texto2 !== '') {
+      audio_texto2 = props.item.audio_texto2;
+      if(tieneTexto){
+        audio_separador = true;
+      } 
+    }
+
   } else {
     showFeaturedAudio = false;
   }
 
-  console.log("SHOW AUDIO: ",props.showFeaturedAudio, showFeaturedAudio );
-  console.log("AUDIO: ",props.item.audio );
+
+
+  //console.log("SHOW AUDIO: ",props.showFeaturedAudio, showFeaturedAudio );
+  //console.log("AUDIO: ",props.item.audio );
 
   var showContent = false;
   if(typeof(props.showContent) !== 'undefined'){
@@ -113,7 +132,7 @@ function ListItem(props) {
                   </div>
                   
                   { showFeaturedAudio &&
-                    <ItemAudio src={audio_src} />
+                    <ItemAudio src={audio_src} texto1={audio_texto1} texto2={audio_texto2} separador={audio_separador} />
                   }
 
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
@@ -134,7 +153,7 @@ function ListItem(props) {
                   </div>
 
                   { showFeaturedAudio &&
-                    <ItemAudio src={audio_src} />
+                    <ItemAudio src={audio_src} texto1={audio_texto1} texto2={audio_texto2} separador={audio_separador} />
                   }
 
                   <ItemTitle title={props.item.title.rendered} item={props.item} linkTo={itemLink} heading={heading} />
@@ -156,7 +175,7 @@ function ListItem(props) {
                 </div>
 
                 { showFeaturedAudio &&
-                    <ItemAudio src={audio_src} />
+                    <ItemAudio src={audio_src} texto1={audio_texto1} texto2={audio_texto2} separador={audio_separador} />
                   }
 
                 <div className='post_content'>
@@ -180,7 +199,7 @@ function ListItem(props) {
                   </div>
 
                   { showFeaturedAudio &&
-                    <ItemAudio src={audio_src} />
+                    <ItemAudio src={audio_src} texto1={audio_texto1} texto2={audio_texto2} separador={audio_separador} />
                   }
                   
                   <div className='date'>{moment(props.item.date).format('DD/MM/YYYY')}</div>
