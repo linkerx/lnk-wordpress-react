@@ -3,6 +3,7 @@ import WpApi from '../../api';
 import WpSiteArchive from './archive';
 import WpSitePost from './post';
 import WpSiteHome from './home';
+import WpSearchResults from './search';
 import Cargando from 'components/utils/cargando';
 import 'styles/wp/site-content.scss';
 
@@ -17,7 +18,8 @@ class WpSiteContent extends React.Component {
           home: false,
           type: null,
           category: null,
-          post: null
+          post: null,
+          query: ''
         }
         this.checkURL = this.checkURL.bind(this);
     }
@@ -74,6 +76,19 @@ class WpSiteContent extends React.Component {
             check:true,
             home:true
           });
+        } else if(this.props.match.params.slug1 == 's') {
+          console.log('search: ',this.props.match.params.slug2);
+
+          this.setState(function(){
+            /* SEARCH RESULTS */
+            return {
+              check:true,
+              type: 'search',
+              home: false,
+              query: 'search='+this.props.match.params.slug2
+            }
+          });          
+
         } else {
           var opts_type = {
             site: site,
@@ -192,28 +207,37 @@ class WpSiteContent extends React.Component {
                               <WpSiteHome ready={this.props.ready} site={this.state.site} />
                             </div>
                             :
-                            <div className='wpsite-content'>
-                            {this.state.type !== 'posts'
+                            <div>
+                            {this.state.type !== 'search' 
                             ?
-                                <div className={'type-'+this.state.type}>
-                                {this.state.post
+                                <div className='wpsite-content'>
+                                {this.state.type !== 'posts'
                                 ?
-                                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate}/>
+                                    <div className={'type-'+this.state.type}>
+                                    {this.state.post
+                                    ?
+                                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate}/>
+                                    :
+                                        <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={archiveTemplate} />
+                                    }
+                                    </div>
                                 :
-                                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={archiveTemplate} />
+                                    <div className='not-typed'>
+                                    {this.state.category && !this.state.post
+                                    ?
+                                        <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={archiveTemplate} />
+                                    :
+                                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate} />
+                                    }
+                                    </div>
                                 }
                                 </div>
                             :
-                                <div className='not-typed'>
-                                {this.state.category && !this.state.post
-                                ?
-                                    <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={archiveTemplate} />
-                                :
-                                    <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate} />
-                                }
+                                <div className='wpsite-content'>
+                                    <WpSearchResults ready={this.props.ready} site={this.props.site} template={archiveTemplate} query={this.state.query} />
                                 </div>
                             }
-                        </div>
+                            </div>
                         }
                     </div>
                 :
