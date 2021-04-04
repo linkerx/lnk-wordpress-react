@@ -9,11 +9,11 @@ function WpSearchResults(props){
     site = props.site;
   }
 
-  //console.log(props);
+  //console.log('SEARCH PROPS:',props);
 
   var queries = [
     '_embed',
-  ].concat(props.queries);
+  ].concat(['search='+props.search]);
 
   var imageRender = 'back';
   if(props.imageRender){
@@ -37,7 +37,8 @@ function WpSearchResults(props){
 
   return (
     <section id='search-results' className={props.type}>
-      <h1>{archiveName}</h1>
+      <h1>Resultados de la búsqueda</h1>
+      <h2></h2>
       <WpList
         site={site}
         type='posts'

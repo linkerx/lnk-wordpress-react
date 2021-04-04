@@ -59,14 +59,11 @@ class WpList extends React.Component {
       console.log("QUERIES:",queries);
     }
 
-    if(typeof(this.props.queries) === 'undefined') {
-      var itemsPerPage = 12;
-      if(this.props.itemsPerPage){
-        itemsPerPage = this.props.itemsPerPage;
-      }
-      queries.push('per_page='+itemsPerPage);
+    var itemsPerPage = 12;
+    if(this.props.itemsPerPage){
+      itemsPerPage = this.props.itemsPerPage;
     }
-    queries.push('page='+currentPage);
+    queries = queries.concat(['per_page='+itemsPerPage,'page='+currentPage]);
 
     var type = 'posts';
     if(typeof(this.props.type) !== 'undefined') {

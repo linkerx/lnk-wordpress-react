@@ -19,7 +19,7 @@ class WpSiteContent extends React.Component {
           type: null,
           category: null,
           post: null,
-          query: ''
+          search: ""
         }
         this.checkURL = this.checkURL.bind(this);
     }
@@ -77,7 +77,7 @@ class WpSiteContent extends React.Component {
             home:true
           });
         } else if(this.props.match.params.slug1 == 's') {
-          console.log('search: ',this.props.match.params.slug2);
+          if(debugOnCheck) console.log('search: ',this.props.match.params.slug2);
 
           this.setState(function(){
             /* SEARCH RESULTS */
@@ -85,7 +85,7 @@ class WpSiteContent extends React.Component {
               check:true,
               type: 'search',
               home: false,
-              query: 'search='+this.props.match.params.slug2
+              search: this.props.match.params.slug2
             }
           });          
 
@@ -234,7 +234,7 @@ class WpSiteContent extends React.Component {
                                 </div>
                             :
                                 <div className='wpsite-content'>
-                                    <WpSearchResults ready={this.props.ready} site={this.props.site} template={archiveTemplate} query={this.state.query} />
+                                    <WpSearchResults ready={this.props.ready} site={this.props.site} template={archiveTemplate} search={this.state.search} />
                                 </div>
                             }
                             </div>

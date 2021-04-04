@@ -1,16 +1,16 @@
 import React from 'react';
 import Paginate from 'react-paginate';
-import './styles.less';
+import './styles.scss';
 
 function Pagination(props) {
 
-  console.log(props);
+  //console.log(props);
 
   return (
     <Paginate
       previousLabel={"anterior"}
       nextLabel={"siguiente"}
-      breakLabel={<a href="/">...</a>}
+      breakLabel={"..."}
       breakClassName={"break-me"}
       pageCount={parseInt(props.totalPages)}
       marginPagesDisplayed={2}
