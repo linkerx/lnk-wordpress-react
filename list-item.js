@@ -116,6 +116,7 @@ function ListItem(props) {
   }
 
   var itemLink = WpUtils.generateItemLinkUrl(props.item,props.site);
+  //console.log('LIST ITEM LINK: ',props.site);
 
   switch(template) {
         case 1:

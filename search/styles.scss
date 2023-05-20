@@ -1,0 +1,21 @@
+.lnk-wp-search {
+    position: relative;
+}
+
+.lnk-wp-search input {
+    float: left;
+    margin-left:10px;
+}
+
+.lnk-wp-search.closed input {
+    display: none;
+}
+.lnk-wp-search.opened input {
+    display: block;
+}
+
+.lnk-wp-search i {
+    float:left;
+    font-size: 24px;
+    color: #333;
+}

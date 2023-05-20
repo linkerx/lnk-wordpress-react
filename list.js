@@ -12,9 +12,11 @@ class WpList extends React.Component {
       totalItems: null,
       totalPages: null,
       page: 1,
+      updating: false
     }
     this.updateItems = this.updateItems.bind(this);
     this.handlePaginationClick = this.handlePaginationClick.bind(this);
+    this.addInfiniteArticles = this.addInfiniteArticles.bind(this);
   }
 
   componentDidMount(){
@@ -23,6 +25,9 @@ class WpList extends React.Component {
       currentPage = this.props.currentPage;
     }
     this.updateItems(currentPage);
+    if(this.props.infiniteScroll) {
+      window.addEventListener('scroll', this.addInfiniteArticles);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -47,7 +52,8 @@ class WpList extends React.Component {
         items: null,
         totalItems: null,
         totalPages: null,
-        page: this.state.page
+        page: this.state.page,
+        updating: false
       }
     });
 
@@ -108,6 +114,65 @@ class WpList extends React.Component {
     this.updateItems(data.selected + 1)
   }
 
+  addInfiniteArticles() {
+    console.log("DISPARA SCROLL INFINITO");
+    console.log("COMPRUEBA: ",window.scrollY,'+', window.innerHeight,'>=', window.document.body.offsetHeight ,'- 100: ',window.scrollY + window.innerHeight >= document.innerHeight - 100,'UPDATING:', this.state.updating);
+    if ( window.scrollY + window.innerHeight >= window.document.body.offsetHeight - 100 && !this.state.updating ) {
+      
+      this.setState(function () {
+        return {
+          updating: true
+        }
+      });
+
+
+      var itemsPerPage = 12;
+      if(this.props.itemsPerPage){
+        itemsPerPage = this.props.itemsPerPage;
+      }
+
+      var queries = ['_embed'];
+      if(typeof(this.props.queries) !== 'undefined'){
+        queries = queries.concat(this.props.queries);
+        queries = queries.concat(['per_page='+itemsPerPage,'page='+(this.state.page+1)]);
+      }
+
+      var type = 'posts';
+      if(typeof(this.props.type) !== 'undefined') {
+        type = this.props.type;
+      }
+
+      var opts = {
+        url: this.props.url,
+        site: this.props.site,
+        type: type,
+        queries: queries,
+        debug: this.props.debug
+      }
+  
+      WpApi.getList(opts)
+        .then(function(response) {
+  
+          var items = this.state.items.concat(response.data);
+          var total = response.headers["x-wp-total"];
+          var pages = response.headers["x-wp-totalpages"];
+  
+          if(this.props.debug)
+            console.log("agrega lista:",items);
+          this.setState(function () {
+            return {
+              items: items,
+              totalItems: total,
+              totalPages: pages,
+              page: this.state.page+1,
+              updating: false
+            }
+          });
+        }.bind(this));
+    }
+
+  }
+
   render() {
 
     if(this.props.debug){
@@ -164,6 +229,11 @@ class WpList extends React.Component {
       itemsPerPage = this.props.itemsPerPage;
     }
 
+    let infiniteScroll = false;
+    if(this.props.infiniteScroll) {
+      infiniteScroll = this.props.infiniteScroll;
+    }
+
     if(this.props.debug){
       console.log(this.state.items,this.state.totalItems,this.state.totalPages,this.state.page-1,this.handlePaginationClick);
     }
@@ -192,6 +262,12 @@ class WpList extends React.Component {
             {showPagination &&
               <div className="list-pagination list-pagination-bottom">
                 <Pagination totalItems={this.state.totalItems} totalPages={this.state.totalPages} currentPage={this.state.page-1} itemsPerPage={itemsPerPage} handleClick={this.handlePaginationClick} />
+              </div>
+            }
+
+            { infiniteScroll &&
+              <div className='loading-articles'>
+                <img src='/images/loading.gif' />
               </div>
             }
           </div>

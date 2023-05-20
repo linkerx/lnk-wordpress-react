@@ -7,11 +7,13 @@ module.exports = {
         var cat = "";
         var slug = "";
 
-        if(typeof(the_site) !== 'undefined') {
+        if(typeof(the_site) !== 'undefined' && the_site !== '/') {
           site = the_site+"/";
         } else if(item.blog_data) {
           site = item.blog_data.path.slice(1,-1)+"/";
         }
+
+        //console.log('SITE GENERADO:',site)
 
         if(item.type === 'post') {
           if(item._embedded && item._embedded['wp:term']){
@@ -26,7 +28,7 @@ module.exports = {
 
         var url = "/"+site+type+cat+slug;
 
-        //console.log(url)
+        //console.log('URL GENERADO:',url)
 
         return url
     },

@@ -49,6 +49,11 @@ function WpSiteArchive(props){
     page = props.page;
   }
 
+  var infiniteScroll = false;
+  if(props.infiniteScroll) {
+    infiniteScroll = props.infiniteScroll;
+  }
+
   return (
     <section id='site-archive' className={props.type}>
       <h1>{archiveName}</h1>
@@ -65,6 +70,7 @@ function WpSiteArchive(props){
         showPagination={true}
         itemsPerPage={12}
         page={page}
+        infiniteScroll={infiniteScroll}
       />
     </section>
   )

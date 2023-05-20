@@ -130,9 +130,9 @@ class ItemAudio extends React.Component {
         <div className='lnk-player'>
             <div className="play" onClick={() => this.changePlayState()}>
               { this.state.playing ?
-                  <i class="fas fa-pause"></i>
+                  <i className="fas fa-pause" title='Pausar'></i>
               :
-                  <i class="fas fa-play"></i>
+                  <i className="fas fa-play" title='Reproducir'></i>
               }
             </div>
             <div className='description'>
@@ -155,7 +155,12 @@ class ItemAudio extends React.Component {
             <div className='volume'>
               <div className='volume-control-line'></div>
               <div className='volume-control-line-active' style={{width: this.currentTimePercentaje(this.state.volume,1) + '%'}}></div>
-              <input type="range" min="0" max="1" value={this.state.volume} step="0.01" onChange={this.changeVolume} />
+              <input type="range" min="0" max="1" value={this.state.volume} step="0.01" onChange={this.changeVolume} title='Volumen'/>
+            </div>
+            <div className="download">
+                <a href={this.props.src} target='_blank' rel="noopener noreferrer" download={true}>
+                  <i className="fas fa-download" title='Descargar'></i>
+                </a>
             </div>
             {/*
             <div classname="volume-btn" onClick={() => this.changeVolumeBtn()}>

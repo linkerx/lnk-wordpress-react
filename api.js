@@ -201,12 +201,12 @@ module.exports = {
       url += '/'+options.site;
     }
 
-    console.log("URL getType: ",url);
+    //console.log("URL getType: ",url);
 
     return this.getTypes({url:url})
       .then(function(types){
 
-        console.log('TIPOS ENCONTARDOS:',types);
+        //console.log('TIPOS ENCONTARDOS:',types);
          var found = Object.keys(types).indexOf(options.type);
          if(found === -1){
            found = Object.keys(types).indexOf(options.type.slice(0,-1));

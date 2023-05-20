@@ -6,7 +6,7 @@ class ItemVideo extends React.Component {
 
     return (
       <div className='video' >
-        <iframe src={this.props.src + "?controls=0"} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen={true}></iframe>
+        <iframe src={this.props.src + "?controls=0"} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen={true}></iframe>
       </div>
     )
   }

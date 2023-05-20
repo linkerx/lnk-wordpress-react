@@ -54,7 +54,7 @@ class WpSiteContent extends React.Component {
         if(debugOnCheck) console.log("Viene pedido con sitio:",this.props.path);
         
     
-        var site = "";
+        var site = "/";
         if(typeof(this.props.site)!=='undefined'){
           site = this.props.site;
         }
@@ -195,6 +195,11 @@ class WpSiteContent extends React.Component {
           archiveTemplate = this.props.archiveTemplate;
         }
 
+        let infiniteScroll = false;
+        if(this.props.infiniteScroll) {
+          infiniteScroll = this.props.infiniteScroll;
+        }
+
         return (
             <div id='wp-site-content'>
                 <div>
@@ -216,9 +221,9 @@ class WpSiteContent extends React.Component {
                                     <div className={'type-'+this.state.type}>
                                     {this.state.post
                                     ?
-                                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate}/>
+                                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate} />
                                     :
-                                        <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={archiveTemplate} />
+                                        <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} template={archiveTemplate} infiniteScroll={infiniteScroll} />
                                     }
                                     </div>
                                 :
@@ -227,7 +232,7 @@ class WpSiteContent extends React.Component {
                                     ?
                                         <WpSiteArchive ready={this.props.ready} site={this.props.site} type={this.state.type} category={this.state.category} category_name={this.state.category_name} template={archiveTemplate} />
                                     :
-                                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate} />
+                                        <WpSitePost ready={this.props.ready} site={this.props.site} type={this.state.type} slug={this.state.post} template={postTemplate} infiniteScroll={infiniteScroll} />
                                     }
                                     </div>
                                 }

@@ -110,7 +110,7 @@ class WpItem extends React.Component {
               form.action = '';
               var inputs = htmlObject.querySelectorAll('.wpcf7-form .wpcf7-form-control');
               for(var x=0;x<inputs.length;x++){
-                if(inputs[x].type != 'submit'){
+                if(inputs[x].type !== 'submit'){
                   inputs[x].removeAttribute('value');
                 }
               }
@@ -139,7 +139,7 @@ class WpItem extends React.Component {
         ImgSize = this.props.img_size;
     }
 
-    console.log("TEMPLATE: ",this.props.template)
+    //console.log("TEMPLATE: ",this.props.template)
 
     var template = 1;
     if(typeof(this.props.template) !== 'undefined'){
